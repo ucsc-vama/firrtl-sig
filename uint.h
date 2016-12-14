@@ -10,8 +10,12 @@
 
 
 const size_t kWordSize = 64;
-constexpr static size_t words_needed(int desired_width) {
+constexpr size_t words_needed(int desired_width) {
   return (desired_width + kWordSize - 1) / kWordSize;
+}
+
+constexpr size_t cmax(int wa, int wb) {
+  return wa > wb ? wa : wb;
 }
 
 template<int w, bool wide = (w > kWordSize)>
@@ -24,8 +28,8 @@ public:
   UInt(uint64_t initial) : value(initial) {}
 
   template<int out_w>
-  UInt<out_w> widen(int x=out_w) {
-    return UInt<out_w>(value);
+  UInt<cmax(w_,out_w)> widen() {
+    return UInt<cmax(w_,out_w)>(value);
   }
 
 private:

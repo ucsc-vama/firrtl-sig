@@ -23,6 +23,11 @@ class UInt<w_, /*wide=*/false> {
 public:
   UInt(uint64_t initial) : value(initial) {}
 
+  template<int out_w>
+  UInt<out_w> widen(int x=out_w) {
+    return UInt<out_w>(value);
+  }
+
 private:
   typedef typename std::conditional<(w_ <= 8), uint8_t, uint64_t>::type data_t;
   data_t value;
@@ -42,6 +47,13 @@ std::ostream& operator<<(std::ostream& os, const UInt<w,false>& ui) {
 template<int w_>
 class UInt<w_, /*wide=*/true> {
 public:
+  UInt(uint64_t initial) {
+    values[0] = initial;
+    for (int word=1; word < words_needed(w_); word++) {
+      values[word] = 0;
+    }
+  }
+
   UInt(std::string initial) {
     // FUTURE: check that literal isn't too big
     int top_bit_width = w_ % kWordSize == 0 ? kWordSize : w_ % kWordSize;

@@ -11,5 +11,8 @@ int main() {
   cout << small << " " << small.widen<40>() << endl;
   UInt<128> big("0x18cafebebedeadbeef");
   cout << big << endl;
+  UInt<16> a(0xcafe);
+  UInt<20> b(0xbebe);
+  cout << a.cat(b) << endl;
   return 0;
 }

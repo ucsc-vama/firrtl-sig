@@ -32,9 +32,18 @@ public:
     return UInt<cmax(w_,out_w)>(value);
   }
 
-private:
+  template<int other_w>
+  UInt<w_ + other_w> cat(const UInt<other_w> &other) {
+    return UInt<w_ + other_w>((value << other_w) | other.value);
+  }
+
+public:
   typedef typename std::conditional<(w_ <= 8), uint8_t, uint64_t>::type data_t;
   data_t value;
+
+  template<int other_w, bool other_wide>
+  friend class UInt;
+
   template<int w>
   friend std::ostream& operator<<(std::ostream& os, const UInt<w,false>& ui);
 };

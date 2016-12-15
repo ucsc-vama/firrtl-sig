@@ -25,6 +25,8 @@ class UInt;
 template<int w_>
 class UInt<w_, /*wide=*/false> {
 public:
+  UInt() : UInt(0) {}
+
   UInt(uint64_t initial) : value(initial) {}
 
   template<int out_w>

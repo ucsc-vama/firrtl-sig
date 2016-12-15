@@ -14,5 +14,9 @@ int main() {
   UInt<16> a(0xcafe);
   UInt<20> b(0xbebe);
   cout << a.cat(b) << endl;
+  UInt<16> c;
+  cout << c << endl;
+  c = a;
+  cout << c << endl;
   return 0;
 }

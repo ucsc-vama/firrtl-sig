@@ -18,6 +18,10 @@ constexpr size_t cmax(int wa, int wb) {
   return wa > wb ? wa : wb;
 }
 
+constexpr size_t word_index(int bit_index) {
+  return bit_index / kWordSize;
+}
+
 template<int w, bool wide = (w > kWordSize)>
 class UInt;
 
@@ -42,8 +46,21 @@ public:
   }
 
   template<int other_w>
-  UInt<w_ + other_w> cat(const UInt<other_w> &other) {
+  UInt<w_ + other_w> cat(const UInt<other_w, false> &other) {
+    // FUTURE: two narrows making a wide
     return UInt<w_ + other_w>((value << other_w) | other.value);
+  }
+
+  template<int other_w>
+  UInt<w_ + other_w> cat(const UInt<other_w, true> &other) {
+    UInt<w_ + other_w> to_return(other);
+    int bits_in_top_word = other_w % kWordSize;
+    to_return.values[word_index(other_w)] |= value << bits_in_top_word;
+    if ((bits_in_top_word + w_) > kWordSize) {
+      int overflow_width = (bits_in_top_word + w_) % kWordSize;
+      to_return.values[word_index(w_ + other_w)] = value >> (w_ - overflow_width);
+    }
+    return to_return;
   }
 
 public:

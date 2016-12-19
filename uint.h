@@ -29,6 +29,13 @@ public:
 
   UInt(uint64_t initial) : value(initial) {}
 
+  template<int other_w>
+  UInt(const UInt<other_w, false> &other) : UInt<w_>(other.value) {}
+
+  template<int other_w>
+  UInt(const UInt<other_w, true> &other) {}
+  // FUTURE: trigger some sort of assertion failure
+
   template<int out_w>
   UInt<cmax(w_,out_w)> widen() {
     return UInt<cmax(w_,out_w)>(value);
@@ -62,6 +69,12 @@ std::ostream& operator<<(std::ostream& os, const UInt<w,false>& ui) {
 template<int w_>
 class UInt<w_, /*wide=*/true> {
 public:
+  UInt() {
+    for (int word=0; word < words_needed(w_); word++) {
+      values[word] = 0;
+    }
+  }
+
   UInt(uint64_t initial) {
     values[0] = initial;
     for (int word=1; word < words_needed(w_); word++) {
@@ -90,7 +103,24 @@ public:
     }
   }
 
+  template<int other_w>
+  UInt(const UInt<other_w, false> &other) : UInt<w_>(other.value) {}
+
+  template<int other_w>
+  UInt(const UInt<other_w, true> &other) {
+    // FUTURE: check that other_w <= w_
+    for (int word=0; word < words_needed(w_); word++) {
+      if (word < words_needed(other_w))
+        values[word] = other.values[word];
+      else
+        values[word] = 0;
+    }
+  }
+
 private:
+  template<int other_w, bool other_wide>
+  friend class UInt;
+
   template<int w>
   friend std::ostream& operator<<(std::ostream& os, const UInt<w,true>& ui);
   std::array<uint64_t, words_needed(w_)> values;

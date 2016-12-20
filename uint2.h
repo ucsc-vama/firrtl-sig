@@ -46,6 +46,17 @@ public:
     }
   }
 
+  template<int other_w>
+  UInt(const UInt<other_w> &other) {
+    // FUTURE: check that other_w <= w_
+    for (int word=0; word < n_; word++) {
+      if (word < UInt<other_w>::NW)
+        values[word] = other.values[word];
+      else
+        values[word] = 0;
+    }
+  }
+
 private:
   std::array<word_t, n_> values;
 
@@ -55,6 +66,9 @@ private:
   const static int NW = n_;
   // Access array word type bit width
   const static int WW = std::is_same<word_t,uint64_t>::value ? 64 : 8;
+
+  template<int other_w, typename other_word_t, int other_n>
+  friend class UInt;
 
   template<int w>
   friend std::ostream& operator<<(std::ostream& os, const UInt<w>& ui);

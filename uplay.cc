@@ -16,8 +16,9 @@ int main() {
   UInt<16> copy_a(a);
   UInt<80> copy_a_big(a);
   cout << copy_a << " " << copy_a_big << endl;
-  // UInt<20> b(0xbebe);
-  // cout << a.cat(b) << endl;
-  // cout << a.cat(big) << endl;
+  UInt<20> b(0xbebe);
+  cout << a.cat(b) << endl;
+  cout << a.cat(big) << endl;
+  cout << UInt<4>(0xb).cat(UInt<4>(0xa)) << endl;
   return 0;
 }

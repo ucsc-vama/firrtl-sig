@@ -10,10 +10,9 @@
 
 const size_t kWordSize = 64;
 
-constexpr size_t cmax(int wa, int wb) {
-  return wa > wb ? wa : wb;
-}
+constexpr size_t cmax(int wa, int wb) { return wa > wb ? wa : wb; }
 
+size_t word_index(int bit_index) { return bit_index / kWordSize; }
 
 template<int w_,
          typename word_t = typename std::conditional<(w_ <= 8), uint8_t, uint64_t>::type,
@@ -64,6 +63,22 @@ public:
   template<int out_w>
   UInt<cmax(w_,out_w)> widen() {
     return UInt<cmax(w_,out_w)>(*this);
+  }
+
+  template<int other_w>
+  UInt<w_ + other_w> cat(const UInt<other_w> &other) {
+    UInt<w_ + other_w> to_return(other);
+    const int offset = UInt<other_w>::bits_in_top_word;
+    if (offset == kWordSize) {
+      for (int i = 0; i < n_; i++)
+        to_return.values[word_index(other_w) + i] = values[i];
+    } else {
+      for (int i = 0; i < n_; i++) {
+        to_return.values[word_index(other_w) + i] |= values[i] << offset;
+        to_return.values[word_index(other_w) + i + 1] |= values[i] >> (WW - offset);
+      }
+    }
+    return to_return;
   }
 
 

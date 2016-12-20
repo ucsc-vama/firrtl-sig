@@ -63,7 +63,7 @@ public:
     return to_return;
   }
 
-public:
+private:
   typedef typename std::conditional<(w_ <= 8), uint8_t, uint64_t>::type data_t;
   data_t value;
 
@@ -101,8 +101,6 @@ public:
 
   UInt(std::string initial) {
     // FUTURE: check that literal isn't too big
-    int top_bit_width = w_ % kWordSize == 0 ? kWordSize : w_ % kWordSize;
-    int top_nibble_width = (top_bit_width + 3) / 4;
     int input_bits = 4*(initial.size() - 2);
     int last_start = initial.length();
     for (int word=0; word < words_needed(w_); word++) {

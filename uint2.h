@@ -1,6 +1,7 @@
 #ifndef UINT_H_
 #define UINT_H_
 
+#include <algorithm>
 #include <array>
 #include <cinttypes>
 #include <iomanip>
@@ -24,6 +25,25 @@ public:
     values[0] = initial;
     for (int i=1; i < n_; i++)
       values[i] = 0;
+  }
+
+  UInt(std::string initial) {
+    // FUTURE: check that literal isn't too big
+    int input_bits = 4*(initial.size() - 2);
+    int last_start = initial.length();
+    for (int word=0; word < n_; word++) {
+      if (word * kWordSize > input_bits)
+        values[word] = 0;
+      else {
+        int word_start = std::max(static_cast<int>(initial.length())
+                                  - 16*(word+1), 0);
+        int word_len = std::min(16, last_start - word_start);
+        last_start = word_start;
+        const std::string substr = initial.substr(word_start, word_len);
+        uint64_t x = std::stoul(substr, nullptr, 16);
+        values[word] = x;
+      }
+    }
   }
 
 private:

@@ -10,8 +10,8 @@ int main() {
   UInt<32> small(14);
   cout << small << endl;;
   // cout << small.widen<40>() << endl;
-  // UInt<128> big("0x18cafebebedeadbeef");
-  // cout << big << endl;
+  UInt<128> big("0x18cafebebedeadbeef");
+  cout << big << endl;
   // UInt<16> a(0xcafe);
   // UInt<16> copy_a(a);
   // UInt<80> copy_a_big(a);

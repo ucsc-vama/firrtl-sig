@@ -9,7 +9,7 @@ int main() {
   cout << sizeof(UInt<1>) << " " << sizeof(UInt<64>) << " " << sizeof(UInt<512>) << endl;
   UInt<32> small(14);
   cout << small << endl;;
-  // cout << small.widen<40>() << endl;
+  cout << small.widen<40>() << endl;
   UInt<128> big("0x18cafebebedeadbeef");
   cout << big << endl;
   UInt<16> a(0xcafe);

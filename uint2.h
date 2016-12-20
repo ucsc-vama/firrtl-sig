@@ -10,6 +10,10 @@
 
 const size_t kWordSize = 64;
 
+constexpr size_t cmax(int wa, int wb) {
+  return wa > wb ? wa : wb;
+}
+
 
 template<int w_,
          typename word_t = typename std::conditional<(w_ <= 8), uint8_t, uint64_t>::type,
@@ -55,6 +59,11 @@ public:
       else
         values[word] = 0;
     }
+  }
+
+  template<int out_w>
+  UInt<cmax(w_,out_w)> widen() {
+    return UInt<cmax(w_,out_w)>(*this);
   }
 
 private:

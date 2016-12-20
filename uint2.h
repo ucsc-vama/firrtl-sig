@@ -66,6 +66,7 @@ public:
     return UInt<cmax(w_,out_w)>(*this);
   }
 
+
 private:
   std::array<word_t, n_> values;
 
@@ -75,6 +76,8 @@ private:
   const static int NW = n_;
   // Access array word type bit width
   const static int WW = std::is_same<word_t,uint64_t>::value ? 64 : 8;
+
+  const static int bits_in_top_word = w_ % WW == 0 ? WW : w_ % WW;
 
   template<int other_w, typename other_word_t, int other_n>
   friend class UInt;
@@ -87,8 +90,7 @@ private:
 template<int w>
 std::ostream& operator<<(std::ostream& os, const UInt<w>& ui) {
   os << "0x" << std::hex << std::setfill('0');
-  int top_bit_width = w % UInt<w>::WW == 0 ? UInt<w>::WW : w % UInt<w>::WW;
-  int top_nibble_width = (top_bit_width + 3) / 4;
+  int top_nibble_width = (ui.bits_in_top_word + 3) / 4;
   os << std::setw(top_nibble_width);
   os << static_cast<uint64_t>(ui.values[UInt<w>::NW-1]);
   for (int word=UInt<w>::NW - 2; word >= 0; word--) {

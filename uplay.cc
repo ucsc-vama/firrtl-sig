@@ -20,5 +20,7 @@ int main() {
   cout << a.cat(b) << endl;
   cout << a.cat(big) << endl;
   cout << UInt<8>(0xb).cat(UInt<128>(0xa)) << endl;
+  cout << UInt<8>(0xa0) + UInt<8>(0x0b) << endl;
+  cout << UInt<64>(0xffffffffffffffff) + UInt<1>(1) << endl;
   return 0;
 }

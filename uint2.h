@@ -12,11 +12,15 @@ const int kWordSize = 64;
 
 constexpr int cmax(int wa, int wb) { return wa > wb ? wa : wb; }
 
+constexpr int words_needed(int bit_width) {
+  return (bit_width + kWordSize - 1) / kWordSize;
+}
+
 int word_index(int bit_index) { return bit_index / kWordSize; }
 
 template<int w_,
          typename word_t = typename std::conditional<(w_ <= 8), uint8_t, uint64_t>::type,
-         int n_ = (w_ <= 8) ? 1 : (w_ + kWordSize - 1) / kWordSize>
+         int n_ = (w_ <= 8) ? 1 : words_needed(w_)>
 class UInt {
 public:
   UInt() {
@@ -81,6 +85,18 @@ public:
       }
     }
     return to_return;
+  }
+
+  UInt<w_ + 1> operator+(const UInt<w_> &other) {
+    UInt<w_ + 1> result(other);
+    uint64_t carry = 0;
+    for (int i = 0; i < n_; i++) {
+      result.values[i] = values[i] + other.values[i] + carry;
+      carry = result.values[i] < values[i] ? 1 : 0;
+    }
+    if (kWordSize * n_ == w_)
+      result.values[word_index(w_ + 1)] += carry;
+    return result;
   }
 
 

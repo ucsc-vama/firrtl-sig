@@ -8,11 +8,11 @@
 #include <iostream>
 
 
-const size_t kWordSize = 64;
+const int kWordSize = 64;
 
-constexpr size_t cmax(int wa, int wb) { return wa > wb ? wa : wb; }
+constexpr int cmax(int wa, int wb) { return wa > wb ? wa : wb; }
 
-size_t word_index(int bit_index) { return bit_index / kWordSize; }
+int word_index(int bit_index) { return bit_index / kWordSize; }
 
 template<int w_,
          typename word_t = typename std::conditional<(w_ <= 8), uint8_t, uint64_t>::type,
@@ -74,8 +74,10 @@ public:
         to_return.values[word_index(other_w) + i] = values[i];
     } else {
       for (int i = 0; i < n_; i++) {
-        to_return.values[word_index(other_w) + i] |= values[i] << offset;
-        to_return.values[word_index(other_w) + i + 1] |= values[i] >> (WW - offset);
+        to_return.values[word_index(other_w) + i] |=
+            static_cast<uint64_t>(values[i]) << offset;
+        to_return.values[word_index(other_w) + i + 1] |=
+            static_cast<uint64_t>(values[i]) >> (kWordSize - offset);
       }
     }
     return to_return;

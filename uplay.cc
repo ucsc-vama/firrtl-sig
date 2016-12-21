@@ -19,6 +19,6 @@ int main() {
   UInt<20> b(0xbebe);
   cout << a.cat(b) << endl;
   cout << a.cat(big) << endl;
-  cout << UInt<4>(0xb).cat(UInt<4>(0xa)) << endl;
+  cout << UInt<8>(0xb).cat(UInt<128>(0xa)) << endl;
   return 0;
 }

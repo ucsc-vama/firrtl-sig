@@ -72,17 +72,12 @@ public:
   template<int other_w>
   UInt<w_ + other_w> cat(const UInt<other_w> &other) {
     UInt<w_ + other_w> to_return(other);
-    const int offset = UInt<other_w>::bits_in_top_word;
-    if (offset == kWordSize) {
-      for (int i = 0; i < n_; i++)
-        to_return.values[word_index(other_w) + i] = values[i];
-    } else {
-      for (int i = 0; i < n_; i++) {
-        to_return.values[word_index(other_w) + i] |=
-            static_cast<uint64_t>(values[i]) << offset;
-        to_return.values[word_index(other_w) + i + 1] |=
-            static_cast<uint64_t>(values[i]) >> (kWordSize - offset);
-      }
+    const int offset = other_w % kWordSize;
+    for (int i = 0; i < n_; i++) {
+      to_return.values[word_index(other_w) + i] |= values[i] << offset;
+      if (offset != 0)
+        to_return.values[word_index(other_w) + i + 1] |= values[i] >>
+          std::min(kWordSize-1, (kWordSize - offset));
     }
     return to_return;
   }

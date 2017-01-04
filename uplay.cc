@@ -4,6 +4,7 @@
 
 using namespace std;
 
+
 int main() {
   cout << "yo!" << endl;
   cout << sizeof(UInt<1>) << " " << sizeof(UInt<64>) << " " << sizeof(UInt<512>) << endl;
@@ -21,6 +22,6 @@ int main() {
   cout << a.cat(big) << endl;
   cout << UInt<8>(0xb).cat(UInt<128>(0xa)) << endl;
   cout << UInt<8>(0xa0) + UInt<8>(0x0b) << endl;
-  cout << UInt<64>(0xffffffffffffffff) + UInt<1>(1) << endl;
+  cout << UInt<64>(0xffffffffffffffff) + UInt<1>(1).widen<64>() << endl;
   return 0;
 }

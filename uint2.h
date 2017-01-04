@@ -54,7 +54,7 @@ public:
   }
 
   template<int other_w>
-  UInt(const UInt<other_w> &other) {
+  explicit UInt(const UInt<other_w> &other) {
     // FUTURE: check that other_w <= w_
     for (int word=0; word < n_; word++) {
       if (word < UInt<other_w>::NW)

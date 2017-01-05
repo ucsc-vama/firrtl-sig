@@ -94,6 +94,18 @@ public:
     return result;
   }
 
+  UInt<w_ + 1> operator-(const UInt<w_> &other) {
+    UInt<w_ + 1> result(other);
+    uint64_t carry = 0;
+    for (int i = 0; i < n_; i++) {
+      result.values[i] = values[i] - other.values[i] - carry;
+      carry = result.values[i] > other.values[i] ? 1 : 0;
+    }
+    if (kWordSize * n_ == w_)
+      result.values[word_index(w_ + 1)] -= carry;
+    return result;
+  }
+
 
 private:
   std::array<word_t, n_> values;

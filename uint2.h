@@ -112,15 +112,16 @@ public:
     for (int i=0; i < n_; i++) {
       carry = 0;
       for (int j=0; j < n_; j++) {
-        uint64_t lower_prod = result.values[i+j] + lower(carry) +
-                              lower(values[i]) * lower(other.values[j]);
-        uint64_t upper_prod = upper(lower_prod) + upper(carry) +
-                              upper(values[i]) * lower(other.values[j]) +
-                              lower(values[i]) * upper(other.values[j]);
-        result.values[i+j] = (upper_prod << 32) | lower(lower_prod);
-        carry = upper(upper_prod) + upper(values[i]) * upper(other.values[j]);
-        if (upper_prod < upper(values[i]) * lower(other.values[j]))
-          carry += 1l << 32;
+        uint64_t prod_ll = lower(values[i]) * lower(other.values[j]);
+        uint64_t prod_lu = lower(values[i]) * upper(other.values[j]);
+        uint64_t prod_ul = upper(values[i]) * lower(other.values[j]);
+        uint64_t prod_uu = upper(values[i]) * upper(other.values[j]);
+        uint64_t lower_sum = lower(result.values[i+j]) + lower(carry) +
+                             lower(prod_ll);
+        uint64_t upper_sum = upper(result.values[i+j]) + upper(carry) + upper(prod_ll) +
+                             upper(lower_sum) + lower(prod_lu) + lower(prod_ul);
+        result.values[i+j] = (upper_sum << 32) | lower(lower_sum);
+        carry = upper(upper_sum) + upper(prod_lu) + upper(prod_ul) + prod_uu;
       }
       result.values[i + n_] += carry;
     }

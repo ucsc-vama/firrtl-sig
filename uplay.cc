@@ -26,5 +26,8 @@ int main() {
   cout << UInt<7>(0) - UInt<7>(1) << endl;
   cout << UInt<65>("0x10000000000000000") - UInt<65>(1) << endl;
   cout << UInt<65>(0) - UInt<65>(1) << endl;
+  cout << UInt<8>(5) * UInt<8>(5) << endl;
+  cout << big * UInt<128>("0x10000000000000001") << endl;
+  cout << big * big << endl;
   return 0;
 }

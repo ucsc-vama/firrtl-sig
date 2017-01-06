@@ -106,6 +106,27 @@ public:
     return result;
   }
 
+  UInt<w_ + w_> operator*(const UInt<w_> &other) {
+    UInt<w_ + w_> result(0);
+    uint64_t carry = 0;
+    for (int i=0; i < n_; i++) {
+      carry = 0;
+      for (int j=0; j < n_; j++) {
+        uint64_t lower_prod = result.values[i+j] + lower(carry) +
+                              lower(values[i]) * lower(other.values[j]);
+        uint64_t upper_prod = upper(lower_prod) + upper(carry) +
+                              upper(values[i]) * lower(other.values[j]) +
+                              lower(values[i]) * upper(other.values[j]);
+        result.values[i+j] = (upper_prod << 32) | lower(lower_prod);
+        carry = upper(upper_prod) + upper(values[i]) * upper(other.values[j]);
+        if (upper_prod < upper(values[i]) * lower(other.values[j]))
+          carry += 1l << 32;
+      }
+      result.values[i + n_] += carry;
+    }
+    return result;
+  }
+
 
 private:
   std::array<word_t, n_> values;
@@ -124,6 +145,10 @@ private:
 
   template<int w>
   friend std::ostream& operator<<(std::ostream& os, const UInt<w>& ui);
+
+  uint64_t static upper(uint64_t i) { return i >> 32; }
+
+  uint64_t static lower(uint64_t i) { return i & 0x00000000ffffffff; }
 };
 
 

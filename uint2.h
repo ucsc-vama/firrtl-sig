@@ -116,10 +116,9 @@ public:
         uint64_t prod_lu = lower(values[i]) * upper(other.values[j]);
         uint64_t prod_ul = upper(values[i]) * lower(other.values[j]);
         uint64_t prod_uu = upper(values[i]) * upper(other.values[j]);
-        uint64_t lower_sum = lower(result.values[i+j]) + lower(carry) +
-                             lower(prod_ll);
-        uint64_t upper_sum = upper(result.values[i+j]) + upper(carry) + upper(prod_ll) +
-                             upper(lower_sum) + lower(prod_lu) + lower(prod_ul);
+        uint64_t lower_sum = result.values[i+j] + carry + lower(prod_ll);
+        uint64_t upper_sum = upper(prod_ll) + upper(lower_sum) +
+                             lower(prod_lu) + lower(prod_ul);
         result.values[i+j] = (upper_sum << 32) | lower(lower_sum);
         carry = upper(upper_sum) + upper(prod_lu) + upper(prod_ul) + prod_uu;
       }

@@ -127,6 +127,15 @@ public:
     return result;
   }
 
+  UInt<w_> operator~() {
+    UInt<w_> result(0);
+    for (int i = 0; i < n_; i++) {
+      result.values[i] = ~values[i];
+    }
+    result.mask_top_unused();
+    return result;
+  }
+
 
 private:
   std::array<word_t, n_> values;
@@ -149,6 +158,14 @@ private:
   uint64_t static upper(uint64_t i) { return i >> 32; }
 
   uint64_t static lower(uint64_t i) { return i & 0x00000000ffffffff; }
+
+  int static shamt(int s) { return s % kWordSize; }
+
+  void mask_top_unused() {
+    if (bits_in_top_word != WW) {
+      values[n_-1] = values[n_-1] & ((1l << shamt(bits_in_top_word)) - 1l);
+    }
+  }
 };
 
 

@@ -29,5 +29,6 @@ int main() {
   cout << UInt<8>(5) * UInt<8>(5) << endl;
   cout << big * UInt<128>("0x10000000000000001") << endl;
   cout << big * big << endl;
+  cout << ~UInt<1>(0) << " " << ~a << " " << ~b << " " << ~big << endl;
   return 0;
 }

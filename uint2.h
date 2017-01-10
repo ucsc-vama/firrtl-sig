@@ -136,6 +136,14 @@ public:
     return result;
   }
 
+  UInt<w_> operator|(const UInt<w_> &other) {
+    UInt<w_> result;
+    for (int i = 0; i < n_; i++) {
+      result.values[i] = values[i] | other.values[i];
+    }
+    return result;
+  }
+
 
 private:
   std::array<word_t, n_> values;

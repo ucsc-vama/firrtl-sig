@@ -75,7 +75,7 @@ public:
     const int offset = other_w % kWordSize;
     for (int i = 0; i < n_; i++) {
       to_return.values[word_index(other_w) + i] |= values[i] << offset;
-      if (offset != 0)
+      if ((offset != 0) && (other_w + w_ > kWordSize))
         to_return.values[word_index(other_w) + i + 1] |= values[i] >>
           shamt(kWordSize - offset);
     }

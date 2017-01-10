@@ -77,7 +77,7 @@ public:
       to_return.values[word_index(other_w) + i] |= values[i] << offset;
       if (offset != 0)
         to_return.values[word_index(other_w) + i + 1] |= values[i] >>
-          std::min(kWordSize-1, (kWordSize - offset));
+          shamt(kWordSize - offset);
     }
     return to_return;
   }
@@ -159,6 +159,7 @@ private:
 
   uint64_t static lower(uint64_t i) { return i & 0x00000000ffffffff; }
 
+  // Hack to prevent compiler warnings for shift amount being too large
   int static shamt(int s) { return s % kWordSize; }
 
   void mask_top_unused() {

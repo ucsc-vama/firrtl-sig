@@ -83,7 +83,7 @@ public:
   }
 
   UInt<w_ + 1> operator+(const UInt<w_> &other) {
-    UInt<w_ + 1> result(other);
+    UInt<w_ + 1> result;
     uint64_t carry = 0;
     for (int i = 0; i < n_; i++) {
       result.values[i] = values[i] + other.values[i] + carry;
@@ -95,7 +95,7 @@ public:
   }
 
   UInt<w_ + 1> operator-(const UInt<w_> &other) {
-    UInt<w_ + 1> result(other);
+    UInt<w_ + 1> result;
     uint64_t carry = 0;
     for (int i = 0; i < n_; i++) {
       result.values[i] = values[i] - other.values[i] - carry;
@@ -128,7 +128,7 @@ public:
   }
 
   UInt<w_> operator~() {
-    UInt<w_> result(0);
+    UInt<w_> result;
     for (int i = 0; i < n_; i++) {
       result.values[i] = ~values[i];
     }

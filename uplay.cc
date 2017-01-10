@@ -32,5 +32,6 @@ int main() {
   cout << ~UInt<1>(0) << " " << ~a << " " << ~b << " " << ~big << endl;
   cout << (UInt<2>(2) | UInt<2>(1)) << " " << (a | UInt<16>(0xbebe));
   cout << " " << (big | big) << endl;
+  cout << a.shl<4>() << " " << big.shl<16>() << endl;
   return 0;
 }

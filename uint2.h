@@ -144,6 +144,11 @@ public:
     return result;
   }
 
+  template<int shamt>
+  UInt<w_ + shamt> shl() {
+    return cat(UInt<shamt>(0));
+  }
+
 
 private:
   std::array<word_t, n_> values;

@@ -166,6 +166,17 @@ public:
     return result;
   }
 
+  template<int n>
+  UInt<n> head() {
+    return bits<w_-1, w_-n>();
+  }
+
+  template<int n>
+  UInt<w_ - n> tail() {
+    return bits<w_-n-1, 0>();
+  }
+
+
 private:
   std::array<word_t, n_> values;
 

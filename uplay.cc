@@ -37,5 +37,6 @@ int main() {
   cout << big.cat(big).bits<75,60>() << endl;
   cout << big.cat(big).bits<139,124>() << endl;
   cout << big.cat(big).bits<191,60>() << endl;
+  cout << a.head<8>() << " " << a.tail<8>() << endl;
   return 0;
 }

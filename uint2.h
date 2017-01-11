@@ -144,11 +144,6 @@ public:
     return result;
   }
 
-  template<int shamt>
-  UInt<w_ + shamt> shl() {
-    return cat(UInt<shamt>(0));
-  }
-
   template<int hi, int lo>
   UInt<hi - lo + 1> bits() {
     // FUTURE: check that hi isn't too high
@@ -176,6 +171,15 @@ public:
     return bits<w_-n-1, 0>();
   }
 
+  template<int shamt>
+  UInt<w_ + shamt> shl() {
+    return cat(UInt<shamt>(0));
+  }
+
+  template<int shamt>
+  UInt<w_ - shamt> shr() {
+    return bits<w_-1, shamt>();
+  }
 
 private:
   std::array<word_t, n_> values;

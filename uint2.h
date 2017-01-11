@@ -186,9 +186,9 @@ public:
     // FUTURE: make sure shamt width isn't way too big
     UInt<w_> result(0);
     uint64_t dshamt = other.as_single_word();
-    int word_down = word_index(dshamt);
-    int bits_down = dshamt % kWordSize;
-    for (int i=word_down; i < n_; i++) {
+    uint64_t word_down = word_index(dshamt);
+    uint64_t bits_down = dshamt % kWordSize;
+    for (uint64_t i=word_down; i < n_; i++) {
       result.values[i - word_down] = values[i] >> bits_down;
       if ((bits_down != 0) && (i < n_-1))
         result.values[i - word_down] |= values[i + 1] <<
@@ -202,9 +202,9 @@ public:
     // FUTURE: make sure shamt width isn't way too big
     UInt<w_ + (1<<other_w) - 1> result(0);
     uint64_t dshamt = other.as_single_word();
-    int word_up = word_index(dshamt);
-    int bits_up = dshamt % kWordSize;
-    for (int i=0; i < n_; i++) {
+    uint64_t word_up = word_index(dshamt);
+    uint64_t bits_up = dshamt % kWordSize;
+    for (uint64_t i=0; i < n_; i++) {
       result.values[i + word_up] |= values[i] << bits_up;
       if (bits_up != 0)
         result.values[i + word_up + 1] = values[i] >>

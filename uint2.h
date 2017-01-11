@@ -149,6 +149,22 @@ public:
     return cat(UInt<shamt>(0));
   }
 
+  template<int hi, int lo>
+  UInt<hi - lo + 1> bits() {
+    // FUTURE: check that hi isn't too high
+    UInt<hi - lo + 1> result;
+    int word_down = word_index(lo);
+    int bits_down = lo % kWordSize;
+    int top_taken_word = word_index(hi);
+    for (int i = word_down; i <= top_taken_word; i++) {
+      result.values[i - word_down] = values[i] >> bits_down;
+      if ((bits_down != 0) && (hi > kWordSize) && (i != top_taken_word))
+        result.values[i - word_down] |= values[i + 1] <<
+          shamt(kWordSize - bits_down);
+    }
+    result.mask_top_unused();
+    return result;
+  }
 
 private:
   std::array<word_t, n_> values;

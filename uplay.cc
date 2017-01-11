@@ -33,5 +33,9 @@ int main() {
   cout << (UInt<2>(2) | UInt<2>(1)) << " " << (a | UInt<16>(0xbebe));
   cout << " " << (big | big) << endl;
   cout << a.shl<4>() << " " << big.shl<16>() << endl;
+  cout << a.bits<11,4>() << " " << big.bits<7,4>() << endl;
+  cout << big.cat(big).bits<75,60>() << endl;
+  cout << big.cat(big).bits<139,124>() << endl;
+  cout << big.cat(big).bits<191,60>() << endl;
   return 0;
 }

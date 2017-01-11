@@ -29,10 +29,8 @@ public:
       values[i] = 0;
   }
 
-  UInt(uint64_t initial) {
+  UInt(uint64_t initial) : UInt() {
     values[0] = initial;
-    for (int i=1; i < n_; i++)
-      values[i] = 0;
   }
 
   UInt(std::string initial) {
@@ -56,7 +54,7 @@ public:
 
   template<int other_w>
   explicit UInt(const UInt<other_w> &other) {
-    // FUTURE: check that other_w <= w_
+    static_assert(other_w <= w_, "Can't copy construct from wider UInt");
     for (int word=0; word < n_; word++) {
       if (word < UInt<other_w>::NW)
         values[word] = other.values[word];
@@ -147,7 +145,9 @@ public:
 
   template<int hi, int lo>
   UInt<hi - lo + 1> bits() {
-    // FUTURE: check that hi isn't too high
+    static_assert(hi < w_, "Bit extract hi bigger than width");
+    static_assert(hi >= lo, "Bit extract lo > hi");
+    static_assert(lo >= 0, "Bit extract lo is negative");
     UInt<hi - lo + 1> result;
     int word_down = word_index(lo);
     int bits_down = lo % kWordSize;
@@ -184,7 +184,6 @@ public:
 
   template<int other_w>
   UInt<w_> operator>>(const UInt<other_w> &other) {
-    // FUTURE: make sure shamt width isn't way too big
     UInt<w_> result(0);
     uint64_t dshamt = other.as_single_word();
     uint64_t word_down = word_index(dshamt);
@@ -200,7 +199,6 @@ public:
 
   template<int other_w>
   UInt<w_ + (1<<other_w) - 1> operator<<(const UInt<other_w> &other) {
-    // FUTURE: make sure shamt width isn't way too big
     UInt<w_ + (1<<other_w) - 1> result(0);
     uint64_t dshamt = other.as_single_word();
     uint64_t word_up = word_index(dshamt);

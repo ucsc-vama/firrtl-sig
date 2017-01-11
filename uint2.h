@@ -6,6 +6,7 @@
 #include <cinttypes>
 #include <iomanip>
 #include <iostream>
+#include <type_traits>
 
 
 const int kWordSize = 64;
@@ -245,8 +246,10 @@ private:
     }
   }
 
-  // FUTURE: assert w_ <= 64
-  uint64_t as_single_word() const { return values[0]; }
+  uint64_t as_single_word() const {
+    static_assert(w_ <= kWordSize, "UInt too big for single uint64_t");
+    return values[0];
+  }
 };
 
 

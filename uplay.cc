@@ -40,5 +40,6 @@ int main() {
   cout << a.shl<4>() << " " << big.shl<16>() << endl;
   cout << a.shr<4>() << " " << big.shr<16>() << endl;
   cout << (a>>UInt<4>(4)) << " " << (big>>UInt<4>(8)) << endl;
+  cout << (a<<UInt<4>(4)) << " " << (big<<UInt<4>(8)) << endl;
   return 0;
 }

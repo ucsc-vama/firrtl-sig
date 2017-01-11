@@ -197,6 +197,22 @@ public:
     return result;
   }
 
+  template<int other_w>
+  UInt<w_ + (1<<other_w) - 1> operator<<(const UInt<other_w> &other) {
+    // FUTURE: make sure shamt width isn't way too big
+    UInt<w_ + (1<<other_w) - 1> result(0);
+    uint64_t dshamt = other.as_single_word();
+    int word_up = word_index(dshamt);
+    int bits_up = dshamt % kWordSize;
+    for (int i=0; i < n_; i++) {
+      result.values[i + word_up] |= values[i] << bits_up;
+      if (bits_up != 0)
+        result.values[i + word_up + 1] = values[i] >>
+          shamt(kWordSize - bits_up);
+    }
+    return result;
+  }
+
 
 private:
   std::array<word_t, n_> values;

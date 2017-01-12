@@ -1,9 +1,15 @@
 #include <lest.hpp>
 
+#include "uint.h"
+
+UInt<16> a(0xcafe);
+UInt<16> b(0xbebe);
+
 const lest::test spec[] = {
   CASE("hello")
   {
-    EXPECT( 1 < 2 );
+    EXPECT( a == a );
+    EXPECT( a != b );
   }
 };
 

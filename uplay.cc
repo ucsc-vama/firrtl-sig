@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "uint2.h"
+#include "uint.h"
 
 using namespace std;
 
@@ -41,5 +41,6 @@ int main() {
   cout << a.shr<4>() << " " << big.shr<16>() << endl;
   cout << (a>>UInt<4>(4)) << " " << (big>>UInt<4>(8)) << endl;
   cout << (a<<UInt<4>(4)) << " " << (big<<UInt<4>(8)) << endl;
+  cout << UInt<64>(25) / UInt<8>(4) << " " << UInt<32>(25) % UInt<16>(4) << endl;
   return 0;
 }

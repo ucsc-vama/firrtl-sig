@@ -11,6 +11,8 @@
 
 const int kWordSize = 64;
 
+constexpr int cmin(int wa, int wb) { return wa < wb ? wa : wb; }
+
 constexpr int cmax(int wa, int wb) { return wa > wb ? wa : wb; }
 
 constexpr int words_needed(int bit_width) {
@@ -124,6 +126,22 @@ public:
       result.values[i + n_] += carry;
     }
     return result;
+  }
+
+  // this / other
+  template<int other_w>
+  UInt<w_> operator/(const UInt<other_w> &other) {
+    static_assert(w_ <= kWordSize, "Div not supported beyond 64b");
+    static_assert(other_w <= kWordSize, "Div not supported beyond 64b");
+    return UInt<w_>(as_single_word() / other.as_single_word());
+  }
+
+  // this % other
+  template<int other_w>
+  UInt<cmin(w_, other_w)> operator%(const UInt<other_w> &other) {
+    static_assert(w_ <= kWordSize, "Mod not supported beyond 64b");
+    static_assert(other_w <= kWordSize, "Mod not supported beyond 64b");
+    return UInt<cmin(w_, other_w)>(as_single_word() % other.as_single_word());
   }
 
   UInt<w_> operator~() {

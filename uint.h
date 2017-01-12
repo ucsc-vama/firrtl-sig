@@ -66,7 +66,7 @@ public:
   }
 
   template<int out_w>
-  UInt<cmax(w_,out_w)> widen() {
+  UInt<cmax(w_,out_w)> pad() {
     return UInt<cmax(w_,out_w)>(*this);
   }
 

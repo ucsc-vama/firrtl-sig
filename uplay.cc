@@ -42,7 +42,13 @@ int main() {
   cout << (a>>UInt<4>(4)) << " " << (big>>UInt<4>(8)) << endl;
   cout << (a<<UInt<4>(4)) << " " << (big<<UInt<4>(8)) << endl;
   cout << UInt<64>(25) / UInt<8>(4) << " " << UInt<32>(25) % UInt<16>(4) << endl;
+  UInt<16> small_b(0xbebe);
+  UInt<128> big_plus_1 = (big + UInt<128>(1)).tail<1>();
   cout << (a == a) << " " << (a != a) << " " << (big == big) << endl;
-  cout << (a.widen<20>() == b) << "  " << (a.widen<20>() != b) << endl;
+  cout << (a == small_b) << " " << (a != small_b) << endl;
+  cout << (a < a) << " " << (a <= a) << " " << (small_b < a) << endl;
+  cout << (a > a) << " " << (a >= a) << " " << (a > small_b) << endl;
+  cout << (big < big_plus_1) << " " << (big >= big_plus_1) << endl;
+  cout << (big > big_plus_1) << " " << (big <= big_plus_1) << endl;
   return 0;
 }

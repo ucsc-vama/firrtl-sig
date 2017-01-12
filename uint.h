@@ -230,6 +230,30 @@ public:
     return result;
   }
 
+  UInt<1> operator<=(const UInt<w_> &other) {
+    for (int i=n_-1; i >= 0; i--) {
+      if (values[i] < other.values[i]) return UInt<1>(1);
+      if (values[i] > other.values[i]) return UInt<1>(0);
+    }
+    return UInt<1>(1);
+  }
+
+  UInt<1> operator>=(const UInt<w_> &other) {
+    for (int i=n_-1; i >= 0; i--) {
+      if (values[i] > other.values[i]) return UInt<1>(1);
+      if (values[i] < other.values[i]) return UInt<1>(0);
+    }
+    return UInt<1>(1);
+  }
+
+  UInt<1> operator<(const UInt<w_> &other) {
+    return ~(*this >= other);
+  }
+
+  UInt<1> operator>(const UInt<w_> &other) {
+    return ~(*this <= other);
+  }
+
   UInt<1> operator==(const UInt<w_> &other) {
     for (int i = 0; i < n_; i++) {
       if (values[i] != other.values[i])

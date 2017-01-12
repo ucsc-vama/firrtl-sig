@@ -42,5 +42,7 @@ int main() {
   cout << (a>>UInt<4>(4)) << " " << (big>>UInt<4>(8)) << endl;
   cout << (a<<UInt<4>(4)) << " " << (big<<UInt<4>(8)) << endl;
   cout << UInt<64>(25) / UInt<8>(4) << " " << UInt<32>(25) % UInt<16>(4) << endl;
+  cout << (a == a) << " " << (a != a) << " " << (big == big) << endl;
+  cout << (a.widen<20>() == b) << "  " << (a.widen<20>() != b) << endl;
   return 0;
 }

@@ -66,12 +66,12 @@ public:
   }
 
   template<int out_w>
-  UInt<cmax(w_,out_w)> pad() {
+  UInt<cmax(w_,out_w)> pad() const {
     return UInt<cmax(w_,out_w)>(*this);
   }
 
   template<int other_w>
-  UInt<w_ + other_w> cat(const UInt<other_w> &other) {
+  UInt<w_ + other_w> cat(const UInt<other_w> &other) const {
     UInt<w_ + other_w> to_return(other);
     const int offset = other_w % kWordSize;
     for (int i = 0; i < n_; i++) {
@@ -83,7 +83,7 @@ public:
     return to_return;
   }
 
-  UInt<w_ + 1> operator+(const UInt<w_> &other) {
+  UInt<w_ + 1> operator+(const UInt<w_> &other) const {
     UInt<w_ + 1> result;
     uint64_t carry = 0;
     for (int i = 0; i < n_; i++) {
@@ -95,7 +95,7 @@ public:
     return result;
   }
 
-  UInt<w_ + 1> operator-(const UInt<w_> &other) {
+  UInt<w_ + 1> operator-(const UInt<w_> &other) const {
     UInt<w_ + 1> result;
     uint64_t carry = 0;
     for (int i = 0; i < n_; i++) {
@@ -107,7 +107,7 @@ public:
     return result;
   }
 
-  UInt<w_ + w_> operator*(const UInt<w_> &other) {
+  UInt<w_ + w_> operator*(const UInt<w_> &other) const {
     UInt<w_ + w_> result(0);
     uint64_t carry = 0;
     for (int i=0; i < n_; i++) {
@@ -130,7 +130,7 @@ public:
 
   // this / other
   template<int other_w>
-  UInt<w_> operator/(const UInt<other_w> &other) {
+  UInt<w_> operator/(const UInt<other_w> &other) const {
     static_assert(w_ <= kWordSize, "Div not supported beyond 64b");
     static_assert(other_w <= kWordSize, "Div not supported beyond 64b");
     return UInt<w_>(as_single_word() / other.as_single_word());
@@ -138,13 +138,13 @@ public:
 
   // this % other
   template<int other_w>
-  UInt<cmin(w_, other_w)> operator%(const UInt<other_w> &other) {
+  UInt<cmin(w_, other_w)> operator%(const UInt<other_w> &other) const {
     static_assert(w_ <= kWordSize, "Mod not supported beyond 64b");
     static_assert(other_w <= kWordSize, "Mod not supported beyond 64b");
     return UInt<cmin(w_, other_w)>(as_single_word() % other.as_single_word());
   }
 
-  UInt<w_> operator~() {
+  UInt<w_> operator~() const {
     UInt<w_> result;
     for (int i = 0; i < n_; i++) {
       result.values[i] = ~values[i];
@@ -153,7 +153,7 @@ public:
     return result;
   }
 
-  UInt<w_> operator&(const UInt<w_> &other) {
+  UInt<w_> operator&(const UInt<w_> &other) const {
     UInt<w_> result;
     for (int i = 0; i < n_; i++) {
       result.values[i] = values[i] & other.values[i];
@@ -161,7 +161,7 @@ public:
     return result;
   }
 
-  UInt<w_> operator|(const UInt<w_> &other) {
+  UInt<w_> operator|(const UInt<w_> &other) const {
     UInt<w_> result;
     for (int i = 0; i < n_; i++) {
       result.values[i] = values[i] | other.values[i];
@@ -169,7 +169,7 @@ public:
     return result;
   }
 
-  UInt<w_> operator^(const UInt<w_> &other) {
+  UInt<w_> operator^(const UInt<w_> &other) const {
     UInt<w_> result;
     for (int i = 0; i < n_; i++) {
       result.values[i] = values[i] ^ other.values[i];
@@ -178,7 +178,7 @@ public:
   }
 
   template<int hi, int lo>
-  UInt<hi - lo + 1> bits() {
+  UInt<hi - lo + 1> bits() const {
     static_assert(hi < w_, "Bit extract hi bigger than width");
     static_assert(hi >= lo, "Bit extract lo > hi");
     static_assert(lo >= 0, "Bit extract lo is negative");
@@ -197,27 +197,27 @@ public:
   }
 
   template<int n>
-  UInt<n> head() {
+  UInt<n> head() const {
     return bits<w_-1, w_-n>();
   }
 
   template<int n>
-  UInt<w_ - n> tail() {
+  UInt<w_ - n> tail() const {
     return bits<w_-n-1, 0>();
   }
 
   template<int shamt>
-  UInt<w_ + shamt> shl() {
+  UInt<w_ + shamt> shl() const {
     return cat(UInt<shamt>(0));
   }
 
   template<int shamt>
-  UInt<w_ - shamt> shr() {
+  UInt<w_ - shamt> shr() const {
     return bits<w_-1, shamt>();
   }
 
   template<int other_w>
-  UInt<w_> operator>>(const UInt<other_w> &other) {
+  UInt<w_> operator>>(const UInt<other_w> &other) const {
     UInt<w_> result(0);
     uint64_t dshamt = other.as_single_word();
     uint64_t word_down = word_index(dshamt);
@@ -232,7 +232,7 @@ public:
   }
 
   template<int other_w>
-  UInt<w_ + (1<<other_w) - 1> operator<<(const UInt<other_w> &other) {
+  UInt<w_ + (1<<other_w) - 1> operator<<(const UInt<other_w> &other) const {
     UInt<w_ + (1<<other_w) - 1> result(0);
     uint64_t dshamt = other.as_single_word();
     uint64_t word_up = word_index(dshamt);
@@ -246,7 +246,7 @@ public:
     return result;
   }
 
-  UInt<1> operator<=(const UInt<w_> &other) {
+  UInt<1> operator<=(const UInt<w_> &other) const {
     for (int i=n_-1; i >= 0; i--) {
       if (values[i] < other.values[i]) return UInt<1>(1);
       if (values[i] > other.values[i]) return UInt<1>(0);
@@ -254,7 +254,7 @@ public:
     return UInt<1>(1);
   }
 
-  UInt<1> operator>=(const UInt<w_> &other) {
+  UInt<1> operator>=(const UInt<w_> &other) const {
     for (int i=n_-1; i >= 0; i--) {
       if (values[i] > other.values[i]) return UInt<1>(1);
       if (values[i] < other.values[i]) return UInt<1>(0);
@@ -262,15 +262,15 @@ public:
     return UInt<1>(1);
   }
 
-  UInt<1> operator<(const UInt<w_> &other) {
+  UInt<1> operator<(const UInt<w_> &other) const {
     return ~(*this >= other);
   }
 
-  UInt<1> operator>(const UInt<w_> &other) {
+  UInt<1> operator>(const UInt<w_> &other) const {
     return ~(*this <= other);
   }
 
-  UInt<1> operator==(const UInt<w_> &other) {
+  UInt<1> operator==(const UInt<w_> &other) const {
     for (int i = 0; i < n_; i++) {
       if (values[i] != other.values[i])
         return UInt<1>(0);
@@ -278,10 +278,14 @@ public:
     return UInt<1>(1);
   }
 
-  UInt<1> operator!=(const UInt<w_> &other) {
+  UInt<1> operator!=(const UInt<w_> &other) const {
     return ~(*this == other);
   }
 
+  operator bool() const {
+    static_assert(w_ == 1, "conversion to bool only allowed for width 1");
+    return static_cast<bool>(values[0]);
+  }
 
 private:
   std::array<word_t, n_> values;
@@ -319,6 +323,7 @@ private:
     return values[0];
   }
 };
+
 
 
 template<int w>

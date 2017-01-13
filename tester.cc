@@ -106,6 +106,34 @@ const lest::test spec[] = {
   CASE("mod operator") {
     EXPECT( a16 % b16 == UInt<16>(0xc40) );
     EXPECT( a64 % b64 == UInt<64>(0x23b00bc3070e2d2c) );
+  },
+
+  CASE("not operator") {
+    EXPECT( ~a16 == UInt<16>(0x3501) );
+    EXPECT( ~a64 == UInt<64>(0x1d42a4b0074cf037) );
+    EXPECT( ~a80 == UInt<80>("0x678bd93e083282b296c5") );
+    EXPECT( ~a128 == UInt<128>("0x16fc9b959680355cbb2d4d556a1b84a2") );
+  },
+
+  CASE("and operator") {
+    EXPECT( (a16 & b16) == UInt<16>(0x8abe) );
+    EXPECT( (a64 & b64) == UInt<64>(0x2281534338210880) );
+    EXPECT( (a80 & b80) == UInt<80>("0x10300641a04979406000") );
+    EXPECT( (a128 & b128) == UInt<128>("0x4002440a490488824040120295203800") );
+  },
+
+  CASE("or operator") {
+    EXPECT( (a16 | b16) == UInt<16>(0xfefe) );
+    EXPECT( (a64 | b64) == UInt<64>(0xefff5beffcfb3fef) );
+    EXPECT( (a80 | b80) == UInt<80>("0xde7e27d7f7ff7fdf7dbf") );
+    EXPECT( (a128 | b128) == UInt<128>("0xfffb776eeb7fefeb46d2ffbabfecfb7f") );
+  },
+
+  CASE("xor operator") {
+    EXPECT( (a16 ^ b16) == UInt<16>(0x7440) );
+    EXPECT( (a64 ^ b64) == UInt<64>(0xcd7e08acc4da376f) );
+    EXPECT( (a80 ^ b80) == UInt<80>("0xce4e219657b6069f1dbf") );
+    EXPECT( (a128 ^ b128) == UInt<128>("0xbff93364a27b67690692edb82accc37f") );
   }
 };
 

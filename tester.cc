@@ -75,6 +75,20 @@ const lest::test spec[] = {
     EXPECT( a80.cat(a128) == UInt<208>("0x987426c1f7cd7d4d693ae903646a697fcaa344d2b2aa95e47b5d") );
     EXPECT( a128.cat(a80) == UInt<208>("0xe903646a697fcaa344d2b2aa95e47b5d987426c1f7cd7d4d693a") );
     EXPECT( a128.cat(b128) == UInt<256>("0xe903646a697fcaa344d2b2aa95e47b5d56fa570ecb04adca42405f12bf28b822") );
+  },
+
+  CASE("add operator") {
+    EXPECT( a16 + b16 == UInt<17>(0x189bc) );
+    EXPECT( a64 + b64 == UInt<65>("0x11280af33351c486f") );
+    EXPECT( a80 + b80 == UInt<81>("0xeeae2e199848f91fddbf") );
+    EXPECT( a128 + b128 == UInt<129>("0x13ffdbb793484786d871311bd550d337f") );
+  },
+
+  CASE("sub operator") {
+    EXPECT( a16 - b16 == UInt<17>(0xc40) );
+    EXPECT( a64 - b64 == UInt<65>("0xb2fa076cbc49d721") );
+    EXPECT( a80 - b80 == UInt<81>("0x423a1f6a5752017af4b5") );
+    EXPECT( a128 - b128 == UInt<129>("0x92090d5b9e7b1cd902925397d6bbc33b") );
   }
 };
 

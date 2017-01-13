@@ -100,10 +100,11 @@ public:
     uint64_t carry = 0;
     for (int i = 0; i < n_; i++) {
       result.values[i] = values[i] - other.values[i] - carry;
-      carry = result.values[i] > other.values[i] ? 1 : 0;
+      carry = result.values[i] > values[i] ? 1 : 0;
     }
     if (kWordSize * n_ == w_)
       result.values[word_index(w_ + 1)] -= carry;
+    result.mask_top_unused();
     return result;
   }
 

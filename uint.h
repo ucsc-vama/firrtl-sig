@@ -21,11 +21,11 @@ private:
 public:
   UInt() {
     for (int i=0; i < n_; i++)
-      values[i] = 0;
+      words_[i] = 0;
   }
 
   UInt(uint64_t initial) : UInt() {
-    values[0] = initial;
+    words_[0] = initial;
   }
 
   UInt(std::string initial) {
@@ -34,7 +34,7 @@ public:
     int last_start = initial.length();
     for (int word=0; word < n_; word++) {
       if (word * kWordSize > input_bits)
-        values[word] = 0;
+        words_[word] = 0;
       else {
         int word_start = std::max(static_cast<int>(initial.length())
                                   - 16*(word+1), 0);
@@ -42,7 +42,7 @@ public:
         last_start = word_start;
         const std::string substr = initial.substr(word_start, word_len);
         uint64_t x = std::stoul(substr, nullptr, 16);
-        values[word] = x;
+        words_[word] = x;
       }
     }
   }
@@ -52,9 +52,9 @@ public:
     static_assert(other_w <= w_, "Can't copy construct from wider UInt");
     for (int word=0; word < n_; word++) {
       if (word < UInt<other_w>::NW)
-        values[word] = other.values[word];
+        words_[word] = other.words_[word];
       else
-        values[word] = 0;
+        words_[word] = 0;
     }
   }
 
@@ -68,9 +68,9 @@ public:
     UInt<w_ + other_w> to_return(other);
     const int offset = other_w % kWordSize;
     for (int i = 0; i < n_; i++) {
-      to_return.values[word_index(other_w) + i] |= values[i] << offset;
+      to_return.words_[word_index(other_w) + i] |= words_[i] << offset;
       if ((offset != 0) && (other_w + w_ > kWordSize))
-        to_return.values[word_index(other_w) + i + 1] |= values[i] >>
+        to_return.words_[word_index(other_w) + i + 1] |= words_[i] >>
           shamt(kWordSize - offset);
     }
     return to_return;
@@ -80,11 +80,11 @@ public:
     UInt<w_ + 1> result;
     uint64_t carry = 0;
     for (int i = 0; i < n_; i++) {
-      result.values[i] = values[i] + other.values[i] + carry;
-      carry = result.values[i] < values[i] ? 1 : 0;
+      result.words_[i] = words_[i] + other.words_[i] + carry;
+      carry = result.words_[i] < words_[i] ? 1 : 0;
     }
     if (kWordSize * n_ == w_)
-      result.values[word_index(w_ + 1)] += carry;
+      result.words_[word_index(w_ + 1)] += carry;
     return result;
   }
 
@@ -92,11 +92,11 @@ public:
     UInt<w_ + 1> result;
     uint64_t carry = 0;
     for (int i = 0; i < n_; i++) {
-      result.values[i] = values[i] - other.values[i] - carry;
-      carry = result.values[i] > values[i] ? 1 : 0;
+      result.words_[i] = words_[i] - other.words_[i] - carry;
+      carry = result.words_[i] > words_[i] ? 1 : 0;
     }
     if (kWordSize * n_ == w_)
-      result.values[word_index(w_ + 1)] -= carry;
+      result.words_[word_index(w_ + 1)] -= carry;
     result.mask_top_unused();
     return result;
   }
@@ -107,17 +107,17 @@ public:
     for (int i=0; i < n_; i++) {
       carry = 0;
       for (int j=0; j < n_; j++) {
-        uint64_t prod_ll = lower(values[i]) * lower(other.values[j]);
-        uint64_t prod_lu = lower(values[i]) * upper(other.values[j]);
-        uint64_t prod_ul = upper(values[i]) * lower(other.values[j]);
-        uint64_t prod_uu = upper(values[i]) * upper(other.values[j]);
-        uint64_t lower_sum = result.values[i+j] + carry + lower(prod_ll);
+        uint64_t prod_ll = lower(words_[i]) * lower(other.words_[j]);
+        uint64_t prod_lu = lower(words_[i]) * upper(other.words_[j]);
+        uint64_t prod_ul = upper(words_[i]) * lower(other.words_[j]);
+        uint64_t prod_uu = upper(words_[i]) * upper(other.words_[j]);
+        uint64_t lower_sum = result.words_[i+j] + carry + lower(prod_ll);
         uint64_t upper_sum = upper(prod_ll) + upper(lower_sum) +
                              lower(prod_lu) + lower(prod_ul);
-        result.values[i+j] = (upper_sum << 32) | lower(lower_sum);
+        result.words_[i+j] = (upper_sum << 32) | lower(lower_sum);
         carry = upper(upper_sum) + upper(prod_lu) + upper(prod_ul) + prod_uu;
       }
-      result.values[i + n_] += carry;
+      result.words_[i + n_] += carry;
     }
     return result;
   }
@@ -141,7 +141,7 @@ public:
   UInt<w_> operator~() const {
     UInt<w_> result;
     for (int i = 0; i < n_; i++) {
-      result.values[i] = ~values[i];
+      result.words_[i] = ~words_[i];
     }
     result.mask_top_unused();
     return result;
@@ -150,7 +150,7 @@ public:
   UInt<w_> operator&(const UInt<w_> &other) const {
     UInt<w_> result;
     for (int i = 0; i < n_; i++) {
-      result.values[i] = values[i] & other.values[i];
+      result.words_[i] = words_[i] & other.words_[i];
     }
     return result;
   }
@@ -158,7 +158,7 @@ public:
   UInt<w_> operator|(const UInt<w_> &other) const {
     UInt<w_> result;
     for (int i = 0; i < n_; i++) {
-      result.values[i] = values[i] | other.values[i];
+      result.words_[i] = words_[i] | other.words_[i];
     }
     return result;
   }
@@ -166,7 +166,7 @@ public:
   UInt<w_> operator^(const UInt<w_> &other) const {
     UInt<w_> result;
     for (int i = 0; i < n_; i++) {
-      result.values[i] = values[i] ^ other.values[i];
+      result.words_[i] = words_[i] ^ other.words_[i];
     }
     return result;
   }
@@ -182,9 +182,9 @@ public:
     int top_taken_word = word_index(hi);
     int out_word_width = word_index(hi - lo + kWordSize);
     for (int i=0; i < out_word_width; i++) {
-      result.values[i] = values[i + word_down] >> bits_down;
+      result.words_[i] = words_[i + word_down] >> bits_down;
       if ((bits_down != 0) && (hi > kWordSize))
-        result.values[i] |= values[i + word_down + 1] <<
+        result.words_[i] |= words_[i + word_down + 1] <<
           shamt(kWordSize - bits_down);
     }
     result.mask_top_unused();
@@ -218,9 +218,9 @@ public:
     uint64_t word_down = word_index(dshamt);
     uint64_t bits_down = dshamt % kWordSize;
     for (uint64_t i=word_down; i < n_; i++) {
-      result.values[i - word_down] = values[i] >> bits_down;
+      result.words_[i - word_down] = words_[i] >> bits_down;
       if ((bits_down != 0) && (i < n_-1))
-        result.values[i - word_down] |= values[i + 1] <<
+        result.words_[i - word_down] |= words_[i + 1] <<
           shamt(kWordSize - bits_down);
     }
     return result;
@@ -233,9 +233,9 @@ public:
     uint64_t word_up = word_index(dshamt);
     uint64_t bits_up = dshamt % kWordSize;
     for (uint64_t i=0; i < n_; i++) {
-      result.values[i + word_up] |= values[i] << bits_up;
+      result.words_[i + word_up] |= words_[i] << bits_up;
       if ((bits_up != 0) && (dshamt + w_ > kWordSize))
-        result.values[i + word_up + 1] = values[i] >>
+        result.words_[i + word_up + 1] = words_[i] >>
           shamt(kWordSize - bits_up);
     }
     return result;
@@ -243,16 +243,16 @@ public:
 
   UInt<1> operator<=(const UInt<w_> &other) const {
     for (int i=n_-1; i >= 0; i--) {
-      if (values[i] < other.values[i]) return UInt<1>(1);
-      if (values[i] > other.values[i]) return UInt<1>(0);
+      if (words_[i] < other.words_[i]) return UInt<1>(1);
+      if (words_[i] > other.words_[i]) return UInt<1>(0);
     }
     return UInt<1>(1);
   }
 
   UInt<1> operator>=(const UInt<w_> &other) const {
     for (int i=n_-1; i >= 0; i--) {
-      if (values[i] > other.values[i]) return UInt<1>(1);
-      if (values[i] < other.values[i]) return UInt<1>(0);
+      if (words_[i] > other.words_[i]) return UInt<1>(1);
+      if (words_[i] < other.words_[i]) return UInt<1>(0);
     }
     return UInt<1>(1);
   }
@@ -267,7 +267,7 @@ public:
 
   UInt<1> operator==(const UInt<w_> &other) const {
     for (int i = 0; i < n_; i++) {
-      if (values[i] != other.values[i])
+      if (words_[i] != other.words_[i])
         return UInt<1>(0);
     }
     return UInt<1>(1);
@@ -279,13 +279,13 @@ public:
 
   operator bool() const {
     static_assert(w_ == 1, "conversion to bool only allowed for width 1");
-    return static_cast<bool>(values[0]);
+    return static_cast<bool>(words_[0]);
   }
 
 
 private:
   // Internal state
-  std::array<word_t, n_> values;
+  std::array<word_t, n_> words_;
 
   // Access array word type
   typedef word_t WT;
@@ -317,14 +317,14 @@ private:
   // Clean up high bits
   void mask_top_unused() {
     if (bits_in_top_word != WW) {
-      values[n_-1] = values[n_-1] & ((1l << shamt(bits_in_top_word)) - 1l);
+      words_[n_-1] = words_[n_-1] & ((1l << shamt(bits_in_top_word)) - 1l);
     }
   }
 
   // Direct access for ops that only need small signals
   uint64_t as_single_word() const {
     static_assert(w_ <= kWordSize, "UInt too big for single uint64_t");
-    return values[0];
+    return words_[0];
   }
 };
 
@@ -335,9 +335,9 @@ std::ostream& operator<<(std::ostream& os, const UInt<w>& ui) {
   os << "0x" << std::hex << std::setfill('0');
   int top_nibble_width = (ui.bits_in_top_word + 3) / 4;
   os << std::setw(top_nibble_width);
-  os << static_cast<uint64_t>(ui.values[UInt<w>::NW-1]);
+  os << static_cast<uint64_t>(ui.words_[UInt<w>::NW-1]);
   for (int word=UInt<w>::NW - 2; word >= 0; word--) {
-   os << std::hex << std::setfill('0') << std::setw(16) << ui.values[word];
+   os << std::hex << std::setfill('0') << std::setw(16) << ui.words_[word];
   }
   os << std::dec << "<U" << w << ">";
   return os;

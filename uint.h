@@ -187,8 +187,8 @@ public:
     int word_down = word_index(lo);
     int bits_down = lo % kWordSize;
     int top_taken_word = word_index(hi);
-    int out_word_width = word_index(hi - lo + 1);
-    for (int i=0; i <= out_word_width; i++) {
+    int out_word_width = word_index(hi - lo + kWordSize);
+    for (int i=0; i < out_word_width; i++) {
       result.values[i] = values[i + word_down] >> bits_down;
       if ((bits_down != 0) && (hi > kWordSize))
         result.values[i] |= values[i + word_down + 1] <<

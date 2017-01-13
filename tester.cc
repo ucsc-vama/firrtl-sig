@@ -134,6 +134,15 @@ const lest::test spec[] = {
     EXPECT( (a64 ^ b64) == UInt<64>(0xcd7e08acc4da376f) );
     EXPECT( (a80 ^ b80) == UInt<80>("0xce4e219657b6069f1dbf") );
     EXPECT( (a128 ^ b128) == UInt<128>("0xbff93364a27b67690692edb82accc37f") );
+  },
+
+  CASE("bits operator") {
+    EXPECT( (a16.bits<11,4>()) == UInt<8>(0xaf) );
+    EXPECT( (a64.bits<47,24>()) == UInt<24>(0x5b4ff8) );
+    EXPECT( (a80.bits<79,64>()) == UInt<16>(0x9874) );
+    EXPECT( (a80.bits<71,56>()) == UInt<16>(0x7426) );
+    EXPECT( (a128.bits<111,96>()) == UInt<16>(0x646a) );
+    EXPECT( (a128.bits<71,56>()) == UInt<16>(0xa344) );
   }
 };
 

@@ -9,22 +9,15 @@
 #include <type_traits>
 
 
-const int kWordSize = 64;
-
-constexpr int cmin(int wa, int wb) { return wa < wb ? wa : wb; }
-
-constexpr int cmax(int wa, int wb) { return wa > wb ? wa : wb; }
-
-constexpr int words_needed(int bit_width) {
-  return (bit_width + kWordSize - 1) / kWordSize;
-}
-
-int word_index(int bit_index) { return bit_index / kWordSize; }
 
 template<int w_,
          typename word_t = typename std::conditional<(w_ <= 8), uint8_t, uint64_t>::type,
-         int n_ = (w_ <= 8) ? 1 : words_needed(w_)>
+         int n_ = (w_ <= 8) ? 1 : (w_ + 64 - 1) / 64>
 class UInt {
+private:
+  constexpr static int cmin(int wa, int wb) { return wa < wb ? wa : wb; }
+  constexpr static int cmax(int wa, int wb) { return wa > wb ? wa : wb; }
+
 public:
   UInt() {
     for (int i=0; i < n_; i++)
@@ -289,7 +282,9 @@ public:
     return static_cast<bool>(values[0]);
   }
 
+
 private:
+  // Internal state
   std::array<word_t, n_> values;
 
   // Access array word type
@@ -301,25 +296,32 @@ private:
 
   const static int bits_in_top_word = w_ % WW == 0 ? WW : w_ % WW;
 
+  // Friend Access
   template<int other_w, typename other_word_t, int other_n>
   friend class UInt;
 
   template<int w>
   friend std::ostream& operator<<(std::ostream& os, const UInt<w>& ui);
 
-  uint64_t static upper(uint64_t i) { return i >> 32; }
+  // Bit Addressing
+  const static int kWordSize = 64;
 
+  int static word_index(int bit_index) { return bit_index / kWordSize; }
+
+  uint64_t static upper(uint64_t i) { return i >> 32; }
   uint64_t static lower(uint64_t i) { return i & 0x00000000ffffffff; }
 
   // Hack to prevent compiler warnings for shift amount being too large
   int static shamt(int s) { return s % kWordSize; }
 
+  // Clean up high bits
   void mask_top_unused() {
     if (bits_in_top_word != WW) {
       values[n_-1] = values[n_-1] & ((1l << shamt(bits_in_top_word)) - 1l);
     }
   }
 
+  // Direct access for ops that only need small signals
   uint64_t as_single_word() const {
     static_assert(w_ <= kWordSize, "UInt too big for single uint64_t");
     return values[0];

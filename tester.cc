@@ -143,6 +143,22 @@ const lest::test spec[] = {
     EXPECT( (a80.bits<71,56>()) == UInt<16>(0x7426) );
     EXPECT( (a128.bits<111,96>()) == UInt<16>(0x646a) );
     EXPECT( (a128.bits<71,56>()) == UInt<16>(0xa344) );
+  },
+
+  CASE("head operator") {
+    EXPECT( (a16.head<8>()) == UInt<8>(0xca) );
+    EXPECT( (a64.head<64>()) == a64 );
+    EXPECT( (a64.head<16>()) == UInt<16>(0xe2bd) );
+    EXPECT( (a80.head<24>()) == UInt<24>(0x987426) );
+    EXPECT( (a128.head<32>()) == UInt<32>(0xe903646a) );
+  },
+
+  CASE("tail operator") {
+    EXPECT( (a16.tail<8>()) == UInt<8>(0xfe) );
+    EXPECT( (a64.tail<0>()) == a64 );
+    EXPECT( (a64.tail<16>()) == UInt<48>(0x5b4ff8b30fc8) );
+    EXPECT( (a80.tail<8>()) == UInt<72>("0x7426c1f7cd7d4d693a") );
+    EXPECT( (a128.tail<32>()) == UInt<96>("0x697fcaa344d2b2aa95e47b5d") );
   }
 };
 

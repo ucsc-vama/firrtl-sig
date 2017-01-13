@@ -241,7 +241,7 @@ public:
     uint64_t bits_up = dshamt % kWordSize;
     for (uint64_t i=0; i < n_; i++) {
       result.values[i + word_up] |= values[i] << bits_up;
-      if (bits_up != 0)
+      if ((bits_up != 0) && (dshamt + w_ > kWordSize))
         result.values[i + word_up + 1] = values[i] >>
           shamt(kWordSize - bits_up);
     }

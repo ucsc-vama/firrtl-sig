@@ -173,6 +173,20 @@ const lest::test spec[] = {
     EXPECT( a64.shr<16>() == UInt<48>(0xe2bd5b4ff8b3) );
     EXPECT( a80.shr<24>() == UInt<56>(0x987426c1f7cd7d) );
     EXPECT( a128.shr<48>() == UInt<80>("0xe903646a697fcaa344d2"));
+  },
+
+  CASE("dynamic shifts") {
+    EXPECT( (a16 << UInt<1>(0)) == UInt<17>(0xcafe) );
+    EXPECT( (a16 << UInt<4>(4)) == UInt<31>(0xcafe0) );
+    EXPECT( (a64 << UInt<4>(8)) == UInt<79>("0xe2bd5b4ff8b30fc800") );
+    EXPECT( (a80 << UInt<5>(12)) == UInt<111>("0x987426c1f7cd7d4d693a000") );
+    EXPECT( (a128 << UInt<6>(16)) == UInt<191>("0xe903646a697fcaa344d2b2aa95e47b5d0000") );
+
+    EXPECT( (a16 >> UInt<1>(0)) == UInt<16>(0xcafe) );
+    EXPECT( (a16 >> UInt<4>(4)) == UInt<16>(0x0caf) );
+    EXPECT( (a64 >> UInt<4>(8)) == UInt<64>("0xe2bd5b4ff8b30f") );
+    EXPECT( (a80 >> UInt<5>(12)) == UInt<80>("0x987426c1f7cd7d4d6") );
+    EXPECT( (a128 >> UInt<6>(16)) == UInt<128>("0xe903646a697fcaa344d2b2aa95e4") );
   }
 };
 

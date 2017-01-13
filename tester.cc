@@ -89,6 +89,23 @@ const lest::test spec[] = {
     EXPECT( a64 - b64 == UInt<65>("0xb2fa076cbc49d721") );
     EXPECT( a80 - b80 == UInt<81>("0x423a1f6a5752017af4b5") );
     EXPECT( a128 - b128 == UInt<129>("0x92090d5b9e7b1cd902925397d6bbc33b") );
+  },
+
+  CASE("mult operator") {
+    EXPECT( a16 * b16 == UInt<32>(0x973f2c84) );
+    EXPECT( a64 * b64 == UInt<128>("0x2a4dc44ce497c914d9d3df0ec14b0b78") );
+    EXPECT( a80 * b80 == UInt<160>("0x335993b54d4bc81d37835773f77fa4765c79f322") );
+    EXPECT( a128 * b128 == UInt<256>("0x4f2b00496d758f68469327504061b9045f77243f5cfda64ce9fb69abca8b3a5a") );
+  },
+
+  CASE("div operator") {
+    EXPECT( a16 / b16 == UInt<16>(1) );
+    EXPECT( a64 / b64 == UInt<64>(4) );
+  },
+
+  CASE("mod operator") {
+    EXPECT( a16 % b16 == UInt<16>(0xc40) );
+    EXPECT( a64 % b64 == UInt<64>(0x23b00bc3070e2d2c) );
   }
 };
 

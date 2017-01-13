@@ -47,6 +47,14 @@ const lest::test spec[] = {
     EXPECT( a128 <= a128 );
     EXPECT( a128 >= a128 );
     EXPECT( a128 >  b128 );
+  },
+
+  CASE("constructors") {
+    EXPECT( a16 == UInt<16>("0xcafe") );
+    EXPECT( a16 == UInt<16>(a16) );
+    EXPECT( a64 == UInt<64>(a64) );
+    EXPECT( a80 == UInt<80>(a80) );
+    EXPECT( a128 == UInt<128>(a128) );
   }
 };
 

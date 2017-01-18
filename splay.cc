@@ -11,5 +11,5 @@ int main() {
   cout << small << SInt<65>(-1) << endl;
   cout << SInt<64>(-199703103) << " " << SInt<16>("0xffde") << endl;
   cout << SInt<110>("0x3ffff3f2be72288e0979696bb6e9") << endl;
-  cout << SInt<24>(small) << endl;
+  cout << SInt<80>(small) << " " << small.pad<80>() << endl;
 }

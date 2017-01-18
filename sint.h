@@ -8,6 +8,10 @@
 
 template<int w_>
 class SInt {
+  private: // copied from uint.h
+  constexpr static int cmin(int wa, int wb) { return wa < wb ? wa : wb; }
+  constexpr static int cmax(int wa, int wb) { return wa > wb ? wa : wb; }
+
 public:
   SInt() : ui(0) {}
 
@@ -23,7 +27,14 @@ public:
   explicit SInt(const SInt<other_w> &other) {
     static_assert(other_w <= w_, "Can't copy construct from wider SInt");
     ui = UInt<w_>(other.ui);
+    sign_extend(other_w - 1);
   }
+
+  template<int out_w>
+  SInt<cmax(w_,out_w)> pad() const {
+    return SInt<cmax(w_,out_w)>(*this);
+  }
+
 
 private:
   UInt<w_> ui;

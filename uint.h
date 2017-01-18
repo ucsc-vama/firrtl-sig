@@ -335,7 +335,9 @@ private:
     os << "0x" << std::hex << std::setfill('0');
     int top_nibble_width = (bits_in_top_word_ + 3) / 4;
     os << std::setw(top_nibble_width);
-    os << static_cast<uint64_t>(words_[n_-1]);
+    uint64_t top_word_mask = bits_in_top_word_ == kWordSize ? -1 :
+                               (1l << bits_in_top_word_) - 1;
+    os << (static_cast<uint64_t>(words_[n_-1]) & top_word_mask);
     for (int word=n_ - 2; word >= 0; word--) {
      os << std::hex << std::setfill('0') << std::setw(16) << words_[word];
     }

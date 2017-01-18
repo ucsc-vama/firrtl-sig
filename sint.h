@@ -11,7 +11,9 @@ class SInt {
 public:
   SInt() : ui(0) {}
 
-  SInt(int64_t i) : ui(i) {}
+  SInt(int64_t i) : ui(i) {
+    sign_extend(63);
+  }
 
   SInt(std::string initial) : ui(initial) {
     sign_extend();
@@ -28,13 +30,16 @@ private:
     return ui.words_[0];
   }
 
-  // Clean up high bits
-  void sign_extend(int sign_index=ui.bits_in_top_word_) {
-    if (ui.bits_in_top_word_ != ui.WW) {
-      if (ui.words_[ui.n_-1] & (1l << (ui.bits_in_top_word_ - 1)))
-        ui.words_[ui.n_-1] = ui.words_[ui.n_-1] | (-1l << shamt(ui.bits_in_top_word_));
-      else
-        ui.mask_top_unused();
+  void sign_extend(int sign_index=w_) {
+    int sign_offset = sign_index % kWordSize;
+    bool negative = (ui.words_[ui.word_index(sign_index)] >> sign_offset) & 1;
+    int sign_word = ui.word_index(sign_index);
+    if (negative)
+      ui.words_[sign_word] |= -1l << sign_offset;
+    else
+      ui.words_[sign_word] &= ((1l << sign_offset) - 1);
+    for (int i = sign_word+1; i < ui.NW; i++) {
+      ui.words_[i] = negative ? -1 : 0;
     }
   }
 

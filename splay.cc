@@ -6,9 +6,8 @@ using namespace std;
 
 
 int main() {
-  // cout << "yo!" << endl;
   cout << sizeof(SInt<1>) << " " << sizeof(SInt<64>) << " " << sizeof(SInt<512>) << endl;
-  SInt<32> small(-14);
+  SInt<17> small(-14);
   cout << small << endl;
-  // cout << small.pad<40>() << endl;
+  cout << SInt<65>(-1) << endl;
 }

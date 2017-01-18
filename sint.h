@@ -19,6 +19,12 @@ public:
     sign_extend();
   }
 
+  template<int other_w>
+  explicit SInt(const SInt<other_w> &other) {
+    static_assert(other_w <= w_, "Can't copy construct from wider SInt");
+    ui = UInt<w_>(other.ui);
+  }
+
 private:
   UInt<w_> ui;
 
@@ -46,6 +52,9 @@ private:
   void print_to_stream(std::ostream& os) const {
     ui.print_to_stream(os);
   }
+
+  template<int w>
+  friend class SInt;
 
   template<int w>
   friend std::ostream& operator<<(std::ostream& os, const SInt<w>& ui);

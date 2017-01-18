@@ -330,20 +330,25 @@ private:
     static_assert(w_ <= kWordSize, "UInt too big for single uint64_t");
     return words_[0];
   }
+
+  void print_to_stream(std::ostream& os) const {
+    os << "0x" << std::hex << std::setfill('0');
+    int top_nibble_width = (bits_in_top_word + 3) / 4;
+    os << std::setw(top_nibble_width);
+    os << static_cast<uint64_t>(words_[n_-1]);
+    for (int word=n_ - 2; word >= 0; word--) {
+     os << std::hex << std::setfill('0') << std::setw(16) << words_[word];
+    }
+    os << std::dec;
+  }
 };
 
 
 
 template<int w>
 std::ostream& operator<<(std::ostream& os, const UInt<w>& ui) {
-  os << "0x" << std::hex << std::setfill('0');
-  int top_nibble_width = (ui.bits_in_top_word + 3) / 4;
-  os << std::setw(top_nibble_width);
-  os << static_cast<uint64_t>(ui.words_[UInt<w>::NW-1]);
-  for (int word=UInt<w>::NW - 2; word >= 0; word--) {
-   os << std::hex << std::setfill('0') << std::setw(16) << ui.words_[word];
-  }
-  os << std::dec << "<U" << w << ">";
+  ui.print_to_stream(os);
+  os << "<U" << w << ">";
   return os;
 }
 

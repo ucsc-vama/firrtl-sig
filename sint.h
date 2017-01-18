@@ -24,14 +24,21 @@ private:
     return ui.words_[0];
   }
 
+  void print_to_stream(std::ostream& os) const {
+    ui.print_to_stream(os);
+  }
+
   template<int w>
   friend std::ostream& operator<<(std::ostream& os, const SInt<w>& ui);
 };
 
 template<int w>
 std::ostream& operator<<(std::ostream& os, const SInt<w>& si) {
-  static_assert(w <= SInt<w>::kWordSize, "SInt too big to print");
-  os << si.as_single_word() << "<S" << w << ">";
+  // static_assert(w <= SInt<w>::kWordSize, "SInt too big to print");
+  // os << si.as_single_word() << "<S" << w << ">";
+  // return os;
+  si.print_to_stream(os);
+  os << "<S" << w << ">";
   return os;
 }
 

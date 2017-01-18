@@ -16,7 +16,7 @@ public:
   SInt() : ui(0) {}
 
   SInt(int64_t i) : ui(i) {
-    sign_extend(63);
+    sign_extend(w_ - 1);
   }
 
   SInt(std::string initial) : ui(initial) {
@@ -42,11 +42,27 @@ public:
     return SInt<w_ + other_w>(ui.cat(other.ui));
   }
 
+  SInt<w_ + 1> operator+(const SInt<w_> &other) const {
+    SInt<w_ + 1> result(ui + other.ui);
+    add sign-extended bits
+
+    // if (w_ % kWordSize == 0) {
+    //   result.ui.words_[ui.word_index(w_ + 1)] += (negative() ? 1 : 0) +
+    //                                              (other.negative() ? 1 : 0);
+    // }
+    std::cout << negative() << " " << other.negative() << std::endl;
+    result.sign_extend();
+    return result;
+  }
 
 private:
   UInt<w_> ui;
 
   const static int kWordSize = UInt<w_>::kWordSize;
+
+  bool negative() const {
+    return (ui.words_[ui.word_index(w_)] >> ((w_-1) % kWordSize)) & 1;
+  }
 
   // Direct access for ops that only need small signals
   int64_t as_single_word() const {
@@ -56,14 +72,14 @@ private:
 
   void sign_extend(int sign_index=w_) {
     int sign_offset = sign_index % kWordSize;
-    bool negative = (ui.words_[ui.word_index(sign_index)] >> sign_offset) & 1;
+    bool is_neg = (ui.words_[ui.word_index(sign_index)] >> sign_offset) & 1;
     int sign_word = ui.word_index(sign_index);
-    if (negative)
+    if (is_neg)
       ui.words_[sign_word] |= -1l << sign_offset;
     else
       ui.words_[sign_word] &= ((1l << sign_offset) - 1);
     for (int i = sign_word+1; i < ui.NW; i++) {
-      ui.words_[i] = negative ? -1 : 0;
+      ui.words_[i] = is_neg ? -1 : 0;
     }
   }
 

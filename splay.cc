@@ -18,5 +18,8 @@ int main() {
   SInt<20> b(0xbebe);
   cout << a.cat(b) << endl;
   cout << a.cat(big) << endl;
+  cout << SInt<8>(0xb).cat(SInt<128>(0xa)) << endl;
+  cout << SInt<8>(0xa0) + SInt<8>(0x0b) << endl;
+  cout << SInt<64>(-1) + SInt<64>(1) << endl;
   return 0;
 }

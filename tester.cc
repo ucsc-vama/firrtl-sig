@@ -84,6 +84,13 @@ const lest::test spec[] = {
     EXPECT( a128 + b128 == UInt<129>("0x13ffdbb793484786d871311bd550d337f") );
   },
 
+  CASE("addw operator") {
+    EXPECT( a16.addw(b16) == UInt<16>(0x89bc) );
+    EXPECT( a64.addw(b64) == UInt<64>("0x1280af33351c486f") );
+    EXPECT( a80.addw(b80) == UInt<80>("0xeeae2e199848f91fddbf") );
+    EXPECT( a128.addw(b128) == UInt<128>("0x3ffdbb793484786d871311bd550d337f") );
+  },
+
   CASE("sub operator") {
     EXPECT( a16 - b16 == UInt<17>(0xc40) );
     EXPECT( a64 - b64 == UInt<65>("0xb2fa076cbc49d721") );

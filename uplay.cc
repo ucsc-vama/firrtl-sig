@@ -23,6 +23,7 @@ int main() {
   cout << UInt<8>(0xb).cat(UInt<128>(0xa)) << endl;
   cout << UInt<8>(0xa0) + UInt<8>(0x0b) << endl;
   cout << UInt<64>(0xffffffffffffffff) + UInt<1>(1).pad<64>() << endl;
+  cout << UInt<64>(0xffffffffffffffff).addw(UInt<64>(1)) << endl;
   cout << UInt<7>(0) - UInt<7>(1) << endl;
   cout << UInt<65>("0x10000000000000000") - UInt<65>(1) << endl;
   cout << UInt<65>(0) - UInt<65>(1) << endl;

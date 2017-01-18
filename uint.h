@@ -89,6 +89,17 @@ public:
     return result;
   }
 
+  UInt<w_> addw(const UInt<w_> &other) const {
+    UInt<w_> result;
+    uint64_t carry = 0;
+    for (int i = 0; i < n_; i++) {
+      result.words_[i] = words_[i] + other.words_[i] + carry;
+      carry = result.words_[i] < words_[i] ? 1 : 0;
+    }
+    result.mask_top_unused();
+    return result;
+  }
+
   UInt<w_ + 1> operator-(const UInt<w_> &other) const {
     UInt<w_ + 1> result;
     uint64_t carry = 0;

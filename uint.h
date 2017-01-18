@@ -11,7 +11,8 @@
 
 
 template<int w_,
-         typename word_t = typename std::conditional<(w_ <= 8), uint8_t, uint64_t>::type,
+         typename word_t = typename std::conditional<(w_ <= 8),
+                                                     uint8_t, uint64_t>::type,
          int n_ = (w_ <= 8) ? 1 : (w_ + 64 - 1) / 64>
 class UInt {
 private:
@@ -299,6 +300,9 @@ private:
   // Friend Access
   template<int other_w, typename other_word_t, int other_n>
   friend class UInt;
+
+  template<int other_w>
+  friend class SInt;
 
   template<int w>
   friend std::ostream& operator<<(std::ostream& os, const UInt<w>& ui);

@@ -13,6 +13,10 @@ public:
 
   SInt(int64_t i) : ui(i) {}
 
+  SInt(std::string initial) : ui(initial) {
+    sign_extend();
+  }
+
 private:
   UInt<w_> ui;
 
@@ -22,6 +26,16 @@ private:
   int64_t as_single_word() const {
     static_assert(w_ <= kWordSize, "SInt too big for single int64_t");
     return ui.words_[0];
+  }
+
+  // Clean up high bits
+  void sign_extend(int sign_index=ui.bits_in_top_word_) {
+    if (ui.bits_in_top_word_ != ui.WW) {
+      if (ui.words_[ui.n_-1] & (1l << (ui.bits_in_top_word_ - 1)))
+        ui.words_[ui.n_-1] = ui.words_[ui.n_-1] | (-1l << shamt(ui.bits_in_top_word_));
+      else
+        ui.mask_top_unused();
+    }
   }
 
   void print_to_stream(std::ostream& os) const {

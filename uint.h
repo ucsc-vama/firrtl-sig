@@ -295,7 +295,7 @@ private:
   // Access array word type bit width
   const static int WW = std::is_same<word_t,uint64_t>::value ? 64 : 8;
 
-  const static int bits_in_top_word = w_ % WW == 0 ? WW : w_ % WW;
+  const static int bits_in_top_word_ = w_ % WW == 0 ? WW : w_ % WW;
 
   // Friend Access
   template<int other_w, typename other_word_t, int other_n>
@@ -320,8 +320,8 @@ private:
 
   // Clean up high bits
   void mask_top_unused() {
-    if (bits_in_top_word != WW) {
-      words_[n_-1] = words_[n_-1] & ((1l << shamt(bits_in_top_word)) - 1l);
+    if (bits_in_top_word_ != WW) {
+      words_[n_-1] = words_[n_-1] & ((1l << shamt(bits_in_top_word_)) - 1l);
     }
   }
 
@@ -333,7 +333,7 @@ private:
 
   void print_to_stream(std::ostream& os) const {
     os << "0x" << std::hex << std::setfill('0');
-    int top_nibble_width = (bits_in_top_word + 3) / 4;
+    int top_nibble_width = (bits_in_top_word_ + 3) / 4;
     os << std::setw(top_nibble_width);
     os << static_cast<uint64_t>(words_[n_-1]);
     for (int word=n_ - 2; word >= 0; word--) {

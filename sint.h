@@ -30,9 +30,19 @@ public:
     sign_extend(other_w - 1);
   }
 
+  template<int other_w>
+  SInt(const UInt<other_w> &other) : ui(other) {
+    static_assert(other_w <= w_, "Can't direct construct from wider UInt");
+  }
+
   template<int out_w>
   SInt<cmax(w_,out_w)> pad() const {
     return SInt<cmax(w_,out_w)>(*this);
+  }
+
+  template<int other_w>
+  SInt<w_ + other_w> cat(const SInt<other_w> &other) const {
+    return SInt<w_ + other_w>(ui.cat(other));
   }
 
 

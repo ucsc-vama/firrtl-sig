@@ -43,15 +43,13 @@ public:
   }
 
   SInt<w_ + 1> operator+(const SInt<w_> &other) const {
-    SInt<w_ + 1> result(ui + other.ui);
-    add sign-extended bits
-
-    // if (w_ % kWordSize == 0) {
-    //   result.ui.words_[ui.word_index(w_ + 1)] += (negative() ? 1 : 0) +
-    //                                              (other.negative() ? 1 : 0);
-    // }
-    std::cout << negative() << " " << other.negative() << std::endl;
-    result.sign_extend();
+    SInt<w_ + 1> result(SInt<w_+1>(*this).ui.addw(SInt<w_+1>(other).ui));
+    // SInt<w_ + 1> result(ui + other.ui);
+    // int sign_offset = w_ % kWordSize;
+    // result.ui.words_[ui.word_index(w_ + 1)] +=
+    //   (negative() ? (1l << sign_offset) : 0) +
+    //   (other.negative() ? (1l << sign_offset)  : 0);
+    // result.sign_extend();
     return result;
   }
 
@@ -61,7 +59,7 @@ private:
   const static int kWordSize = UInt<w_>::kWordSize;
 
   bool negative() const {
-    return (ui.words_[ui.word_index(w_)] >> ((w_-1) % kWordSize)) & 1;
+    return (ui.words_[ui.word_index(w_ - 1)] >> ((w_-1) % kWordSize)) & 1;
   }
 
   // Direct access for ops that only need small signals

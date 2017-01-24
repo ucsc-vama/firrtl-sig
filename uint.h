@@ -102,14 +102,15 @@ public:
 
   UInt<w_ + 1> operator-() const {
     // return (~(this->pad<w_+1>())).addw(UInt<w_+1>(1));
-    UInt<w_ + 1> result(0);
-    uint64_t carry = 1;
-    for (int i = 0; i < n_; i++) {
-      result.words_[i] = ~words_[i] + carry;
-      carry = result.words_[i] < ~words_[i] ? 1 : 0;
-    }
-    result.mask_top_unused();
-    return result;
+    // UInt<w_ + 1> result(0);
+    // uint64_t carry = 1;
+    // for (int i = 0; i < n_; i++) {
+    //   result.words_[i] = ~words_[i] + carry;
+    //   carry = result.words_[i] < ~words_[i] ? 1 : 0;
+    // }
+    // result.mask_top_unused();
+    // return result;
+		return UInt<w_>(0) - *this;
   }
 
   UInt<w_ + 1> operator-(const UInt<w_> &other) const {

@@ -78,26 +78,28 @@ public:
   }
 
   UInt<w_ + 1> operator+(const UInt<w_> &other) const {
-    UInt<w_ + 1> result;
-    uint64_t carry = 0;
-    for (int i = 0; i < n_; i++) {
-      result.words_[i] = words_[i] + other.words_[i] + carry;
-      carry = result.words_[i] < words_[i] ? 1 : 0;
-    }
-    if (kWordSize * n_ == w_)
-      result.words_[word_index(w_ + 1)] += carry;
-    return result;
+    return core_addw<w_+1>(other);
+    // UInt<w_ + 1> result;
+    // uint64_t carry = 0;
+    // for (int i = 0; i < n_; i++) {
+    //   result.words_[i] = words_[i] + other.words_[i] + carry;
+    //   carry = result.words_[i] < words_[i] ? 1 : 0;
+    // }
+    // if (kWordSize * n_ == w_)
+    //   result.words_[word_index(w_ + 1)] += carry;
+    // return result;
   }
 
   UInt<w_> addw(const UInt<w_> &other) const {
-    UInt<w_> result;
-    uint64_t carry = 0;
-    for (int i = 0; i < n_; i++) {
-      result.words_[i] = words_[i] + other.words_[i] + carry;
-      carry = result.words_[i] < words_[i] ? 1 : 0;
-    }
-    result.mask_top_unused();
-    return result;
+    return core_addw<w_>(other);
+    // UInt<w_> result;
+    // uint64_t carry = 0;
+    // for (int i = 0; i < n_; i++) {
+    //   result.words_[i] = words_[i] + other.words_[i] + carry;
+    //   carry = result.words_[i] < words_[i] ? 1 : 0;
+    // }
+    // result.mask_top_unused();
+    // return result;
   }
 
   UInt<w_ + 1> operator-() const {
@@ -110,7 +112,7 @@ public:
     // }
     // result.mask_top_unused();
     // return result;
-		return UInt<w_>(0) - *this;
+    return UInt<w_>(0) - *this;
   }
 
   UInt<w_ + 1> operator-(const UInt<w_> &other) const {
@@ -353,6 +355,22 @@ private:
   uint64_t as_single_word() const {
     static_assert(w_ <= kWordSize, "UInt too big for single uint64_t");
     return words_[0];
+  }
+
+  // Reused math operators
+  template<int out_w>
+  UInt<out_w> core_addw(const UInt<w_> &other) const {
+    UInt<out_w> result;
+    uint64_t carry = 0;
+    for (int i = 0; i < n_; i++) {
+      result.words_[i] = words_[i] + other.words_[i] + carry;
+      carry = result.words_[i] < words_[i] ? 1 : 0;
+    }
+    if (((w_ % kWordSize) == 0) && (out_w > w_))
+      result.words_[word_index(w_ + 1)] += carry;
+    if (w_ == out_w)
+      result.mask_top_unused();
+    return result;
   }
 
   void print_to_stream(std::ostream& os) const {

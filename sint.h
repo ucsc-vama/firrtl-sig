@@ -45,7 +45,7 @@ public:
   SInt<w_ + 1> operator+(const SInt<w_> &other) const {
     SInt<w_+1> result(ui.template core_add_sub<w_+1, false>(other.ui));
     if ((w_ % kWordSize == 0) &&
-        (result.ui.words_[ui.word_index(w_-1)] < other.ui.words_[ui.word_index(w_-1)])) {
+        (result.ui.words_[ui.word_index(w_-1)] < ui.words_[ui.word_index(w_-1)])) {
       result.ui.words_[ui.word_index(w_)] = -1;
     }
     return result;
@@ -64,7 +64,7 @@ public:
   SInt<w_ + 1> operator-(const SInt<w_> &other) const {
     SInt<w_ + 1> result(ui.template core_add_sub<w_+1, true>(other.ui));
     if ((w_ % kWordSize == 0) &&
-        (result.ui.words_[ui.word_index(w_-1)] < other.ui.words_[ui.word_index(w_-1)])) {
+        (result.ui.words_[ui.word_index(w_-1)] > ui.words_[ui.word_index(w_-1)])) {
       result.ui.words_[ui.word_index(w_)] = -1;
     }
     return result;

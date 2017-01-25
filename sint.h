@@ -58,6 +58,25 @@ public:
     return result;
   }
 
+  SInt<w_> addw(const SInt<w_> &other) const {
+    SInt<w_> result(ui.template core_add_sub<w_, false>(other.ui));
+    return result;
+  }
+
+  SInt<w_ + 1> operator-() const {
+    SInt<w_ + 1> result = SInt<w_>(0) - *this;
+    return result;
+  }
+
+  SInt<w_ + 1> operator-(const SInt<w_> &other) const {
+    SInt<w_ + 1> result(ui.template core_add_sub<w_+1, true>(other.ui));
+    if ((w_ % kWordSize == 0) &&
+        (result.ui.words_[ui.word_index(w_-1)] < ui.words_[ui.word_index(w_-1)])) {
+      result.ui.words_[ui.word_index(w_)] = -1;
+    }
+    return result;
+  }
+
 private:
   UInt<w_> ui;
 

@@ -113,7 +113,6 @@ public:
     //   result.words_[i] = ~words_[i] + carry;
     //   carry = result.words_[i] < ~words_[i] ? 1 : 0;
     // }
-    result.mask_top_unused();
     return result;
   }
 
@@ -131,6 +130,7 @@ public:
     // if (kWordSize * n_ == w_)
     //   result.words_[word_index(w_ + 1)] -= carry;
     // result.mask_top_unused();
+    result.mask_top_unused();
     return result;
   }
 

@@ -81,38 +81,17 @@ public:
     UInt<w_ + 1> result = core_add_sub<w_+1, false>(other);
     if ((kWordSize * n_ == w_) && (result.words_[n_-1] < words_[n_-1]))
       result.words_[word_index(w_ + 1)] = 1;
-    // UInt<w_ + 1> result;
-    // uint64_t carry = 0;
-    // for (int i = 0; i < n_; i++) {
-    //   result.words_[i] = words_[i] + other.words_[i] + carry;
-    //   carry = result.words_[i] < words_[i] ? 1 : 0;
-    // }
-    // if (kWordSize * n_ == w_)
-    //   result.words_[word_index(w_ + 1)] += carry;
     return result;
   }
 
   UInt<w_> addw(const UInt<w_> &other) const {
     UInt<w_> result = core_add_sub<w_, false>(other);
-    // UInt<w_> result;
-    // uint64_t carry = 0;
-    // for (int i = 0; i < n_; i++) {
-    //   result.words_[i] = words_[i] + other.words_[i] + carry;
-    //   carry = result.words_[i] < words_[i] ? 1 : 0;
-    // }
     result.mask_top_unused();
     return result;
   }
 
   UInt<w_ + 1> operator-() const {
     UInt<w_ + 1> result = UInt<w_>(0) - *this;
-    // return (~(this->pad<w_+1>())).addw(UInt<w_+1>(1));
-    // UInt<w_ + 1> result(0);
-    // uint64_t carry = 1;
-    // for (int i = 0; i < n_; i++) {
-    //   result.words_[i] = ~words_[i] + carry;
-    //   carry = result.words_[i] < ~words_[i] ? 1 : 0;
-    // }
     return result;
   }
 
@@ -120,16 +99,6 @@ public:
     UInt<w_ + 1> result = core_add_sub<w_+1, true>(other);
     if ((kWordSize * n_ == w_) && (result.words_[n_-1] > words_[n_-1]))
       result.words_[word_index(w_ + 1)] = 1;
-    // return pad<w_+1>().addw(-other);
-    // UInt<w_ + 1> result;
-    // uint64_t carry = 0;
-    // for (int i = 0; i < n_; i++) {
-    //   result.words_[i] = words_[i] - other.words_[i] - carry;
-    //   carry = result.words_[i] > words_[i] ? 1 : 0;
-    // }
-    // if (kWordSize * n_ == w_)
-    //   result.words_[word_index(w_ + 1)] -= carry;
-    // result.mask_top_unused();
     result.mask_top_unused();
     return result;
   }

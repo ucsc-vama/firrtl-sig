@@ -43,13 +43,18 @@ public:
   }
 
   SInt<w_ + 1> operator+(const SInt<w_> &other) const {
-    SInt<w_ + 1> result(SInt<w_+1>(*this).ui.addw(SInt<w_+1>(other).ui));
+    // SInt<w_ + 1> result(SInt<w_+1>(*this).ui.addw(SInt<w_+1>(other).ui));
     // SInt<w_ + 1> result(ui + other.ui);
     // int sign_offset = w_ % kWordSize;
     // result.ui.words_[ui.word_index(w_ + 1)] +=
     //   (negative() ? (1l << sign_offset) : 0) +
     //   (other.negative() ? (1l << sign_offset)  : 0);
     // result.sign_extend();
+    SInt<w_+1> result(ui.template core_add_sub<w_+1, false>(other.ui));
+    if ((w_ % kWordSize == 0) &&
+        (result.ui.words_[ui.word_index(w_-1)] < ui.words_[ui.word_index(w_-1)])) {
+      result.ui.words_[ui.word_index(w_)] = -1;
+    }
     return result;
   }
 
@@ -72,10 +77,13 @@ private:
     int sign_offset = sign_index % kWordSize;
     bool is_neg = (ui.words_[ui.word_index(sign_index)] >> sign_offset) & 1;
     int sign_word = ui.word_index(sign_index);
-    if (is_neg)
-      ui.words_[sign_word] |= -1l << sign_offset;
-    else
-      ui.words_[sign_word] &= ((1l << sign_offset) - 1);
+    ui.words_[sign_word] = (static_cast<int64_t>(ui.words_[sign_word]) <<
+                             (kWordSize - sign_offset - 1)) >>
+                             (kWordSize - sign_offset - 1);
+    // if (is_neg)
+    //   ui.words_[sign_word] |= -1l << sign_offset;
+    // else
+    //   ui.words_[sign_word] &= ((1l << sign_offset) - 1);
     for (int i = sign_word+1; i < ui.NW; i++) {
       ui.words_[i] = is_neg ? -1 : 0;
     }

@@ -39,7 +39,9 @@ public:
 
   template<int other_w>
   SInt<w_ + other_w> cat(const SInt<other_w> &other) const {
-    return SInt<w_ + other_w>(ui.cat(other.ui));
+    SInt<w_ + other_w> result(ui.cat(other.ui));
+    result.sign_extend();
+    return result;
   }
 
   SInt<w_ + 1> operator+(const SInt<w_> &other) const {
@@ -120,6 +122,16 @@ public:
     return bits<w_-n-1, 0>();
   }
 
+  template<int shamt>
+  SInt<w_ + shamt> shl() const {
+    return cat(SInt<shamt>(0));
+  }
+
+  template<int shamt>
+  SInt<w_ - shamt> shr() const {
+    return bits<w_-1, shamt>();
+  }
+
 private:
   UInt<w_> ui;
 
@@ -135,7 +147,7 @@ private:
     return ui.words_[0];
   }
 
-  void sign_extend(int sign_index=w_) {
+  void sign_extend(int sign_index = (w_-1)) {
     int sign_offset = sign_index % kWordSize;
     int sign_word = ui.word_index(sign_index);
     bool is_neg = (ui.words_[sign_word] >> sign_offset) & 1;

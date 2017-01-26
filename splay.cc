@@ -30,5 +30,7 @@ int main() {
   cout << (SInt<64>(-1) ^ SInt<64>(-2)) << endl;
   cout << SInt<10>(1).bits<4,1>() << " " << SInt<80>(-1).bits<72,60>() << endl;
   cout << SInt<10>(1).tail<4>() << " " << SInt<80>(-1).head<20>() << endl;
+  cout << (small >> UInt<4>(2)) << " " <<  (SInt<70>(-1) >> UInt<6>(64)) << endl;
+  cout << (small << UInt<2>(2)) << " " << (SInt<32>(-1) << UInt<6>(40)) << endl;
   return 0;
 }

@@ -132,6 +132,19 @@ public:
     return bits<w_-1, shamt>();
   }
 
+  template<int other_w>
+  SInt<w_> operator>>(const UInt<other_w> &other) const {
+    uint64_t dshamt = other.as_single_word();
+    SInt<w_> result(ui >> other);
+    result.sign_extend(w_ - dshamt);
+    return result;
+  }
+
+  template<int other_w>
+  SInt<w_ + (1<<other_w) - 1> operator<<(const UInt<other_w> &other) const {
+    return SInt<w_ + (1<<other_w) - 1>(ui << other);
+  }
+
 private:
   UInt<w_> ui;
 

@@ -141,10 +141,7 @@ public:
   }
 
   UInt<w_> operator~() const {
-    UInt<w_> result;
-    for (int i = 0; i < n_; i++) {
-      result.words_[i] = ~words_[i];
-    }
+    UInt<w_> result = core_negate();
     result.mask_top_unused();
     return result;
   }
@@ -342,10 +339,14 @@ private:
       result.words_[i] = words_[i] + operand + carry;
       carry = result.words_[i] < operand ? 1 : 0;
     }
-    // if (((w_ % kWordSize) == 0) && (out_w > w_))
-    //   result.words_[word_index(w_ + 1)] += subtract ? (~carry)&1 : carry;
-    // if (w_ == out_w)
-    //   result.mask_top_unused();
+    return result;
+  }
+
+  UInt<w_> core_negate() const {
+    UInt<w_> result;
+    for (int i = 0; i < n_; i++) {
+      result.words_[i] = ~words_[i];
+    }
     return result;
   }
 

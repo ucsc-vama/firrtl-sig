@@ -70,6 +70,22 @@ public:
     return result;
   }
 
+  SInt<w_> operator~() const {
+    return SInt<w_>(ui.core_negate());
+  }
+
+  SInt<w_> operator&(const SInt<w_> &other) const {
+    return SInt<w_>(ui & other.ui);
+  }
+
+  SInt<w_> operator|(const SInt<w_> &other) const {
+    return SInt<w_>(ui | other.ui);
+  }
+
+  SInt<w_> operator^(const SInt<w_> &other) const {
+    return SInt<w_>(ui ^ other.ui);
+  }
+
 private:
   UInt<w_> ui;
 

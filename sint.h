@@ -86,6 +86,13 @@ public:
     return SInt<w_>(ui ^ other.ui);
   }
 
+  template<int hi, int lo>
+  SInt<hi - lo + 1> bits() const {
+    SInt<hi - lo + 1> result(ui.template core_bits<hi,lo>());
+    result.sign_extend(hi - lo);
+    return result;
+  }
+
 private:
   UInt<w_> ui;
 

@@ -21,6 +21,8 @@ int main() {
   cout << SInt<8>(0xb).cat(SInt<128>(0xa)) << endl;
   cout << SInt<8>(0xa0) + SInt<8>(0x0b) << endl;
   cout << SInt<64>(-1) + SInt<64>(1) << endl;
+  cout << SInt<60>(-1) * SInt<60>(-1) << endl;
+  cout << small * small << endl;
   cout << ~SInt<8>(-1) << " " << ~SInt<8>(0) << endl;
   cout << (SInt<13>(1) & SInt<13>(-1)) << endl;
   cout << (SInt<32>(1) | SInt<32>(-2)) << endl;

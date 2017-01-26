@@ -119,7 +119,8 @@ public:
         result.words_[i+j] = (upper_sum << 32) | lower(lower_sum);
         carry = upper(upper_sum) + upper(prod_lu) + upper(prod_ul) + prod_uu;
       }
-      result.words_[i + n_] += carry;
+      if ((i+n_) < result.NW)
+        result.words_[i + n_] += carry;
     }
     return result;
   }

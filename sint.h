@@ -70,6 +70,11 @@ public:
     return result;
   }
 
+  SInt<w_ + w_> operator*(const SInt<w_> &other) const {
+    SInt<4*w_> result(pad<w_ + w_>().ui * other.pad<w_ + w_>().ui);
+    return result.template tail<w_ + w_>();
+  }
+
   SInt<w_> operator~() const {
     return SInt<w_>(ui.core_negate());
   }

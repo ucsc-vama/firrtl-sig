@@ -75,6 +75,18 @@ public:
     return result.template tail<w_ + w_>();
   }
 
+  template<int other_w>
+  SInt<w_> operator/(const SInt<other_w> &other) const {
+    static_assert(w_ <= kWordSize, "Div not supported beyond 64b");
+    static_assert(other_w <= kWordSize, "Div not supported beyond 64b");
+    return SInt<w_>(as_single_word() / other.as_single_word());
+  }
+
+  template<int other_w>
+  SInt<cmin(w_, other_w)> operator%(const SInt<other_w> &other) const {
+    return SInt<cmin(w_, other_w)>(ui % other.ui);
+  }
+
   SInt<w_> operator~() const {
     return SInt<w_>(ui.core_negate());
   }

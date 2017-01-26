@@ -23,6 +23,7 @@ int main() {
   cout << SInt<64>(-1) + SInt<64>(1) << endl;
   cout << SInt<60>(-1) * SInt<60>(-1) << endl;
   cout << small * small << endl;
+  cout << small / SInt<17>(-2) << " " << small % SInt<17>(4) << endl;
   cout << ~SInt<8>(-1) << " " << ~SInt<8>(0) << endl;
   cout << (SInt<13>(1) & SInt<13>(-1)) << endl;
   cout << (SInt<32>(1) | SInt<32>(-2)) << endl;

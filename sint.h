@@ -93,6 +93,16 @@ public:
     return result;
   }
 
+  template<int n>
+  SInt<n> head() const {
+    return bits<w_-1, w_-n>();
+  }
+
+  template<int n>
+  SInt<w_ - n> tail() const {
+    return bits<w_-n-1, 0>();
+  }
+
 private:
   UInt<w_> ui;
 

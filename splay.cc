@@ -26,5 +26,6 @@ int main() {
   cout << (SInt<32>(1) | SInt<32>(-2)) << endl;
   cout << (SInt<64>(-1) ^ SInt<64>(-2)) << endl;
   cout << SInt<10>(1).bits<4,1>() << " " << SInt<80>(-1).bits<72,60>() << endl;
+  cout << SInt<10>(1).tail<4>() << " " << SInt<80>(-1).head<20>() << endl;
   return 0;
 }

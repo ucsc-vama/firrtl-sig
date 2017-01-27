@@ -146,6 +146,8 @@ public:
   }
 
   UInt<1> operator<=(const SInt<w_> &other) const {
+    if (ui.NW == 1)
+      return as_single_word() <= other.as_single_word();
     if (negative()) {
       if (other.negative())
         return ui >= other.ui;
@@ -160,6 +162,8 @@ public:
   }
 
   UInt<1> operator>=(const SInt<w_> &other) const {
+    if (ui.NW == 1)
+      return as_single_word() >= other.as_single_word();
     if (negative()) {
       if (other.negative())
         return ui <= other.ui;

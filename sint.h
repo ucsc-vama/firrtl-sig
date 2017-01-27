@@ -194,7 +194,13 @@ public:
   }
 
   UInt<w_> asUInt() const {
-    return UInt<w_>(ui);
+    UInt<w_> result(ui);
+    result.mask_top_unused();
+    return result;
+  }
+
+  UInt<w_> asSInt() const {
+    return SInt<w_>(*this);
   }
 
 
@@ -228,6 +234,9 @@ private:
   void print_to_stream(std::ostream& os) const {
     ui.print_to_stream(os);
   }
+
+  template<int other_w, typename other_word_t, int other_n>
+  friend class UInt;
 
   template<int w>
   friend class SInt;

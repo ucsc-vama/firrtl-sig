@@ -8,7 +8,9 @@
 #include <iostream>
 #include <type_traits>
 
-
+// Forward dec
+template<int w_>
+class SInt;
 
 template<int w_,
          typename word_t = typename std::conditional<(w_ <= 8),
@@ -271,6 +273,12 @@ public:
 
   UInt<w_> asUInt() const {
     return UInt<w_>(*this);
+  }
+
+  SInt<w_> asSInt() const {
+    SInt<w_> result(*this);
+    result.sign_extend();
+    return result;
   }
 
 

@@ -36,5 +36,6 @@ int main() {
   cout << (SInt<16>(-1) <= SInt<16>(-2)) << " " << (SInt<16>(1) <= SInt<16>(-1)) << endl;
   cout << (SInt<16>(-1) >= SInt<16>(-2)) << " " << (SInt<16>(1) >= SInt<16>(-1)) << endl;
   cout << (SInt<16>(7).asUInt() == UInt<16>(7)) << endl;
+  cout << (UInt<8>(0xff).asSInt() == SInt<8>(-1)) << endl;
   return 0;
 }

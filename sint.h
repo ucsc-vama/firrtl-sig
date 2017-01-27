@@ -145,6 +145,51 @@ public:
     return SInt<w_ + (1<<other_w) - 1>(ui << other);
   }
 
+  UInt<1> operator<=(const SInt<w_> &other) const {
+    if (negative()) {
+      if (other.negative())
+        return ui >= other.ui;
+      else
+        return UInt<1>(1);
+    } else {
+      if (other.negative())
+        return UInt<1>(0);
+      else
+        return ui <= other.ui;
+    }
+  }
+
+  UInt<1> operator>=(const SInt<w_> &other) const {
+    if (negative()) {
+      if (other.negative())
+        return ui <= other.ui;
+      else
+        return UInt<1>(0);
+    } else {
+      if (other.negative())
+        return UInt<1>(1);
+      else
+        return ui >= other.ui;
+    }
+  }
+
+  UInt<1> operator<(const SInt<w_> &other) const {
+    return ~(*this >= other);
+  }
+
+  UInt<1> operator>(const SInt<w_> &other) const {
+    return ~(*this <= other);
+  }
+
+  UInt<1> operator==(const SInt<w_> &other) const {
+    return ui == other.ui;
+  }
+
+  UInt<1> operator!=(const SInt<w_> &other) const {
+    return ~(*this == other);
+  }
+
+
 private:
   UInt<w_> ui;
 

@@ -32,5 +32,8 @@ int main() {
   cout << SInt<10>(1).tail<4>() << " " << SInt<80>(-1).head<20>() << endl;
   cout << (small >> UInt<4>(2)) << " " <<  (SInt<70>(-1) >> UInt<6>(64)) << endl;
   cout << (small << UInt<2>(2)) << " " << (SInt<32>(-1) << UInt<6>(40)) << endl;
+  cout << (small == small) << " " << (small == SInt<17>(14)) << endl;
+  cout << (SInt<16>(-1) <= SInt<16>(-2)) << " " << (SInt<16>(1) <= SInt<16>(-1)) << endl;
+  cout << (SInt<16>(-1) >= SInt<16>(-2)) << " " << (SInt<16>(1) >= SInt<16>(-1)) << endl;
   return 0;
 }

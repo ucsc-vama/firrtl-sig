@@ -269,6 +269,10 @@ public:
     return static_cast<bool>(words_[0]);
   }
 
+  UInt<w_> asUInt() const {
+    return UInt<w_>(*this);
+  }
+
 
 private:
   // Internal state

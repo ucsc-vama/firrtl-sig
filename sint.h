@@ -193,6 +193,10 @@ public:
     return ~(*this == other);
   }
 
+  UInt<w_> asUInt() const {
+    return UInt<w_>(ui);
+  }
+
 
 private:
   UInt<w_> ui;

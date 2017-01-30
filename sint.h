@@ -83,6 +83,10 @@ public:
     return result.template tail<w_ + w_>();
   }
 
+  SInt<w_ + w_> operator*(const UInt<w_> &other) const {
+    return *this * SInt<w_>(other);
+  }
+
   template<int other_w>
   SInt<w_> operator/(const SInt<other_w> &other) const {
     static_assert(w_ <= kWordSize, "Div not supported beyond 64b");

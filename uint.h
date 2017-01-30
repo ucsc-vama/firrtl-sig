@@ -130,6 +130,10 @@ public:
     return result;
   }
 
+  UInt<w_ + w_> operator*(const SInt<w_> &other) const {
+    return SInt<w_>(*this) * other;
+  }
+
   // this / other
   template<int other_w>
   UInt<w_> operator/(const UInt<other_w> &other) const {

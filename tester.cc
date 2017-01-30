@@ -1,7 +1,7 @@
 #include <lest.hpp>
 
 #include "uint.h"
-
+#include "sint.h"
 
 
 UInt<16>  a16(0xcafe);
@@ -92,10 +92,10 @@ const lest::test spec[] = {
   },
 
   CASE("sub operator") {
-    EXPECT( a16 - b16 == UInt<17>(0xc40) );
-    EXPECT( a64 - b64 == UInt<65>("0xb2fa076cbc49d721") );
-    EXPECT( a80 - b80 == UInt<81>("0x423a1f6a5752017af4b5") );
-    EXPECT( a128 - b128 == UInt<129>("0x92090d5b9e7b1cd902925397d6bbc33b") );
+    EXPECT( a16 - b16 == SInt<17>(0xc40) );
+    EXPECT( a64 - b64 == SInt<65>("0xb2fa076cbc49d721") );
+    EXPECT( a80 - b80 == SInt<81>("0x423a1f6a5752017af4b5") );
+    EXPECT( a128 - b128 == SInt<129>("0x92090d5b9e7b1cd902925397d6bbc33b") );
   },
 
   CASE("mult operator") {

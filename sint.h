@@ -58,13 +58,11 @@ public:
   }
 
   SInt<w_> addw(const SInt<w_> &other) const {
-    SInt<w_> result(ui.template core_add_sub<w_, false>(other.ui));
-    return result;
+    return result(ui.template core_add_sub<w_, false>(other.ui));
   }
 
   SInt<w_ + 1> operator-() const {
-    SInt<w_ + 1> result = SInt<w_>(0) - *this;
-    return result;
+    return SInt<w_>(0) - *this;
   }
 
   SInt<w_ + 1> operator-(const SInt<w_> &other) const {
@@ -74,6 +72,10 @@ public:
       result.ui.words_[ui.word_index(w_)] = -1;
     }
     return result;
+  }
+
+  SInt<w_ + 1> operator-(const UInt<w_> &other) const {
+    return (*this) - SInt<w_>(other);
   }
 
   SInt<w_ + w_> operator*(const SInt<w_> &other) const {

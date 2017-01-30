@@ -53,6 +53,10 @@ public:
     return result;
   }
 
+  SInt<w_ + 1> operator+(const UInt<w_> &other) const {
+    return (*this) + SInt<w_>(other);
+  }
+
   SInt<w_> addw(const SInt<w_> &other) const {
     SInt<w_> result(ui.template core_add_sub<w_, false>(other.ui));
     return result;

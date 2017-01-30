@@ -86,6 +86,10 @@ public:
     return result;
   }
 
+  SInt<w_ + 1> operator+(const SInt<w_> &other) const {
+    return SInt<w_>(*this) + other;
+  }
+
   UInt<w_> addw(const UInt<w_> &other) const {
     UInt<w_> result = core_add_sub<w_, false>(other);
     result.mask_top_unused();

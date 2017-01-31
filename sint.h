@@ -219,9 +219,14 @@ public:
     return result;
   }
 
-  UInt<w_> asSInt() const {
+  SInt<w_> asSInt() const {
     return SInt<w_>(*this);
   }
+
+  SInt<w_> cvt() const {
+    return SInt<w_>(*this);
+  }
+
 
 
 private:

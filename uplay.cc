@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "uint.h"
+#include "sint.h"
 
 using namespace std;
 
@@ -56,5 +57,6 @@ int main() {
   cout << (a > a) << " " << (a >= a) << " " << (a > small_b) << endl;
   cout << (big < big_plus_1) << " " << (big >= big_plus_1) << endl;
   cout << (big > big_plus_1) << " " << (big <= big_plus_1) << endl;
+  cout << UInt<8>(-1).cvt() << endl;
   return 0;
 }

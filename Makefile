@@ -7,7 +7,7 @@ uplay: uplay.cc uint.h
 splay: splay.cc sint.h uint.h
 	$(CXX) $(CFLAGS) splay.cc -o splay
 
-tester: tester.cc uint.h
+tester: tester.cc uint.h sint.h
 	$(CXX) $(CFLAGS) -Ilest/include/lest tester.cc -o tester
 
 .PHONY: play

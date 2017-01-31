@@ -299,7 +299,7 @@ public:
   }
 
   SInt<w_ + 1> cvt() const {
-    return SInt<w_ + 1>(pad<w_+1>());
+    return pad<w_+1>().asSInt();
   }
 
 

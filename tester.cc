@@ -194,6 +194,12 @@ const lest::test spec[] = {
     EXPECT( (a64u >> UInt<4>(8)) == UInt<64>("0xe2bd5b4ff8b30f") );
     EXPECT( (a80u >> UInt<5>(12)) == UInt<80>("0x987426c1f7cd7d4d6") );
     EXPECT( (a128u >> UInt<6>(16)) == UInt<128>("0xe903646a697fcaa344d2b2aa95e4") );
+  },
+
+  CASE("uint conversion") {
+    EXPECT( a16u.asUInt() == a16u );
+    EXPECT( a16u.asSInt() == SInt<16>("0xcafe") );
+    EXPECT( a16u.cvt() == SInt<17>(0xcafe) );
   }
 };
 

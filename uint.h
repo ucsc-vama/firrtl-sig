@@ -96,8 +96,8 @@ public:
     return result;
   }
 
-  UInt<w_ + 1> operator-() const {
-    return UInt<w_>(0) - *this;
+  SInt<w_ + 1> operator-() const {
+    return SInt<w_>(0) - *this;
   }
 
   SInt<w_ + 1> operator-(const UInt<w_> &other) const {

@@ -58,7 +58,7 @@ public:
   }
 
   SInt<w_> addw(const SInt<w_> &other) const {
-    return result(ui.template core_add_sub<w_, false>(other.ui));
+    return ui.template core_add_sub<w_, false>(other.ui);
   }
 
   SInt<w_ + 1> operator-() const {

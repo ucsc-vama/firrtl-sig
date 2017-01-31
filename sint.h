@@ -95,8 +95,18 @@ public:
   }
 
   template<int other_w>
+  SInt<w_> operator/(const UInt<other_w> &other) const {
+    return (*this) / SInt<w_>(other);
+  }
+
+  template<int other_w>
   SInt<cmin(w_, other_w)> operator%(const SInt<other_w> &other) const {
     return SInt<cmin(w_, other_w)>(ui % other.ui);
+  }
+
+  template<int other_w>
+  SInt<cmin(w_, other_w)> operator%(const UInt<other_w> &other) const {
+    return (*this) % SInt<other_w>(other);
   }
 
   SInt<w_> operator~() const {

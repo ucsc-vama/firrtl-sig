@@ -142,12 +142,22 @@ public:
     return UInt<w_>(as_single_word() / other.as_single_word());
   }
 
+  template<int other_w>
+  UInt<w_> operator/(const SInt<other_w> &other) const {
+    return SInt<w_>(*this) / other;
+  }
+
   // this % other
   template<int other_w>
   UInt<cmin(w_, other_w)> operator%(const UInt<other_w> &other) const {
     static_assert(w_ <= kWordSize, "Mod not supported beyond 64b");
     static_assert(other_w <= kWordSize, "Mod not supported beyond 64b");
     return UInt<cmin(w_, other_w)>(as_single_word() % other.as_single_word());
+  }
+
+  template<int other_w>
+  UInt<cmin(w_, other_w)> operator%(const SInt<other_w> &other) const {
+    return SInt<w_>(*this) % other;
   }
 
   UInt<w_> operator~() const {

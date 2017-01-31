@@ -102,7 +102,7 @@ const lest::test spec[] = {
     EXPECT( a16u * b16u == UInt<32>(0x973f2c84) );
     EXPECT( a64u * b64u == UInt<128>("0x2a4dc44ce497c914d9d3df0ec14b0b78") );
     EXPECT( a80u * b80u == UInt<160>("0x335993b54d4bc81d37835773f77fa4765c79f322") );
-    EXPECT( a128u * b128u == UInt<256>("0x4f2b00496d758f68469327504061b9045f77243f5cfda64uce9fb69abca8b3a5a") );
+    EXPECT( a128u * b128u == UInt<256>("0x4f2b00496d758f68469327504061b9045f77243f5cfda64ce9fb69abca8b3a5a") );
   },
 
   CASE("uint div operator") {

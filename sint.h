@@ -39,7 +39,9 @@ public:
 
   template<int other_w>
   SInt<w_ + other_w> cat(const SInt<other_w> &other) const {
-    SInt<w_ + other_w> result(ui.cat(other.ui));
+    UInt<other_w> other_ui = other.ui;
+    other_ui.mask_top_unused();
+    SInt<w_ + other_w> result(ui.cat(other_ui));
     result.sign_extend();
     return result;
   }

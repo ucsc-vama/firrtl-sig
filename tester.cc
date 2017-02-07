@@ -258,6 +258,19 @@ const lest::test spec[] = {
     EXPECT( a16s.pad<64>() == SInt<64>(0x6dba) );
     EXPECT( a64s.pad<200>() == a64s.pad<100>().pad<200>() );
     EXPECT( a64u.pad<200>() != b64u.pad<200>() );
+  },
+
+  CASE("sint cat operator") {
+    EXPECT( a16s.cat(b16s) == SInt<32>("0x6dbaccb2") );
+    EXPECT( b16s.cat(b64s) == SInt<80>("0xccb2defaa415d9062302") );
+    EXPECT( b64s.cat(b16s) == SInt<80>("0xdefaa415d9062302ccb2") );
+    EXPECT( b16s.cat(b80s) == SInt<96>("0xccb2efbe8ae0d38ab7f36dda") );
+    EXPECT( b80s.cat(b16s) == SInt<96>("0xefbe8ae0d38ab7f36ddaccb2") );
+    EXPECT( b16s.cat(b128s) == SInt<144>("0xccb2beb828fdbac591dba8e38eeb433f563d") );
+    EXPECT( b128s.cat(b16s) == SInt<144>("0xbeb828fdbac591dba8e38eeb433f563dccb2") );
+    EXPECT( b80s.cat(b128s) == SInt<208>("0xefbe8ae0d38ab7f36ddabeb828fdbac591dba8e38eeb433f563d") );
+    EXPECT( b128s.cat(b80s) == SInt<208>("0xbeb828fdbac591dba8e38eeb433f563defbe8ae0d38ab7f36dda") );
+    EXPECT( b128s.cat(b128s) == SInt<256>("0xbeb828fdbac591dba8e38eeb433f563dbeb828fdbac591dba8e38eeb433f563d") );
   }
 };
 

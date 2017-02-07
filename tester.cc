@@ -13,6 +13,15 @@ UInt<80>  b80u("0x563a0757a07b7bd27485");
 UInt<128> a128u("0xe903646a697fcaa344d2b2aa95e47b5d");
 UInt<128> b128u("0x56fa570ecb04adca42405f12bf28b822");
 
+SInt<16> a16s(0x6dba);
+SInt<16> b16s(0xccb2);
+SInt<64> a64s(0x71088d1c4a5c4a02);
+SInt<64> b64s(0xdefaa415d9062302);
+SInt<80> a80s("0x381c1fe6bca6875922fe");
+SInt<80> b80s("0xefbe8ae0d38ab7f36dda");
+SInt<128> a128s("0x6e0939370acc19daec06e9c13db50674");
+SInt<128> b128s("0xbeb828fdbac591dba8e38eeb433f563d");
+
 
 const lest::test spec[] = {
   CASE("uint comparison operators") {
@@ -200,6 +209,40 @@ const lest::test spec[] = {
     EXPECT( a16u.asUInt() == a16u );
     EXPECT( a16u.asSInt() == SInt<16>("0xcafe") );
     EXPECT( a16u.cvt() == SInt<17>(0xcafe) );
+  },
+
+  CASE("sint comparison operators") {
+    EXPECT( a16s == a16s );
+    EXPECT( a16s != b16s );
+    EXPECT( b16s <  a16s );
+    EXPECT( b16s <= a16s );
+    EXPECT( a16s <= a16s );
+    EXPECT( a16s >= a16s );
+    EXPECT( a16s >  b16s );
+
+    EXPECT( a64s == a64s );
+    EXPECT( a64s != b64s );
+    EXPECT( b64s <  a64s );
+    EXPECT( b64s <= a64s );
+    EXPECT( a64s <= a64s );
+    EXPECT( a64s >= a64s );
+    EXPECT( a64s >  b64s );
+
+    EXPECT( a80s == a80s );
+    EXPECT( a80s != b80s );
+    EXPECT( b80s <  a80s );
+    EXPECT( b80s <= a80s );
+    EXPECT( a80s <= a80s );
+    EXPECT( a80s >= a80s );
+    EXPECT( a80s >  b80s );
+
+    EXPECT( a128s == a128s );
+    EXPECT( a128s != b128s );
+    EXPECT( b128s <  a128s );
+    EXPECT( b128s <= a128s );
+    EXPECT( a128s <= a128s );
+    EXPECT( a128s >= a128s );
+    EXPECT( a128s >  b128s );
   }
 };
 

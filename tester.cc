@@ -251,6 +251,13 @@ const lest::test spec[] = {
     EXPECT( b64s == SInt<64>(b64s) );
     EXPECT( b80s == SInt<80>(b80s) );
     EXPECT( b128s == SInt<128>(b128s) );
+  },
+
+  CASE("sint pad operator") {
+    EXPECT( a16s == a16s.pad<16>() );
+    EXPECT( a16s.pad<64>() == SInt<64>(0x6dba) );
+    EXPECT( a64s.pad<200>() == a64s.pad<100>().pad<200>() );
+    EXPECT( a64u.pad<200>() != b64u.pad<200>() );
   }
 };
 

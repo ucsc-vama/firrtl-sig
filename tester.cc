@@ -13,8 +13,8 @@ UInt<80>  b80u("0x563a0757a07b7bd27485");
 UInt<128> a128u("0xe903646a697fcaa344d2b2aa95e47b5d");
 UInt<128> b128u("0x56fa570ecb04adca42405f12bf28b822");
 
-SInt<16> a16s(0x6dba);
-SInt<16> b16s(0xccb2);
+SInt<16> a16s("0x6dba");
+SInt<16> b16s("0xccb2");
 SInt<64> a64s(0x71088d1c4a5c4a02);
 SInt<64> b64s(0xdefaa415d9062302);
 SInt<80> a80s("0x381c1fe6bca6875922fe");
@@ -243,6 +243,14 @@ const lest::test spec[] = {
     EXPECT( a128s <= a128s );
     EXPECT( a128s >= a128s );
     EXPECT( a128s >  b128s );
+  },
+
+  CASE("sint constructors") {
+    EXPECT( b16s == SInt<16>("0xccb2") );
+    EXPECT( b16s == SInt<16>(b16s) );
+    EXPECT( b64s == SInt<64>(b64s) );
+    EXPECT( b80s == SInt<80>(b80s) );
+    EXPECT( b128s == SInt<128>(b128s) );
   }
 };
 

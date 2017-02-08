@@ -271,6 +271,15 @@ const lest::test spec[] = {
     EXPECT( b80s.cat(b128s) == SInt<208>("0xefbe8ae0d38ab7f36ddabeb828fdbac591dba8e38eeb433f563d") );
     EXPECT( b128s.cat(b80s) == SInt<208>("0xbeb828fdbac591dba8e38eeb433f563defbe8ae0d38ab7f36dda") );
     EXPECT( b128s.cat(b128s) == SInt<256>("0xbeb828fdbac591dba8e38eeb433f563dbeb828fdbac591dba8e38eeb433f563d") );
+  },
+
+  CASE("sint add operator") {
+    EXPECT( a16s + b16s == SInt<17>(0x3a6c) );
+    EXPECT( a64s + b64s == SInt<65>("0x5003313223626d04") );
+    EXPECT( a80s + b80s == SInt<81>("0x27daaac790313f4c90d8") );
+    EXPECT( a128s + b128s == SInt<129>("0x2cc16234c591abb694ea78ac80f45cb1") );
+    EXPECT( SInt<64>(1) + SInt<64>(-1) == SInt<65>(0) );
+    EXPECT( SInt<64>(-1) + SInt<64>(-1) == SInt<65>(-2) );
   }
 };
 

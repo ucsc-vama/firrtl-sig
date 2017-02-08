@@ -49,8 +49,9 @@ public:
   SInt<w_ + 1> operator+(const SInt<w_> &other) const {
     SInt<w_+1> result(ui.template core_add_sub<w_+1, false>(other.ui));
     if ((w_ % kWordSize == 0) &&
-        (result.ui.words_[ui.word_index(w_-1)] < ui.words_[ui.word_index(w_-1)])) {
-      result.ui.words_[ui.word_index(w_)] = -1;
+        (result.ui.words_[ui.word_index(w_-1)] < ui.words_[ui.word_index(w_-1)]) &&
+        (negative() == other.negative())) {
+      result.ui.words_[ui.word_index(w_)] = negative() ? -1 : 1;
     }
     return result;
   }

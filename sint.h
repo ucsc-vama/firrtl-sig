@@ -16,7 +16,10 @@ public:
   SInt() : ui(0) {}
 
   SInt(int64_t i) : ui(i) {
-    sign_extend(kWordSize - 1);
+    if (w_ > kWordSize)
+      sign_extend(kWordSize - 1);
+    else
+      sign_extend();
   }
 
   SInt(std::string initial) : ui(initial) {

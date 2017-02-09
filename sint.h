@@ -51,10 +51,13 @@ public:
 
   SInt<w_ + 1> operator+(const SInt<w_> &other) const {
     SInt<w_+1> result(ui.template core_add_sub<w_+1, false>(other.ui));
-    if ((w_ % kWordSize == 0) &&
-        (result.ui.words_[ui.word_index(w_-1)] < ui.words_[ui.word_index(w_-1)]) &&
-        (negative() == other.negative())) {
-      result.ui.words_[ui.word_index(w_)] = negative() ? -1 : 1;
+    if (w_ % kWordSize == 0) {
+      if (negative() == other.negative()) {
+        result.ui.words_[ui.word_index(w_)] = negative() ? -1 : 0;
+      } else {
+        bool is_neg = static_cast<int64_t>(result.ui.words_[ui.word_index(w_-1)]) < 0;
+        result.ui.words_[ui.word_index(w_)] = is_neg ? -1 : 0;
+      }
     }
     return result;
   }
@@ -73,9 +76,13 @@ public:
 
   SInt<w_ + 1> operator-(const SInt<w_> &other) const {
     SInt<w_ + 1> result(ui.template core_add_sub<w_+1, true>(other.ui));
-    if ((w_ % kWordSize == 0) &&
-        (result.ui.words_[ui.word_index(w_-1)] > ui.words_[ui.word_index(w_-1)])) {
-      result.ui.words_[ui.word_index(w_)] = -1;
+    if (w_ % kWordSize == 0) {
+      if (negative() != other.negative()) {
+        result.ui.words_[ui.word_index(w_)] = negative() ? -1 : 0;
+      } else {
+        bool is_neg = static_cast<int64_t>(result.ui.words_[ui.word_index(w_-1)]) < 0;
+        result.ui.words_[ui.word_index(w_)] = is_neg ? -1 : 0;
+      }
     }
     return result;
   }

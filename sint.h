@@ -248,7 +248,8 @@ private:
   const static int kWordSize = UInt<w_>::kWordSize;
 
   bool negative() const {
-    return (ui.words_[ui.word_index(w_ - 1)] >> ((w_-1) % kWordSize)) & 1;
+    return static_cast<int64_t>(ui.words_[ui.word_index(w_ - 1)]) < 0;
+    // return (ui.words_[ui.word_index(w_ - 1)] >> ((w_-1) % kWordSize)) & 1;
   }
 
   // Direct access for ops that only need small signals

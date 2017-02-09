@@ -293,6 +293,21 @@ const lest::test spec[] = {
     EXPECT( a128s.addw(b128s) == SInt<128>("0x2cc16234c591abb694ea78ac80f45cb1") );
     EXPECT( SInt<64>(1).addw(SInt<64>(-1)) == SInt<64>(0) );
     EXPECT( SInt<64>(-1).addw(SInt<64>(-1)) == SInt<64>(-2) );
+  },
+
+  CASE("sint sub operator") {
+    EXPECT( a16s - b16s == SInt<17>(0xa108) );
+    EXPECT( b16s - a16s == SInt<17>(0x15ef8) );
+    EXPECT( b16s - SInt<16>(0) == b16s.pad<17>() );
+    EXPECT( a64s - b64s == SInt<65>("0x920de90671562700") );
+    EXPECT( b64s - a64s == SInt<65>("0x16df216f98ea9d900") );
+    EXPECT( b64s - SInt<64>(0) == b64s.pad<65>() );
+    EXPECT( a80s - b80s == SInt<81>("0x485d9505e91bcf65b524") );
+    EXPECT( b80s - a80s == SInt<81>("0x1b7a26afa16e4309a4adc") );
+    EXPECT( b80s - SInt<80>(0) == b80s.pad<81>() );
+    EXPECT( a128s - b128s == SInt<129>("0xaf511039500687ff43235ad5fa75b037") );
+    EXPECT( b128s - a128s == SInt<129>("0x150aeefc6aff97800bcdca52a058a4fc9") );
+    EXPECT( b128s - SInt<128>(0) == b128s.pad<129>() );
   }
 };
 

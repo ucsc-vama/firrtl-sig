@@ -118,8 +118,10 @@ public:
         uint64_t prod_lu = lower(words_[i]) * upper(other.words_[j]);
         uint64_t prod_ul = upper(words_[i]) * lower(other.words_[j]);
         uint64_t prod_uu = upper(words_[i]) * upper(other.words_[j]);
-        uint64_t lower_sum = result.words_[i+j] + carry + lower(prod_ll);
-        uint64_t upper_sum = upper(prod_ll) + upper(lower_sum) +
+        uint64_t lower_sum = lower(result.words_[i+j]) + lower(carry) +
+                             lower(prod_ll);
+        uint64_t upper_sum = upper(result.words_[i+j]) + upper(carry) +
+                             upper(prod_ll) + upper(lower_sum) +
                              lower(prod_lu) + lower(prod_ul);
         result.words_[i+j] = (upper_sum << 32) | lower(lower_sum);
         carry = upper(upper_sum) + upper(prod_lu) + upper(prod_ul) + prod_uu;

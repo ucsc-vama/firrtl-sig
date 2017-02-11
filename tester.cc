@@ -308,6 +308,21 @@ const lest::test spec[] = {
     EXPECT( a128s - b128s == SInt<129>("0xaf511039500687ff43235ad5fa75b037") );
     EXPECT( b128s - a128s == SInt<129>("0x150aeefc6aff97800bcdca52a058a4fc9") );
     EXPECT( b128s - SInt<128>(0) == b128s.pad<129>() );
+  },
+
+  CASE("sint mult operator") {
+    EXPECT( a16s * b16s == SInt<32>(0xea028354) );
+    EXPECT( a64s * b64s == SInt<128>("0xf16b880f2bad048691fd4b72a0e2da04") );
+    EXPECT( a80s * b80s == SInt<160>("0xfc6fe531cae4d5f834f4831b7dc6f5fbfee7f24c") );
+    EXPECT( a128s * b128s == SInt<256>("0xe3f0c77f6f1ce87a5d5735256c8addf7a2a5210cf49a1af0917e727f76d981a4") );
+    EXPECT( b16s * b16s == SInt<32>(0xa482bc4) );
+    EXPECT( b64s * b64s == SInt<128>("0x044261cf16323e9d07bfb5d30ce18c04") );
+    EXPECT( b80s * b80s == SInt<160>("0x1083f6094f8beff28a26e6d6335b98f66ff5da4") );
+    EXPECT( b128s * b128s == SInt<256>("0x10a58f581efee2a4d90812cc128d304f3a498bebb936e0afcbcc36cd7d130a89") );
+    EXPECT( SInt<16>(-1) * SInt<16>(-1) == SInt<32>(1) );
+    EXPECT( SInt<80>(-1) * SInt<80>(-1) == SInt<160>(1) );
+    EXPECT( SInt<128>(-1) * SInt<128>(-1) == SInt<256>(1) );
+    EXPECT( SInt<512>(-1) * SInt<512>(-1) == SInt<1024>(1) );
   }
 };
 

@@ -390,6 +390,20 @@ const lest::test spec[] = {
     EXPECT( (a64s.tail<16>()) == SInt<48>(0x8d1c4a5c4a02) );
     EXPECT( (a80s.tail<8>()) == SInt<72>("0x1c1fe6bca6875922fe") );
     EXPECT( (a128s.tail<32>()) == SInt<96>("0x0acc19daec06e9c13db50674") );
+  },
+
+  CASE("sint static shifts") {
+    EXPECT( a16s.shl<0>() == a16s );
+    EXPECT( a16s.shl<4>() == SInt<20>(0x6dba0) );
+    EXPECT( a64s.shl<8>() == SInt<72>("0x71088d1c4a5c4a0200") );
+    EXPECT( a80s.shl<60>() == SInt<140>("0x381c1fe6bca6875922fe000000000000000") );
+    EXPECT( a128s.shl<72>() == SInt<200>("0x6e0939370acc19daec06e9c13db50674000000000000000000") );
+
+    EXPECT( a16s.shr<0>() == a16s );
+    EXPECT( a16s.shr<8>() == SInt<8>(0x6d) );
+    EXPECT( a64s.shr<16>() == SInt<48>(0x71088d1c4a5c) );
+    EXPECT( a80s.shr<24>() == SInt<56>(0x381c1fe6bca687) );
+    EXPECT( a128s.shr<48>() == SInt<80>("0x6e0939370acc19daec06"));
   }
 };
 

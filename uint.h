@@ -381,7 +381,6 @@ private:
     UInt<hi - lo + 1> result;
     int word_down = word_index(lo);
     int bits_down = lo % kWordSize;
-    int top_taken_word = word_index(hi);
     int out_word_width = word_index(hi - lo + kWordSize);
     for (int i=0; i < out_word_width; i++) {
       result.words_[i] = words_[i + word_down] >> bits_down;

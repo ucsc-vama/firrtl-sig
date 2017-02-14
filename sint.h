@@ -101,25 +101,27 @@ public:
   }
 
   template<int other_w>
-  SInt<w_> operator/(const SInt<other_w> &other) const {
+  SInt<w_+1> operator/(const SInt<other_w> &other) const {
     static_assert(w_ <= kWordSize, "Div not supported beyond 64b");
     static_assert(other_w <= kWordSize, "Div not supported beyond 64b");
-    return SInt<w_>(as_single_word() / other.as_single_word());
+    return SInt<w_+1>(as_single_word() / other.as_single_word());
   }
 
   template<int other_w>
   SInt<w_> operator/(const UInt<other_w> &other) const {
-    return (*this) / SInt<w_>(other);
+    return ((*this) / SInt<w_>(other)).template tail<1>();
   }
 
   template<int other_w>
   SInt<cmin(w_, other_w)> operator%(const SInt<other_w> &other) const {
-    return SInt<cmin(w_, other_w)>(ui % other.ui);
+    static_assert(w_ <= kWordSize, "Mod not supported beyond 64b");
+    static_assert(other_w <= kWordSize, "Mod not supported beyond 64b");
+    return SInt<cmin(w_, other_w)>(as_single_word() % other.as_single_word());
   }
 
   template<int other_w>
   SInt<cmin(w_, other_w)> operator%(const UInt<other_w> &other) const {
-    return (*this) % SInt<other_w>(other);
+    return (*this) % SInt<other_w+1>(other);
   }
 
   SInt<w_> operator~() const {

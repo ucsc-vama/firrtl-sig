@@ -323,6 +323,20 @@ const lest::test spec[] = {
     EXPECT( SInt<80>(-1) * SInt<80>(-1) == SInt<160>(1) );
     EXPECT( SInt<128>(-1) * SInt<128>(-1) == SInt<256>(1) );
     EXPECT( SInt<512>(-1) * SInt<512>(-1) == SInt<1024>(1) );
+  },
+
+  CASE("sint div operator") {
+    EXPECT( a16s / b16s == SInt<17>(0x1fffe) );
+    EXPECT( a64s / b64s == SInt<65>("0x1fffffffffffffffd") );
+    EXPECT( a64s / a16s == SInt<65>("0x107b710ae332f") );
+    EXPECT( b64s / b16s == SInt<65>("0xa4c48cb11e2b") );
+  },
+
+  CASE("sint mod operator") {
+    EXPECT( a16s % b16s == SInt<16>(0x71e) );
+    EXPECT( a64s % b64s == SInt<64>(0xdf8795dd56eb308) );
+    EXPECT( a64s % a16s == SInt<16>(0x16dc) );
+    EXPECT( b64s % b16s == SInt<16>(0xe51c) );
   }
 };
 

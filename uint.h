@@ -145,8 +145,8 @@ public:
   }
 
   template<int other_w>
-  UInt<w_> operator/(const SInt<other_w> &other) const {
-    return SInt<w_>(*this) / other;
+  UInt<w_+1> operator/(const SInt<other_w> &other) const {
+    return SInt<w_+1>(*this) / other;
   }
 
   // this % other

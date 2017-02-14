@@ -424,6 +424,12 @@ const lest::test spec[] = {
     EXPECT( (b64s >> UInt<4>(8)) == SInt<64>("0xffdefaa415d90623") );
     EXPECT( (b80s >> UInt<5>(12)) == SInt<80>("0xfffefbe8ae0d38ab7f36") );
     EXPECT( (b128s >> UInt<6>(16)) == SInt<128>("0xffffbeb828fdbac591dba8e38eeb433f") );
+  },
+
+  CASE("sint conversion") {
+    EXPECT( a16s.asUInt() == UInt<16>("0x6dba") );
+    EXPECT( a16s.asSInt() == a16s );
+    EXPECT( a16s.cvt() == SInt<16>(0x6dba) );
   }
 };
 

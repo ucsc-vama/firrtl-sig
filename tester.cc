@@ -374,6 +374,14 @@ const lest::test spec[] = {
     EXPECT( (a80s.bits<71,56>()) == SInt<16>(0x1c1f) );
     EXPECT( (a128s.bits<111,96>()) == SInt<16>(0x3937) );
     EXPECT( (a128s.bits<71,56>()) == SInt<16>(0xdaec) );
+  },
+
+  CASE("sint head operator") {
+    EXPECT( (a16s.head<8>()) == SInt<8>(0x6d) );
+    EXPECT( (a64s.head<64>()) == a64s );
+    EXPECT( (a64s.head<16>()) == SInt<16>(0x7108) );
+    EXPECT( (a80s.head<24>()) == SInt<24>(0x381c1f) );
+    EXPECT( (a128s.head<32>()) == SInt<32>(0x6e093937) );
   }
 };
 

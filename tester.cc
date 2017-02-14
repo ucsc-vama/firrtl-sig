@@ -365,6 +365,15 @@ const lest::test spec[] = {
     EXPECT( (a64s ^ b64s) == SInt<64>(0xaff22909935a6900) );
     EXPECT( (a80s ^ b80s) == SInt<80>("0xd7a295066f2c30aa4f24") );
     EXPECT( (a128s ^ b128s) == SInt<128>("0xd0b111cab009880144e5672a7e8a5049") );
+  },
+
+  CASE("sint bits operator") {
+    EXPECT( (a16s.bits<11,4>()) == SInt<8>(0xdb) );
+    EXPECT( (a64s.bits<47,24>()) == SInt<24>(0x8d1c4a) );
+    EXPECT( (a80s.bits<79,64>()) == SInt<16>(0x381c) );
+    EXPECT( (a80s.bits<71,56>()) == SInt<16>(0x1c1f) );
+    EXPECT( (a128s.bits<111,96>()) == SInt<16>(0x3937) );
+    EXPECT( (a128s.bits<71,56>()) == SInt<16>(0xdaec) );
   }
 };
 

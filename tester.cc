@@ -382,6 +382,14 @@ const lest::test spec[] = {
     EXPECT( (a64s.head<16>()) == SInt<16>(0x7108) );
     EXPECT( (a80s.head<24>()) == SInt<24>(0x381c1f) );
     EXPECT( (a128s.head<32>()) == SInt<32>(0x6e093937) );
+  },
+
+  CASE("sint tail operator") {
+    EXPECT( (a16s.tail<8>()) == SInt<8>(0xba) );
+    EXPECT( (a64s.tail<0>()) == a64s );
+    EXPECT( (a64s.tail<16>()) == SInt<48>(0x8d1c4a5c4a02) );
+    EXPECT( (a80s.tail<8>()) == SInt<72>("0x1c1fe6bca6875922fe") );
+    EXPECT( (a128s.tail<32>()) == SInt<96>("0x0acc19daec06e9c13db50674") );
   }
 };
 

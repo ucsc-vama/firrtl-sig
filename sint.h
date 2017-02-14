@@ -171,7 +171,7 @@ public:
   SInt<w_> operator>>(const UInt<other_w> &other) const {
     uint64_t dshamt = other.as_single_word();
     SInt<w_> result(ui >> other);
-    result.sign_extend(w_ - dshamt);
+    result.sign_extend(w_ - dshamt - 1);
     return result;
   }
 

@@ -404,6 +404,26 @@ const lest::test spec[] = {
     EXPECT( a64s.shr<16>() == SInt<48>(0x71088d1c4a5c) );
     EXPECT( a80s.shr<24>() == SInt<56>(0x381c1fe6bca687) );
     EXPECT( a128s.shr<48>() == SInt<80>("0x6e0939370acc19daec06"));
+  },
+
+  CASE("sint dynamic shifts") {
+    EXPECT( (a16s << UInt<1>(0)) == SInt<17>(0x6dba) );
+    EXPECT( (a16s << UInt<4>(4)) == SInt<31>(0x6dba0) );
+    EXPECT( (a64s << UInt<4>(8)) == SInt<79>("0x71088d1c4a5c4a0200") );
+    EXPECT( (a80s << UInt<5>(12)) == SInt<111>("0x381c1fe6bca6875922fe000") );
+    EXPECT( (a128s << UInt<6>(16)) == SInt<191>("0x6e0939370acc19daec06e9c13db506740000") );
+
+    EXPECT( (a16s >> UInt<1>(0)) == SInt<16>(0x6dba) );
+    EXPECT( (a16s >> UInt<4>(4)) == SInt<16>(0x06db) );
+    EXPECT( (a64s >> UInt<4>(8)) == SInt<64>("0x71088d1c4a5c4a") );
+    EXPECT( (a80s >> UInt<5>(12)) == SInt<80>("0x381c1fe6bca687592") );
+    EXPECT( (a128s >> UInt<6>(16)) == SInt<128>("0x6e0939370acc19daec06e9c13db5") );
+
+    EXPECT( (b16s >> UInt<1>(0)) == SInt<16>(0xccb2) );
+    EXPECT( (b16s >> UInt<4>(4)) == SInt<16>(0xfccb) );
+    EXPECT( (b64s >> UInt<4>(8)) == SInt<64>("0xffdefaa415d90623") );
+    EXPECT( (b80s >> UInt<5>(12)) == SInt<80>("0xfffefbe8ae0d38ab7f36") );
+    EXPECT( (b128s >> UInt<6>(16)) == SInt<128>("0xffffbeb828fdbac591dba8e38eeb433f") );
   }
 };
 

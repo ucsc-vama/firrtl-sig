@@ -337,6 +337,34 @@ const lest::test spec[] = {
     EXPECT( a64s % b64s == SInt<64>(0xdf8795dd56eb308) );
     EXPECT( a64s % a16s == SInt<16>(0x16dc) );
     EXPECT( b64s % b16s == SInt<16>(0xe51c) );
+  },
+
+  CASE("sint not operator") {
+    EXPECT( ~a16s == SInt<16>(0x9245) );
+    EXPECT( ~a64s == SInt<64>(0x8ef772e3b5a3b5fd) );
+    EXPECT( ~a80s == SInt<80>("0xc7e3e019435978a6dd01") );
+    EXPECT( ~a128s == SInt<128>("0x91f6c6c8f533e62513f9163ec24af98b") );
+  },
+
+  CASE("sint and operator") {
+    EXPECT( (a16s & b16s) == SInt<16>(0x4cb2) );
+    EXPECT( (a64s & b64s) == SInt<64>(0x5008841448040202L) );
+    EXPECT( (a80s & b80s) == SInt<80>("0x281c0ae09082875120da") );
+    EXPECT( (a128s & b128s) == SInt<128>("0x2e0828350ac411daa80288c101350634") );
+  },
+
+  CASE("sint or operator") {
+    EXPECT( (a16s | b16s) == SInt<16>(0xedba) );
+    EXPECT( (a64s | b64s) == SInt<64>(0xfffaad1ddb5e6b02) );
+    EXPECT( (a80s | b80s) == SInt<80>("0xffbe9fe6ffaeb7fb6ffe") );
+    EXPECT( (a128s | b128s) == SInt<128>("0xfeb939ffbacd99dbece7efeb7fbf567d") );
+  },
+
+  CASE("sint xor operator") {
+    EXPECT( (a16s ^ b16s) == SInt<16>(0xa108) );
+    EXPECT( (a64s ^ b64s) == SInt<64>(0xaff22909935a6900) );
+    EXPECT( (a80s ^ b80s) == SInt<80>("0xd7a295066f2c30aa4f24") );
+    EXPECT( (a128s ^ b128s) == SInt<128>("0xd0b111cab009880144e5672a7e8a5049") );
   }
 };
 

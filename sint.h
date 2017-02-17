@@ -70,6 +70,12 @@ public:
     return ui.template core_add_sub<w_, false>(other.ui);
   }
 
+  SInt<w_> subw(const SInt<w_> &other) const {
+    SInt<w_> result(ui.template core_add_sub<w_, true>(other.ui));
+    result.sign_extend();
+    return result;
+  }
+
   SInt<w_ + 1> operator-() const {
     return SInt<w_>(0) - *this;
   }
@@ -88,7 +94,7 @@ public:
   }
 
   SInt<w_ + 1> operator-(const UInt<w_> &other) const {
-    return (*this) - SInt<w_>(other);
+    return pad<w_+1>().subw(SInt<w_+1>(other.template pad<w_+1>()));
   }
 
   SInt<w_ + w_> operator*(const SInt<w_> &other) const {

@@ -101,11 +101,11 @@ public:
   }
 
   SInt<w_ + 1> operator-(const UInt<w_> &other) const {
-    return SInt<w_>(*this) - SInt<w_>(other);
+    return SInt<w_+1>(pad<w_+1>()).subw(SInt<w_+1>(other.template pad<w_+1>()));
   }
 
   SInt<w_ + 1> operator-(const SInt<w_> &other) const {
-    return SInt<w_>(*this) - other;
+    return SInt<w_+1>(pad<w_+1>()).subw(other.template pad<w_+1>());
   }
 
   UInt<w_ + w_> operator*(const UInt<w_> &other) const {

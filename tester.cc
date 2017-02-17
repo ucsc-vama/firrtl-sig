@@ -464,6 +464,8 @@ const lest::test spec[] = {
     EXPECT( b80s * a80u == SInt<160>("0xf651c2566302169937ff4a396485514e01c74d64") );
     EXPECT( b128s * a128u == SInt<256>("0xc494bfdc37540a963a9a7ad576771522f488399b3bc2e87c8c1164e32bc5a329") );
   }
+
+  // Not testing mixed div
 };
 
 int main() {

@@ -452,6 +452,17 @@ const lest::test spec[] = {
     EXPECT( b64s - a64u == SInt<65>("0xfc3d48c5e053133a") );
     EXPECT( b80s - a80u == SInt<81>("0x1574a641edbbd3aa604a0") );
     EXPECT( b128s - a128u == SInt<129>("0xd5b4c4935145c7386410dc40ad5adae0") );
+  },
+
+  CASE("mixed mul operator") {
+    EXPECT( a16u * b16s == SInt<32>(0xd7518c9c) );
+    EXPECT( a64u * b64s == SInt<128>("0xe2c0d81f3550c17f8cc2ad9b533e7790") );
+    EXPECT( a80u * b80s == SInt<160>("0xf651c2566302169937ff4a396485514e01c74d64") );
+    EXPECT( a128u * b128s == SInt<256>("0xc494bfdc37540a963a9a7ad576771522f488399b3bc2e87c8c1164e32bc5a329") );
+    EXPECT( b16s * a16u == SInt<32>(0xd7518c9c) );
+    EXPECT( b64s * a64u == SInt<128>("0xe2c0d81f3550c17f8cc2ad9b533e7790") );
+    EXPECT( b80s * a80u == SInt<160>("0xf651c2566302169937ff4a396485514e01c74d64") );
+    EXPECT( b128s * a128u == SInt<256>("0xc494bfdc37540a963a9a7ad576771522f488399b3bc2e87c8c1164e32bc5a329") );
   }
 };
 

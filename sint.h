@@ -103,7 +103,7 @@ public:
   }
 
   SInt<w_ + w_> operator*(const UInt<w_> &other) const {
-    return *this * SInt<w_>(other);
+    return (pad<w_+1>() * SInt<w_+1>(other.template pad<w_+1>())).template tail<2>();
   }
 
   template<int other_w>

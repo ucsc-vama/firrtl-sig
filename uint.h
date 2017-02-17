@@ -132,8 +132,8 @@ public:
     return result;
   }
 
-  UInt<w_ + w_> operator*(const SInt<w_> &other) const {
-    return SInt<w_>(*this) * other;
+  SInt<w_ + w_> operator*(const SInt<w_> &other) const {
+    return (SInt<w_+1>(pad<w_+1>()) * other.template pad<w_+1>()).template tail<2>();
   }
 
   // this / other

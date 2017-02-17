@@ -258,6 +258,7 @@ const lest::test spec[] = {
     EXPECT( a16s.pad<64>() == SInt<64>(0x6dba) );
     EXPECT( a64s.pad<200>() == a64s.pad<100>().pad<200>() );
     EXPECT( a64u.pad<200>() != b64u.pad<200>() );
+    EXPECT( b16s.pad<64>() == SInt<64>(0xffffffffffffccb2) );
   },
 
   CASE("sint cat operator") {
@@ -468,6 +469,8 @@ const lest::test spec[] = {
   // Not testing mixed div
 
   // Not testing mixed mod
+
+  // Did not test mixed comparison ops
 };
 
 int main() {

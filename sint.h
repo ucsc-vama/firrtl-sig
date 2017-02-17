@@ -63,7 +63,7 @@ public:
   }
 
   SInt<w_ + 1> operator+(const UInt<w_> &other) const {
-    return (*this) + SInt<w_>(other);
+    return pad<w_+1>().addw(SInt<w_+1>(other.template pad<w_+1>()));
   }
 
   SInt<w_> addw(const SInt<w_> &other) const {

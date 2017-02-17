@@ -430,6 +430,17 @@ const lest::test spec[] = {
     EXPECT( a16s.asUInt() == UInt<16>("0x6dba") );
     EXPECT( a16s.asSInt() == a16s );
     EXPECT( a16s.cvt() == SInt<16>(0x6dba) );
+  },
+
+  CASE("mixed add operator") {
+    EXPECT( a16u + b16s == SInt<17>(0x97b0) );
+    EXPECT( a64u + b64s == SInt<65>("0xc1b7ff65d1b932ca") );
+    EXPECT( a80u + b80s == SInt<81>("0x8832b1a2cb583540d714") );
+    EXPECT( a128u + b128s == SInt<129>("0xa7bb8d6824455c7eedb64195d923d19a") );
+    EXPECT( b16s + a16u == SInt<17>(0x97b0) );
+    EXPECT( b64s + a64u == SInt<65>("0xc1b7ff65d1b932ca") );
+    EXPECT( b80s + a80u == SInt<81>("0x8832b1a2cb583540d714") );
+    EXPECT( b128s + a128u == SInt<129>("0xa7bb8d6824455c7eedb64195d923d19a") );
   }
 };
 

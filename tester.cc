@@ -466,6 +466,8 @@ const lest::test spec[] = {
   }
 
   // Not testing mixed div
+
+  // Not testing mixed mod
 };
 
 int main() {

@@ -126,8 +126,8 @@ public:
   }
 
   template<int other_w>
-  SInt<cmin(w_, other_w)> operator%(const UInt<other_w> &other) const {
-    return (*this) % SInt<other_w+1>(other);
+  SInt<cmin(w_, other_w+1)> operator%(const UInt<other_w> &other) const {
+    return (*this) % SInt<other_w+1>(other.template pad<w_+1>());
   }
 
   SInt<w_> operator~() const {

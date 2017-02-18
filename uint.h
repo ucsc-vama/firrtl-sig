@@ -133,7 +133,10 @@ public:
   }
 
   SInt<w_ + w_> operator*(const SInt<w_> &other) const {
-    return (SInt<w_+1>(pad<w_+1>()) * other.template pad<w_+1>()).template tail<2>();
+    SInt<w_ + w_ + 2> product(SInt<w_+1>(pad<w_+1>()) * other.template pad<w_+1>());
+    SInt<w_ + w_> result = (product.template tail<2>()).asSInt();
+    result.sign_extend();
+    return result;
   }
 
   // this / other
@@ -201,11 +204,13 @@ public:
 
   template<int n>
   UInt<n> head() const {
+    static_assert(n <= w_, "Head n must be <= width");
     return bits<w_-1, w_-n>();
   }
 
   template<int n>
   UInt<w_ - n> tail() const {
+    static_assert(n < w_, "Tail n must be < width");
     return bits<w_-n-1, 0>();
   }
 

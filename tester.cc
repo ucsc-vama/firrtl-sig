@@ -400,28 +400,33 @@ const lest::test spec[] = {
   },
 
   CASE("sint bits operator") {
-    EXPECT( (a16s.bits<11,4>()) == SInt<8>(0xdb) );
-    EXPECT( (a64s.bits<47,24>()) == SInt<24>(0x8d1c4a) );
-    EXPECT( (a80s.bits<79,64>()) == SInt<16>(0x381c) );
-    EXPECT( (a80s.bits<71,56>()) == SInt<16>(0x1c1f) );
-    EXPECT( (a128s.bits<111,96>()) == SInt<16>(0x3937) );
-    EXPECT( (a128s.bits<71,56>()) == SInt<16>(0xdaec) );
+    EXPECT( (a16s.bits<11,4>()) == UInt<8>(0xdb) );
+    EXPECT( (a64s.bits<47,24>()) == UInt<24>(0x8d1c4a) );
+    EXPECT( (a80s.bits<79,64>()) == UInt<16>(0x381c) );
+    EXPECT( (a80s.bits<71,56>()) == UInt<16>(0x1c1f) );
+    EXPECT( (a128s.bits<111,96>()) == UInt<16>(0x3937) );
+    EXPECT( (a128s.bits<71,56>()) == UInt<16>(0xdaec) );
   },
 
   CASE("sint head operator") {
-    EXPECT( (a16s.head<8>()) == SInt<8>(0x6d) );
-    EXPECT( (a64s.head<64>()) == a64s );
-    EXPECT( (a64s.head<16>()) == SInt<16>(0x7108) );
-    EXPECT( (a80s.head<24>()) == SInt<24>(0x381c1f) );
-    EXPECT( (a128s.head<32>()) == SInt<32>(0x6e093937) );
+    EXPECT( (a16s.head<8>()) == UInt<8>(0x6d) );
+    EXPECT( (a64s.head<64>()) == a64s.asUInt() );
+    EXPECT( (a64s.head<16>()) == UInt<16>(0x7108) );
+    EXPECT( (a80s.head<24>()) == UInt<24>(0x381c1f) );
+    EXPECT( (a128s.head<32>()) == UInt<32>(0x6e093937) );
+
+    EXPECT( (b16s.head<8>()) == UInt<8>(0xcc) );
+    EXPECT( (b64s.head<16>()) == UInt<16>(0xdefa) );
+    EXPECT( (b80s.head<24>()) == UInt<24>(0xefbe8a) );
+    EXPECT( (b128s.head<32>()) == UInt<32>(0xbeb828fd) );
   },
 
   CASE("sint tail operator") {
-    EXPECT( (a16s.tail<8>()) == SInt<8>(0xba) );
-    EXPECT( (a64s.tail<0>()) == a64s );
-    EXPECT( (a64s.tail<16>()) == SInt<48>(0x8d1c4a5c4a02) );
-    EXPECT( (a80s.tail<8>()) == SInt<72>("0x1c1fe6bca6875922fe") );
-    EXPECT( (a128s.tail<32>()) == SInt<96>("0x0acc19daec06e9c13db50674") );
+    EXPECT( (a16s.tail<8>()) == UInt<8>(0xba) );
+    EXPECT( (a64s.tail<0>()) == a64s.asUInt() );
+    EXPECT( (a64s.tail<16>()) == UInt<48>(0x8d1c4a5c4a02) );
+    EXPECT( (a80s.tail<8>()) == UInt<72>("0x1c1fe6bca6875922fe") );
+    EXPECT( (a128s.tail<32>()) == UInt<96>("0x0acc19daec06e9c13db50674") );
   },
 
   CASE("sint static shifts") {

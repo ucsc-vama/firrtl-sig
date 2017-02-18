@@ -98,12 +98,17 @@ public:
   }
 
   SInt<w_ + w_> operator*(const SInt<w_> &other) const {
-    SInt<4*w_> result(pad<w_ + w_>().ui * other.pad<w_ + w_>().ui);
-    return result.template tail<w_ + w_>();
+    SInt<4*w_> product(pad<w_ + w_>().ui * other.pad<w_ + w_>().ui);
+    SInt<w_ + w_> result = (product.template tail<w_ + w_>()).asSInt();
+    result.sign_extend();
+    return result;
   }
 
   SInt<w_ + w_> operator*(const UInt<w_> &other) const {
-    return (pad<w_+1>() * SInt<w_+1>(other.template pad<w_+1>())).template tail<2>();
+    SInt<w_ + w_ + 2> product(pad<w_+1>() * SInt<w_+1>(other.template pad<w_+1>()));
+    SInt<w_ + w_> result = (product.template tail<2>()).asSInt();
+    result.sign_extend();
+    return result;
   }
 
   template<int other_w>
@@ -147,19 +152,19 @@ public:
   }
 
   template<int hi, int lo>
-  SInt<hi - lo + 1> bits() const {
-    SInt<hi - lo + 1> result(ui.template core_bits<hi,lo>());
-    result.sign_extend(hi - lo);
-    return result;
+  UInt<hi - lo + 1> bits() const {
+    return ui.template bits<hi,lo>();
   }
 
   template<int n>
-  SInt<n> head() const {
+  UInt<n> head() const {
+    static_assert(n <= w_, "Head n must be <= width");
     return bits<w_-1, w_-n>();
   }
 
   template<int n>
-  SInt<w_ - n> tail() const {
+  UInt<w_ - n> tail() const {
+    static_assert(n < w_, "Tail n must be < width");
     return bits<w_-n-1, 0>();
   }
 
@@ -170,7 +175,9 @@ public:
 
   template<int shamt>
   SInt<w_ - shamt> shr() const {
-    return bits<w_-1, shamt>();
+    SInt<w_ - shamt> result(ui.template core_bits<w_-1, shamt>());
+    result.sign_extend(w_ - shamt - 1);
+    return result;
   }
 
   template<int other_w>

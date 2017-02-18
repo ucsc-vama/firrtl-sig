@@ -183,7 +183,10 @@ public:
 
   template<int other_w>
   SInt<w_ + (1<<other_w) - 1> operator<<(const UInt<other_w> &other) const {
-    return SInt<w_ + (1<<other_w) - 1>(ui << other);
+    uint64_t dshamt = other.as_single_word();
+    SInt<w_ + (1<<other_w) - 1> result(ui << other);
+    result.sign_extend(w_ + dshamt - 1);
+    return result;
   }
 
   UInt<1> operator<=(const SInt<w_> &other) const {

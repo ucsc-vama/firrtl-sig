@@ -107,6 +107,17 @@ const lest::test spec[] = {
     EXPECT( a128u - b128u == SInt<129>("0x92090d5b9e7b1cd902925397d6bbc33b") );
   },
 
+  CASE("uint negate operator") {
+    EXPECT( -a16u == SInt<17>(0x13502) );
+    EXPECT( -a64u == SInt<65>("0x11d42a4b0074cf038") );
+    EXPECT( -a80u == SInt<81>("0x1678bd93e083282b296c6") );
+    EXPECT( -a128u == SInt<129>("0x116fc9b959680355cbb2d4d556a1b84a3") );
+    EXPECT( (-(-a16u)) == SInt<18>(a16u.pad<18>()) );
+    EXPECT( (-(-a64u)) == SInt<66>(a64u.pad<66>()) );
+    EXPECT( (-(-a80u)) == SInt<82>(a80u.pad<82>()) );
+    EXPECT( (-(-a128u)) == SInt<130>(a128u.pad<130>()) );
+  },
+
   CASE("uint mult operator") {
     EXPECT( a16u * b16u == UInt<32>(0x973f2c84) );
     EXPECT( a64u * b64u == UInt<128>("0x2a4dc44ce497c914d9d3df0ec14b0b78") );
@@ -309,6 +320,26 @@ const lest::test spec[] = {
     EXPECT( a128s - b128s == SInt<129>("0xaf511039500687ff43235ad5fa75b037") );
     EXPECT( b128s - a128s == SInt<129>("0x150aeefc6aff97800bcdca52a058a4fc9") );
     EXPECT( b128s - SInt<128>(0) == b128s.pad<129>() );
+  },
+
+  CASE("sint negate operator") {
+    EXPECT( -a16s == SInt<17>(0x19246) );
+    EXPECT( -a64s == SInt<65>("0x18ef772e3b5a3b5fe") );
+    EXPECT( -a80s == SInt<81>("0x1c7e3e019435978a6dd02") );
+    EXPECT( -a128s == SInt<129>("0x191f6c6c8f533e62513f9163ec24af98c") );
+    EXPECT( (-(-a16s)) == SInt<18>(a16s.pad<18>()) );
+    EXPECT( (-(-a64s)) == SInt<66>(a64s.pad<66>()) );
+    EXPECT( (-(-a80s)) == SInt<82>(a80s.pad<82>()) );
+    EXPECT( (-(-a128s)) == SInt<130>(a128s.pad<130>()) );
+
+    EXPECT( -b16s == SInt<17>(0x334e) );
+    EXPECT( -b64s == SInt<65>("0x21055bea26f9dcfe") );
+    EXPECT( -b80s == SInt<81>("0x1041751f2c75480c9226") );
+    EXPECT( -b128s == SInt<129>("0x4147d702453a6e24571c7114bcc0a9c3") );
+    EXPECT( (-(-b16s)) == SInt<18>(b16s.pad<18>()) );
+    EXPECT( (-(-b64s)) == SInt<66>(b64s.pad<66>()) );
+    EXPECT( (-(-b80s)) == SInt<82>(b80s.pad<82>()) );
+    EXPECT( (-(-b128s)) == SInt<130>(b128s.pad<130>()) );
   },
 
   CASE("sint mult operator") {

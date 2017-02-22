@@ -58,5 +58,8 @@ int main() {
   cout << (big < big_plus_1) << " " << (big >= big_plus_1) << endl;
   cout << (big > big_plus_1) << " " << (big <= big_plus_1) << endl;
   cout << UInt<8>(-1).cvt() << endl;
+  UInt<48> reas;
+  reas.rand_init();
+  cout << reas << endl;
   return 0;
 }

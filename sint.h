@@ -35,6 +35,11 @@ public:
 
   SInt(const UInt<w_> &other) : ui(other) {}
 
+  void rand_init() {
+    ui.core_rand_init();
+    sign_extend();
+  }
+
   template<int out_w>
   SInt<cmax(w_,out_w)> pad() const {
     return SInt<cmax(w_,out_w)>(*this);

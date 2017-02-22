@@ -6,7 +6,13 @@
 #include <cinttypes>
 #include <iomanip>
 #include <iostream>
+#include <random>
 #include <type_traits>
+
+
+// Internal RNG
+// TODO: pull out and more gracefully use
+static std::mt19937 rng(14);
 
 // Forward dec
 template<int w_>
@@ -59,6 +65,11 @@ public:
       else
         words_[word] = 0;
     }
+  }
+
+  void rand_init() {
+    core_rand_init();
+    mask_top_unused();
   }
 
   template<int out_w>
@@ -376,6 +387,14 @@ private:
       result.words_[i] = ~words_[i];
     }
     return result;
+  }
+
+  void core_rand_init() {
+    for (int word=0; word < n_; word++) {
+      words_[word] = rng();
+      if ((word*kWordSize + 32) < w_)
+        words_[word] |= static_cast<uint64_t>(rng()) << 32;
+    }
   }
 
   template<int hi, int lo>

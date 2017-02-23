@@ -177,7 +177,10 @@ public:
   }
 
   UInt<w_> operator~() const {
-    UInt<w_> result = core_negate();
+    UInt<w_> result;
+    for (int i = 0; i < n_; i++) {
+      result.words_[i] = ~words_[i];
+    }
     result.mask_top_unused();
     return result;
   }
@@ -390,14 +393,6 @@ private:
       uint64_t operand = subtract ? ~other.words_[i] : other.words_[i];
       result.words_[i] = words_[i] + operand + carry;
       carry = result.words_[i] < operand ? 1 : 0;
-    }
-    return result;
-  }
-
-  UInt<w_> core_negate() const {
-    UInt<w_> result;
-    for (int i = 0; i < n_; i++) {
-      result.words_[i] = ~words_[i];
     }
     return result;
   }

@@ -140,8 +140,8 @@ public:
     return (*this) % SInt<other_w+1>(other.template pad<w_+1>());
   }
 
-  SInt<w_> operator~() const {
-    return SInt<w_>(ui.core_negate());
+  UInt<w_> operator~() const {
+    return ~ui;
   }
 
   SInt<w_> operator&(const SInt<w_> &other) const {

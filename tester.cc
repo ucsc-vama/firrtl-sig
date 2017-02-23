@@ -372,10 +372,10 @@ const lest::test spec[] = {
   },
 
   CASE("sint not operator") {
-    EXPECT( ~a16s == SInt<16>(0x9245) );
-    EXPECT( ~a64s == SInt<64>(0x8ef772e3b5a3b5fd) );
-    EXPECT( ~a80s == SInt<80>("0xc7e3e019435978a6dd01") );
-    EXPECT( ~a128s == SInt<128>("0x91f6c6c8f533e62513f9163ec24af98b") );
+    EXPECT( ~a16s == UInt<16>(0x9245) );
+    EXPECT( ~a64s == UInt<64>(0x8ef772e3b5a3b5fd) );
+    EXPECT( ~a80s == UInt<80>("0xc7e3e019435978a6dd01") );
+    EXPECT( ~a128s == UInt<128>("0x91f6c6c8f533e62513f9163ec24af98b") );
   },
 
   CASE("sint and operator") {

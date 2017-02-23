@@ -263,6 +263,11 @@ public:
     return SInt<w_>(*this);
   }
 
+  // Direct access for ops that only need small signals
+  int64_t as_single_word() const {
+    static_assert(w_ <= kWordSize, "SInt too big for single int64_t");
+    return ui.words_[0];
+  }
 
 
 private:
@@ -273,12 +278,6 @@ private:
   bool negative() const {
     return static_cast<int64_t>(ui.words_[ui.word_index(w_ - 1)]) < 0;
     // return (ui.words_[ui.word_index(w_ - 1)] >> ((w_-1) % kWordSize)) & 1;
-  }
-
-  // Direct access for ops that only need small signals
-  int64_t as_single_word() const {
-    static_assert(w_ <= kWordSize, "SInt too big for single int64_t");
-    return ui.words_[0];
   }
 
   void sign_extend(int sign_index = (w_-1)) {

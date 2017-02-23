@@ -320,6 +320,12 @@ public:
     return pad<w_+1>().asSInt();
   }
 
+  // Direct access for ops that only need small signals
+  uint64_t as_single_word() const {
+    static_assert(w_ <= kWordSize, "UInt too big for single uint64_t");
+    return words_[0];
+  }
+
 protected:
   template<int other_w>
   friend class uint_wrapper_t;
@@ -375,12 +381,6 @@ private:
     if (bits_in_top_word_ != WW) {
       words_[n_-1] = words_[n_-1] & ((1l << shamt(bits_in_top_word_)) - 1l);
     }
-  }
-
-  // Direct access for ops that only need small signals
-  uint64_t as_single_word() const {
-    static_assert(w_ <= kWordSize, "UInt too big for single uint64_t");
-    return words_[0];
   }
 
   // Reused math operators

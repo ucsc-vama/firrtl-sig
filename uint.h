@@ -332,14 +332,12 @@ protected:
 
   void raw_copy_in(uint64_t *src) {
     for (int word=0; word < n_; word++)
-      words_[word] = (*src)++;
+      words_[word] = *src++;
   }
 
   void raw_copy_out(uint64_t *dst) {
-    for (int word=0; word < n_; word++) {
-      *dst = words_[word];
-      dst++;
-    }
+    for (int word=0; word < n_; word++)
+      *dst++ = words_[word];
   }
 
 private:

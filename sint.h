@@ -270,6 +270,19 @@ public:
   }
 
 
+protected:
+  template<int other_w>
+  friend class sint_wrapper_t;
+
+  void raw_copy_in(uint64_t *src) {
+    ui.raw_copy_in(src);
+  }
+
+  void raw_copy_out(uint64_t *dst) {
+    ui.raw_copy_out(dst);
+  }
+
+
 private:
   UInt<w_> ui;
 

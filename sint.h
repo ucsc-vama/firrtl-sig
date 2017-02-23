@@ -144,16 +144,22 @@ public:
     return ~ui;
   }
 
-  SInt<w_> operator&(const SInt<w_> &other) const {
-    return SInt<w_>(ui & other.ui);
+  UInt<w_> operator&(const SInt<w_> &other) const {
+    UInt<w_> result = ui & other.ui;
+    result.mask_top_unused();
+    return result;
   }
 
-  SInt<w_> operator|(const SInt<w_> &other) const {
-    return SInt<w_>(ui | other.ui);
+  UInt<w_> operator|(const SInt<w_> &other) const {
+    UInt<w_> result = ui | other.ui;
+    result.mask_top_unused();
+    return result;
   }
 
-  SInt<w_> operator^(const SInt<w_> &other) const {
-    return SInt<w_>(ui ^ other.ui);
+  UInt<w_> operator^(const SInt<w_> &other) const {
+    UInt<w_> result = ui ^ other.ui;
+    result.mask_top_unused();
+    return result;
   }
 
   template<int hi, int lo>

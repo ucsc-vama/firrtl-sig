@@ -379,24 +379,24 @@ const lest::test spec[] = {
   },
 
   CASE("sint and operator") {
-    EXPECT( (a16s & b16s) == SInt<16>(0x4cb2) );
-    EXPECT( (a64s & b64s) == SInt<64>(0x5008841448040202L) );
-    EXPECT( (a80s & b80s) == SInt<80>("0x281c0ae09082875120da") );
-    EXPECT( (a128s & b128s) == SInt<128>("0x2e0828350ac411daa80288c101350634") );
+    EXPECT( (a16s & b16s) == UInt<16>(0x4cb2) );
+    EXPECT( (a64s & b64s) == UInt<64>(0x5008841448040202L) );
+    EXPECT( (a80s & b80s) == UInt<80>("0x281c0ae09082875120da") );
+    EXPECT( (a128s & b128s) == UInt<128>("0x2e0828350ac411daa80288c101350634") );
   },
 
   CASE("sint or operator") {
-    EXPECT( (a16s | b16s) == SInt<16>(0xedba) );
-    EXPECT( (a64s | b64s) == SInt<64>(0xfffaad1ddb5e6b02) );
-    EXPECT( (a80s | b80s) == SInt<80>("0xffbe9fe6ffaeb7fb6ffe") );
-    EXPECT( (a128s | b128s) == SInt<128>("0xfeb939ffbacd99dbece7efeb7fbf567d") );
+    EXPECT( (a16s | b16s) == UInt<16>(0xedba) );
+    EXPECT( (a64s | b64s) == UInt<64>(0xfffaad1ddb5e6b02) );
+    EXPECT( (a80s | b80s) == UInt<80>("0xffbe9fe6ffaeb7fb6ffe") );
+    EXPECT( (a128s | b128s) == UInt<128>("0xfeb939ffbacd99dbece7efeb7fbf567d") );
   },
 
   CASE("sint xor operator") {
-    EXPECT( (a16s ^ b16s) == SInt<16>(0xa108) );
-    EXPECT( (a64s ^ b64s) == SInt<64>(0xaff22909935a6900) );
-    EXPECT( (a80s ^ b80s) == SInt<80>("0xd7a295066f2c30aa4f24") );
-    EXPECT( (a128s ^ b128s) == SInt<128>("0xd0b111cab009880144e5672a7e8a5049") );
+    EXPECT( (a16s ^ b16s) == UInt<16>(0xa108) );
+    EXPECT( (a64s ^ b64s) == UInt<64>(0xaff22909935a6900) );
+    EXPECT( (a80s ^ b80s) == UInt<80>("0xd7a295066f2c30aa4f24") );
+    EXPECT( (a128s ^ b128s) == UInt<128>("0xd0b111cab009880144e5672a7e8a5049") );
   },
 
   CASE("sint bits operator") {

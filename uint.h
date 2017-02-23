@@ -107,6 +107,12 @@ public:
     return result;
   }
 
+  SInt<w_> subw(const UInt<w_> &other) const {
+    SInt<w_> result(core_add_sub<w_, true>(other.ui));
+    result.sign_extend();
+    return result;
+  }
+
   SInt<w_ + 1> operator-() const {
     return SInt<w_>(0) - *this;
   }

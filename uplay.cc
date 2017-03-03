@@ -61,5 +61,6 @@ int main() {
   UInt<48> reas;
   reas.rand_init();
   cout << reas << endl;
+  cout << UInt<2>(0x2).cat(UInt<32>(0x00000008)) << endl;
   return 0;
 }

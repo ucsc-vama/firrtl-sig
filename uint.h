@@ -82,10 +82,11 @@ public:
     UInt<w_ + other_w> to_return(other);
     const int offset = other_w % kWordSize;
     for (int i = 0; i < n_; i++) {
-      to_return.words_[word_index(other_w) + i] |= words_[i] << shamt(offset);
+      to_return.words_[word_index(other_w) + i] |= static_cast<uint64_t>(words_[i]) <<
+                                                     shamt(offset);
       if ((offset != 0) && (other_w + w_ > kWordSize))
-        to_return.words_[word_index(other_w) + i + 1] |= words_[i] >>
-          shamt(kWordSize - offset);
+        to_return.words_[word_index(other_w) + i + 1] |= static_cast<uint64_t>(words_[i]) >>
+                                                           shamt(kWordSize - offset);
     }
     return to_return;
   }

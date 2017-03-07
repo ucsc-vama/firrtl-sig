@@ -38,6 +38,11 @@ public:
   }
 
   UInt(std::string initial) {
+    if (initial.substr(0,2) != "0x") {
+      std::cout << "ERROR: UInt string literal must start with 0x!" << std::endl;
+      std::exit(-17);
+    }
+    initial.erase(0,2);
     // FUTURE: check that literal isn't too big
     int input_bits = 4*(initial.size() - 2);
     int last_start = initial.length();

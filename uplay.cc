@@ -62,5 +62,7 @@ int main() {
   reas.rand_init();
   cout << reas << endl;
   cout << UInt<2>(0x2).cat(UInt<32>(0x00000008)) << endl;
+  cout << (UInt<256>("0x1") << UInt<8>(0x40)).bits<256-1,0>() << endl;
+  cout << UInt<256>("0xdeadbeefcafebebe040400404040044") << endl;
   return 0;
 }

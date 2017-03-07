@@ -44,10 +44,10 @@ public:
     }
     initial.erase(0,2);
     // FUTURE: check that literal isn't too big
-    int input_bits = 4*(initial.size() - 2);
+    int input_bits = 4*initial.length();
     int last_start = initial.length();
     for (int word=0; word < n_; word++) {
-      if (word * kWordSize > input_bits)
+      if (word * kWordSize >= input_bits)
         words_[word] = 0;
       else {
         int word_start = std::max(static_cast<int>(initial.length())
@@ -55,8 +55,7 @@ public:
         int word_len = std::min(16, last_start - word_start);
         last_start = word_start;
         const std::string substr = initial.substr(word_start, word_len);
-        uint64_t x = std::stoul(substr, nullptr, 16);
-        words_[word] = x;
+        words_[word] = static_cast<uint64_t>(std::stoul(substr, nullptr, 16));
       }
     }
   }

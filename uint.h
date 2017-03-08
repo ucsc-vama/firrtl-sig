@@ -408,6 +408,7 @@ private:
     return result;
   }
 
+  __attribute__((noinline))
   void core_rand_init() {
     for (int word=0; word < n_; word++) {
       words_[word] = rng();

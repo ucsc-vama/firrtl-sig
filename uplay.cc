@@ -1,3 +1,4 @@
+#include <array>
 #include <iostream>
 
 #include "uint.h"
@@ -67,5 +68,6 @@ int main() {
   cout << UInt<128>(0xbeef) << endl;
   cout << (UInt<6>(0x77) - UInt<6>(0x37)) << endl;
   cout << (UInt<6>(0x77) == UInt<6>(0x37)) << endl;
+  cout << UInt<80>(std::array<uint64_t, 2>({0xcafe, 0xbeef})) << endl;
   return 0;
 }

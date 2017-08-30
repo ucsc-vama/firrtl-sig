@@ -61,6 +61,13 @@ public:
     }
   }
 
+  // NOTE: reads words right to left so literal appears to be concatted
+  UInt(std::array<word_t, n_> raw_input_reversed) {
+    for (int i = 0; i < n_; i++)
+      words_[i] = raw_input_reversed[n_ - i - 1];
+    mask_top_unused();
+  }
+
   template<int other_w>
   explicit UInt(const UInt<other_w> &other) {
     static_assert(other_w <= w_, "Can't copy construct from wider UInt");

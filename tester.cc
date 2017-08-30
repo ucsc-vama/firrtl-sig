@@ -1,3 +1,4 @@
+#include <array>
 #include <lest.hpp>
 
 #include "uint.h"
@@ -66,6 +67,8 @@ const lest::test spec[] = {
     EXPECT( a128u == UInt<128>(a128u) );
     EXPECT( a16u == UInt<16>(0xfcafe) );
     EXPECT( UInt<128>(0x1) == UInt<128>("0x1") );
+    EXPECT( a80u == UInt<80>(std::array<uint64_t,2>({0x9874, 0x26c1f7cd7d4d693a})));
+    EXPECT( a128u == UInt<128>(std::array<uint64_t,2>({0xe903646a697fcaa3, 0x44d2b2aa95e47b5d})));
   },
 
   CASE("uint pad operator") {

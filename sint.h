@@ -26,6 +26,11 @@ public:
     sign_extend();
   }
 
+  // TODO: make array's template parameters somehow inherit from ui
+  SInt(std::array<uint64_t, (w_+63)/64> raw_input_reversed) : ui(raw_input_reversed) {
+    sign_extend();
+  }
+
   template<int other_w>
   explicit SInt(const SInt<other_w> &other) {
     static_assert(other_w <= w_, "Can't copy construct from wider SInt");

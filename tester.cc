@@ -67,8 +67,8 @@ const lest::test spec[] = {
     EXPECT( a128u == UInt<128>(a128u) );
     EXPECT( a16u == UInt<16>(0xfcafe) );
     EXPECT( UInt<128>(0x1) == UInt<128>("0x1") );
-    EXPECT( a80u == UInt<80>(std::array<uint64_t,2>({0x9874, 0x26c1f7cd7d4d693a})));
-    EXPECT( a128u == UInt<128>(std::array<uint64_t,2>({0xe903646a697fcaa3, 0x44d2b2aa95e47b5d})));
+    EXPECT( a80u == UInt<80>(std::array<uint64_t,2>({0x9874, 0x26c1f7cd7d4d693a})) );
+    EXPECT( a128u == UInt<128>(std::array<uint64_t,2>({0xe903646a697fcaa3, 0x44d2b2aa95e47b5d})) );
   },
 
   CASE("uint pad operator") {
@@ -267,6 +267,8 @@ const lest::test spec[] = {
     EXPECT( b64s == SInt<64>(b64s) );
     EXPECT( b80s == SInt<80>(b80s) );
     EXPECT( b128s == SInt<128>(b128s) );
+    EXPECT( a80s == SInt<80>(std::array<uint64_t,2>({0x381c, 0x1fe6bca6875922fe})) );
+    EXPECT( a128s == SInt<128>(std::array<uint64_t,2>({0x6e0939370acc19da, 0xec06e9c13db50674})) );
   },
 
   CASE("sint pad operator") {

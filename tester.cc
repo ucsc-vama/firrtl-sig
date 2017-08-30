@@ -64,6 +64,8 @@ const lest::test spec[] = {
     EXPECT( a64u == UInt<64>(a64u) );
     EXPECT( a80u == UInt<80>(a80u) );
     EXPECT( a128u == UInt<128>(a128u) );
+    EXPECT( a16u == UInt<16>(0xfcafe) );
+    EXPECT( UInt<128>(0x1) == UInt<128>("0x1") );
   },
 
   CASE("uint pad operator") {

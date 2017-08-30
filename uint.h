@@ -35,6 +35,7 @@ public:
 
   UInt(uint64_t initial) : UInt() {
     words_[0] = initial;
+    mask_top_unused();
   }
 
   UInt(std::string initial) {

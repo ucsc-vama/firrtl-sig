@@ -436,7 +436,7 @@ private:
     int out_word_width = word_index(hi - lo + kWordSize);
     for (int i=0; i < out_word_width; i++) {
       result.words_[i] = words_[i + word_down] >> bits_down;
-      if ((bits_down != 0) && (hi > kWordSize))
+      if ((bits_down != 0) && (i + word_down + 1 < n_))
         result.words_[i] |= words_[i + word_down + 1] <<
           shamt(kWordSize - bits_down);
     }

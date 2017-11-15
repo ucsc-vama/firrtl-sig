@@ -96,7 +96,7 @@ public:
     for (int i = 0; i < n_; i++) {
       to_return.words_[word_index(other_w) + i] |= static_cast<uint64_t>(words_[i]) <<
                                                      shamt(offset);
-      if ((offset != 0) && (i < to_return.NW - 1))
+      if ((offset != 0) && (i + 1 < to_return.NW - word_index(other_w)))
         to_return.words_[word_index(other_w) + i + 1] |= static_cast<uint64_t>(words_[i]) >>
                                                            shamt(kWordSize - offset);
     }

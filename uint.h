@@ -13,6 +13,8 @@
 // Internal RNG
 // TODO: pull out and more gracefully use
 static std::mt19937_64 rng(14);
+uint64_t rng_leftover;
+uint64_t rng_bits_left = 0;
 
 // Forward dec
 template<int w_>
@@ -418,8 +420,19 @@ private:
 
   __attribute__((noinline))
   void core_rand_init() {
-    for (int word=0; word < n_; word++) {
-      words_[word] = rng();
+    if (w_ < 64) {
+      if (w_ > rng_bits_left) {
+        rng_leftover = rng();
+        rng_bits_left = 64;
+      }
+      // trusting mask_top_unused() will be called
+      words_[0] = rng_leftover;
+      rng_leftover = rng_leftover >> w_;
+      rng_bits_left -= w_;
+    } else {
+      for (int word=0; word < n_; word++) {
+        words_[word] = rng();
+      }
     }
   }
 

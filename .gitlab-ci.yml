@@ -1,0 +1,11 @@
+# see https://hub.docker.com/_/gcc/
+image: gcc:6.4
+
+build:
+  stage: build
+  script: 
+    - make tester
+test:
+  stage: test
+  script:
+    - make test

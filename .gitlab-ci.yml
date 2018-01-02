@@ -3,7 +3,9 @@ image: gcc:6.4
 
 build:
   stage: build
-  script: 
+  before_script:
+    - git submodule update --init lest
+  script:
     - make tester
 test:
   stage: test

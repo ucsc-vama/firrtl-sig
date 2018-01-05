@@ -219,6 +219,13 @@ public:
     return result;
   }
 
+  template<int other_w>
+  SInt<w_> dshlw(const UInt<other_w> &other) const {
+    SInt<w_> result(ui.dshlw(other));
+    result.sign_extend();
+    return result;
+  }
+
   UInt<1> operator<=(const SInt<w_> &other) const {
     // if (ui.NW == 1)
     //   return as_single_word() <= other.as_single_word();

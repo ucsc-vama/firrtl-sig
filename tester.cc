@@ -481,6 +481,18 @@ const lest::test spec[] = {
     EXPECT( (b80s << UInt<5>(12)) == SInt<111>("0x7ffffefbe8ae0d38ab7f36dda000") );
     EXPECT( (b128s << UInt<6>(16)) == SInt<191>("0x7fffffffffffbeb828fdbac591dba8e38eeb433f563d0000") );
 
+    EXPECT( (a16s.dshlw(UInt<1>(0))) == SInt<16>(0x6dba) );
+    EXPECT( (a16s.dshlw(UInt<4>(4))) == SInt<16>(0xdba0) );
+    EXPECT( (a64s.dshlw(UInt<4>(8))) == SInt<64>("0x088d1c4a5c4a0200") );
+    EXPECT( (a80s.dshlw(UInt<5>(12))) == SInt<80>("0xc1fe6bca6875922fe000") );
+    EXPECT( (a128s.dshlw(UInt<6>(16))) == SInt<128>("0x39370acc19daec06e9c13db506740000") );
+
+    EXPECT( (b16s.dshlw(UInt<1>(0))) == SInt<16>(0xccb2) );
+    EXPECT( (b16s.dshlw(UInt<4>(4))) == SInt<16>(0xcb20) );
+    EXPECT( (b64s.dshlw(UInt<4>(8))) == SInt<64>("0xfaa415d906230200") );
+    EXPECT( (b80s.dshlw(UInt<6>(60))) == SInt<80>("0x36dda000000000000000") );
+    EXPECT( (b128s.dshlw(UInt<7>(72))) == SInt<128>("0xe38eeb433f563d000000000000000000") );
+
     EXPECT( (a16s >> UInt<1>(0)) == SInt<16>(0x6dba) );
     EXPECT( (a16s >> UInt<4>(4)) == SInt<16>(0x06db) );
     EXPECT( (a64s >> UInt<4>(8)) == SInt<64>("0x71088d1c4a5c4a") );

@@ -69,5 +69,6 @@ int main() {
   cout << (UInt<6>(0x77) - UInt<6>(0x37)) << endl;
   cout << (UInt<6>(0x77) == UInt<6>(0x37)) << endl;
   cout << UInt<80>(std::array<uint64_t, 2>({0xcafe, 0xbeef})) << endl;
+  cout << UInt<64>(0xe2bd5b4ff8b30fc8).shlw<8>() << endl;
   return 0;
 }

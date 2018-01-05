@@ -256,17 +256,7 @@ public:
 
   template<int shamt>
   UInt<w_> shlw() const {
-    // return shl<shamt>().template tail<shamt>();
-    UInt<w_> result(0);
-    uint64_t word_up = word_index(shamt);
-    uint64_t bits_up = shamt % kWordSize;
-    for (uint64_t i=0; i + word_up < n_; i++) {
-      result.words_[i + word_up] |= words_[i] << bits_up;
-      if ((bits_up != 0) && (w_ > kWordSize) && (i + word_up + 1 < n_))
-        result.words_[i + word_up + 1] = words_[i] >> cap(kWordSize - bits_up);
-    }
-    result.mask_top_unused();
-    return result;
+    return shl<shamt>().template tail<shamt>();
   }
 
   template<int shamt>

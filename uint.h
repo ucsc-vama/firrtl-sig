@@ -97,10 +97,10 @@ public:
     const int offset = other_w % kWordSize;
     for (int i = 0; i < n_; i++) {
       to_return.words_[word_index(other_w) + i] |= static_cast<uint64_t>(words_[i]) <<
-                                                     shamt(offset);
+                                                     cap(offset);
       if ((offset != 0) && (i + 1 < to_return.NW - word_index(other_w)))
         to_return.words_[word_index(other_w) + i + 1] |= static_cast<uint64_t>(words_[i]) >>
-                                                           shamt(kWordSize - offset);
+                                                           cap(kWordSize - offset);
     }
     return to_return;
   }
@@ -268,8 +268,7 @@ public:
     for (uint64_t i=word_down; i < n_; i++) {
       result.words_[i - word_down] = words_[i] >> bits_down;
       if ((bits_down != 0) && (i < n_-1))
-        result.words_[i - word_down] |= words_[i + 1] <<
-          shamt(kWordSize - bits_down);
+        result.words_[i - word_down] |= words_[i + 1] << cap(kWordSize - bits_down);
     }
     return result;
   }
@@ -284,7 +283,7 @@ public:
       result.words_[i + word_up] |= words_[i] << bits_up;
       if ((bits_up != 0) && (dshamt + w_ > kWordSize))
         result.words_[i + word_up + 1] = words_[i] >>
-          shamt(kWordSize - bits_up);
+          cap(kWordSize - bits_up);
     }
     return result;
   }
@@ -396,12 +395,12 @@ private:
   uint64_t static lower(uint64_t i) { return i & 0x00000000ffffffff; }
 
   // Hack to prevent compiler warnings for shift amount being too large
-  int static shamt(int s) { return s % kWordSize; }
+  int static cap(int s) { return s % kWordSize; }
 
   // Clean up high bits
   void mask_top_unused() {
     if (bits_in_top_word_ != WW) {
-      words_[n_-1] = words_[n_-1] & ((1l << shamt(bits_in_top_word_)) - 1l);
+      words_[n_-1] = words_[n_-1] & ((1l << cap(bits_in_top_word_)) - 1l);
     }
   }
 
@@ -448,8 +447,7 @@ private:
     for (int i=0; i < out_word_width; i++) {
       result.words_[i] = words_[i + word_down] >> bits_down;
       if ((bits_down != 0) && (i + word_down + 1 < n_))
-        result.words_[i] |= words_[i + word_down + 1] <<
-          shamt(kWordSize - bits_down);
+        result.words_[i] |= words_[i + word_down + 1] << cap(kWordSize - bits_down);
     }
     return result;
   }
@@ -460,7 +458,7 @@ private:
     int top_nibble_width = (bits_in_top_word_ + 3) / 4;
     os << std::setw(top_nibble_width);
     uint64_t top_word_mask = bits_in_top_word_ == kWordSize ? -1 :
-                               (1l << shamt(bits_in_top_word_)) - 1;
+                               (1l << cap(bits_in_top_word_)) - 1;
     os << (static_cast<uint64_t>(words_[n_-1]) & top_word_mask);
     for (int word=n_ - 2; word >= 0; word--) {
      os << std::hex << std::setfill('0') << std::setw(16) << words_[word];

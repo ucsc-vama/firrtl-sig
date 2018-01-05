@@ -455,6 +455,12 @@ const lest::test spec[] = {
     EXPECT( a80s.shl<60>() == SInt<140>("0x381c1fe6bca6875922fe000000000000000") );
     EXPECT( a128s.shl<72>() == SInt<200>("0x6e0939370acc19daec06e9c13db50674000000000000000000") );
 
+    EXPECT( a16s.shlw<0>() == a16s );
+    EXPECT( a16s.shlw<4>() == SInt<16>(0xdba0) );
+    EXPECT( a64s.shlw<8>() == SInt<64>("0x088d1c4a5c4a0200") );
+    EXPECT( a80s.shlw<60>() == SInt<80>("0x922fe000000000000000") );
+    EXPECT( a128s.shlw<72>() == SInt<128>("0x06e9c13db50674000000000000000000") );
+
     EXPECT( a16s.shr<0>() == a16s );
     EXPECT( a16s.shr<8>() == SInt<8>(0x6d) );
     EXPECT( a64s.shr<16>() == SInt<48>(0x71088d1c4a5c) );

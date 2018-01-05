@@ -190,6 +190,13 @@ public:
   }
 
   template<int shamt>
+  SInt<w_> shlw() const {
+    SInt<w_> result = shl<shamt>().template tail<shamt>();
+    result.sign_extend();
+    return result;
+  }
+
+  template<int shamt>
   SInt<w_ - shamt> shr() const {
     SInt<w_ - shamt> result(ui.template core_bits<w_-1, shamt>());
     result.sign_extend(w_ - shamt - 1);

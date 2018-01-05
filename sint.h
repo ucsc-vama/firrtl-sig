@@ -191,7 +191,7 @@ public:
 
   template<int shamt>
   SInt<w_> shlw() const {
-    SInt<w_> result = shl<shamt>().template tail<shamt>();
+    SInt<w_> result(ui.template shlw<shamt>());
     result.sign_extend();
     return result;
   }

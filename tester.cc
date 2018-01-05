@@ -220,6 +220,12 @@ const lest::test spec[] = {
     EXPECT( (a80u << UInt<5>(12)) == UInt<111>("0x987426c1f7cd7d4d693a000") );
     EXPECT( (a128u << UInt<6>(16)) == UInt<191>("0xe903646a697fcaa344d2b2aa95e47b5d0000") );
 
+    EXPECT( (a16u.dshlw(UInt<1>(0))) == a16u );
+    EXPECT( (a16u.dshlw(UInt<4>(4))) == UInt<16>(0xafe0) );
+    EXPECT( (a64u.dshlw(UInt<4>(8))) == UInt<64>("0xbd5b4ff8b30fc800") );
+    EXPECT( (a80u.dshlw(UInt<6>(60))) == UInt<80>("0xd693a000000000000000") );
+    EXPECT( (a128u.dshlw(UInt<7>(72))) == UInt<128>("0xd2b2aa95e47b5d000000000000000000") );
+
     EXPECT( (a16u >> UInt<1>(0)) == UInt<16>(0xcafe) );
     EXPECT( (a16u >> UInt<4>(4)) == UInt<16>(0x0caf) );
     EXPECT( (a64u >> UInt<4>(8)) == UInt<64>("0xe2bd5b4ff8b30f") );

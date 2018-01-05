@@ -287,9 +287,24 @@ public:
     for (uint64_t i=0; i < n_; i++) {
       result.words_[i + word_up] |= words_[i] << bits_up;
       if ((bits_up != 0) && (dshamt + w_ > kWordSize))
-        result.words_[i + word_up + 1] = words_[i] >>
-          cap(kWordSize - bits_up);
+        result.words_[i + word_up + 1] = words_[i] >> cap(kWordSize - bits_up);
     }
+    return result;
+  }
+
+  template<int other_w>
+  UInt<w_> dshlw(const UInt<other_w> &other) const {
+    // return operator<<(other).template bits<w_-1,0>();
+    UInt<w_> result(0);
+    uint64_t dshamt = other.as_single_word();
+    uint64_t word_up = word_index(dshamt);
+    uint64_t bits_up = dshamt % kWordSize;
+    for (uint64_t i=0; i + word_up < n_; i++) {
+      result.words_[i + word_up] |= words_[i] << bits_up;
+      if ((bits_up != 0) && (w_ > kWordSize) && (i + word_up + 1 < n_))
+        result.words_[i + word_up + 1] = words_[i] >> cap(kWordSize - bits_up);
+    }
+    result.mask_top_unused();
     return result;
   }
 

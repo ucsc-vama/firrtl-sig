@@ -441,7 +441,7 @@ private:
   __attribute__((noinline))
   void core_rand_init() {
     // trusting mask_top_unused() will be called afterwards
-    if (w_ <= 64) {
+    if (w_ < 64) {
       if (w_ > rng_bits_left) {
         rng_leftover = rng64();
         rng_bits_left = 64;

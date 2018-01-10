@@ -447,7 +447,7 @@ private:
         rng_bits_left = 64;
       }
       words_[0] = rng_leftover;
-      rng_leftover = rng_leftover >> w_;
+      rng_leftover = rng_leftover >> cap(w_);
       rng_bits_left -= w_;
     } else {
       for (int word=0; word < n_; word++) {

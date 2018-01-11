@@ -1,13 +1,9 @@
 # see https://hub.docker.com/_/gcc/
 image: gcc:6.4
 
-build:
-  stage: build
-  before_script:
-    - git submodule update --init lest
-  script:
-    - make tester
 test:
   stage: test
+  before_script:
+    - git submodule update --init lest
   script:
     - make test

@@ -4,4 +4,4 @@ This repo provides C++ implementations of the UInt and SInt types described in t
 
 To test the repo using short unit tests:
 
-    $ make
+    $ make test

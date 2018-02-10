@@ -464,8 +464,7 @@ private:
     UInt<hi - lo + 1> result;
     int word_down = word_index(lo);
     int bits_down = lo % kWordSize;
-    int out_word_width = word_index(hi - lo + kWordSize);
-    for (int i=0; i < out_word_width; i++) {
+    for (int i=0; i < result.NW; i++) {
       result.words_[i] = words_[i + word_down] >> bits_down;
       if ((bits_down != 0) && (i + word_down + 1 < n_))
         result.words_[i] |= words_[i + word_down + 1] << cap(kWordSize - bits_down);

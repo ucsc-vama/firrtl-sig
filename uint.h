@@ -231,6 +231,30 @@ public:
     return result;
   }
 
+  UInt<1> andr() const {
+    return *this == ~UInt<w_>(0);
+  }
+
+  UInt<1> orr() const {
+    return *this != UInt<w_>(0);
+  }
+
+  UInt<1> xorr() const {
+    word_t result = 0;
+    for (int i = 0; i < n_; i++) {
+      word_t word_parity_scratch = words_[i] ^ (words_[i] >> 1);
+      word_parity_scratch ^= (word_parity_scratch >> 2);
+      word_parity_scratch ^= (word_parity_scratch >> 4);
+      if (WW > 8) {
+        word_parity_scratch ^= (word_parity_scratch >> 8);
+        word_parity_scratch ^= (word_parity_scratch >> 16);
+        word_parity_scratch ^= (word_parity_scratch >> 32);
+      }
+      result ^= word_parity_scratch;
+    }
+    return UInt<1>(result & 1);
+  }
+
   template<int hi, int lo>
   UInt<hi - lo + 1> bits() const {
     UInt<hi - lo + 1> result = core_bits<hi,lo>();

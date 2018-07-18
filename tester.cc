@@ -451,6 +451,40 @@ const lest::test spec[] = {
     EXPECT( (a128s ^ b128s) == UInt<128>("0xd0b111cab009880144e5672a7e8a5049") );
   },
 
+  CASE("sint andr operator") {
+    EXPECT( (a16s.andr()) == UInt<1>(0x0) );
+    EXPECT( ((~UInt<16>(0)).asSInt().andr()) == UInt<1>(1) );
+    EXPECT( (a64s.andr()) == UInt<1>(0x0) );
+    EXPECT( ((~UInt<64>(0)).asSInt().andr()) == UInt<1>(1) );
+    EXPECT( (a80s.andr()) == UInt<1>(0x0) );
+    EXPECT( ((~UInt<80>(0)).asSInt().andr()) == UInt<1>(1) );
+    EXPECT( (a128s.andr()) == UInt<1>(0x0) );
+    EXPECT( ((~UInt<128>(0)).asSInt().andr()) == UInt<1>(1) );
+  },
+
+  CASE("sint orr operator") {
+    EXPECT( (a16s.orr()) == UInt<1>(0x1) );
+    EXPECT( (SInt<16>(0).andr()) == UInt<1>(0) );
+    EXPECT( (a64s.orr()) == UInt<1>(0x1) );
+    EXPECT( (SInt<64>(0).andr()) == UInt<1>(0) );
+    EXPECT( (a80s.orr()) == UInt<1>(0x1) );
+    EXPECT( (SInt<80>(0).andr()) == UInt<1>(0) );
+    EXPECT( (a128s.orr()) == UInt<1>(0x1) );
+    EXPECT( (SInt<128>(0).andr()) == UInt<1>(0) );
+  },
+
+  CASE("sint xorr operator") {
+    EXPECT( (a16s.xorr()) == UInt<1>(0x0) );
+    EXPECT( (b16s.xorr()) == UInt<1>(0x0) );
+    EXPECT( (a64s.xorr()) == UInt<1>(0x1) );
+    EXPECT( (b64s.xorr()) == UInt<1>(0x1) );
+    EXPECT( (a80s.xorr()) == UInt<1>(0x0) );
+    EXPECT( (b80s.xorr()) == UInt<1>(0x1) );
+    EXPECT( (a128s.xorr()) == UInt<1>(0x1) );
+    EXPECT( (b128s.xorr()) == UInt<1>(0x1) );
+  },
+
+
   CASE("sint bits operator") {
     EXPECT( (a16s.bits<11,4>()) == UInt<8>(0xdb) );
     EXPECT( (a64s.bits<47,24>()) == UInt<24>(0x8d1c4a) );

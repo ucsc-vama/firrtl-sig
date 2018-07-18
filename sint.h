@@ -167,6 +167,24 @@ public:
     return result;
   }
 
+  UInt<1> andr() const {
+    UInt<w_> upper_bits_clear = ui;
+    upper_bits_clear.mask_top_unused();
+    return upper_bits_clear.andr();
+  }
+
+  UInt<1> orr() const {
+    UInt<w_> upper_bits_clear = ui;
+    upper_bits_clear.mask_top_unused();
+    return upper_bits_clear.orr();
+  }
+
+  UInt<1> xorr() const {
+    UInt<w_> upper_bits_clear = ui;
+    upper_bits_clear.mask_top_unused();
+    return upper_bits_clear.xorr();
+  }
+
   template<int hi, int lo>
   UInt<hi - lo + 1> bits() const {
     return ui.template bits<hi,lo>();

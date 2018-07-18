@@ -195,7 +195,7 @@ public:
 
   template<int other_w>
   UInt<cmin(w_, other_w)> operator%(const SInt<other_w> &other) const {
-    return this % other.asUInt();
+    return *this % other.asUInt();
   }
 
   UInt<w_> operator~() const {

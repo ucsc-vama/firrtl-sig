@@ -577,46 +577,7 @@ const lest::test spec[] = {
     EXPECT( a16s.asUInt() == UInt<16>("0x6dba") );
     EXPECT( a16s.asSInt() == a16s );
     EXPECT( a16s.cvt() == SInt<16>(0x6dba) );
-  },
-
-  CASE("mixed add operator") {
-    EXPECT( a16u + b16s == SInt<17>(0x97b0) );
-    EXPECT( a64u + b64s == SInt<65>("0xc1b7ff65d1b932ca") );
-    EXPECT( a80u + b80s == SInt<81>("0x8832b1a2cb583540d714") );
-    EXPECT( a128u + b128s == SInt<129>("0xa7bb8d6824455c7eedb64195d923d19a") );
-    EXPECT( b16s + a16u == SInt<17>(0x97b0) );
-    EXPECT( b64s + a64u == SInt<65>("0xc1b7ff65d1b932ca") );
-    EXPECT( b80s + a80u == SInt<81>("0x8832b1a2cb583540d714") );
-    EXPECT( b128s + a128u == SInt<129>("0xa7bb8d6824455c7eedb64195d923d19a") );
-  },
-
-  CASE("mixed sub operator") {
-    EXPECT( a16u - b16s == SInt<17>(0xfe4c) );
-    EXPECT( a64u - b64s == SInt<65>("0x103c2b73a1facecc6") );
-    EXPECT( a80u - b80s == SInt<81>("0xa8b59be12442c559fb60") );
-    EXPECT( a128u - b128s == SInt<129>("0x12a4b3b6caeba38c79bef23bf52a52520") );
-    EXPECT( b16s - a16u == SInt<17>(0x101b4) );
-    EXPECT( b64s - a64u == SInt<65>("0xfc3d48c5e053133a") );
-    EXPECT( b80s - a80u == SInt<81>("0x1574a641edbbd3aa604a0") );
-    EXPECT( b128s - a128u == SInt<129>("0xd5b4c4935145c7386410dc40ad5adae0") );
-  },
-
-  CASE("mixed mul operator") {
-    EXPECT( a16u * b16s == SInt<32>(0xd7518c9c) );
-    EXPECT( a64u * b64s == SInt<128>("0xe2c0d81f3550c17f8cc2ad9b533e7790") );
-    EXPECT( a80u * b80s == SInt<160>("0xf651c2566302169937ff4a396485514e01c74d64") );
-    EXPECT( a128u * b128s == SInt<256>("0xc494bfdc37540a963a9a7ad576771522f488399b3bc2e87c8c1164e32bc5a329") );
-    EXPECT( b16s * a16u == SInt<32>(0xd7518c9c) );
-    EXPECT( b64s * a64u == SInt<128>("0xe2c0d81f3550c17f8cc2ad9b533e7790") );
-    EXPECT( b80s * a80u == SInt<160>("0xf651c2566302169937ff4a396485514e01c74d64") );
-    EXPECT( b128s * a128u == SInt<256>("0xc494bfdc37540a963a9a7ad576771522f488399b3bc2e87c8c1164e32bc5a329") );
   }
-
-  // Not testing mixed div
-
-  // Not testing mixed mod
-
-  // Did not test mixed comparison ops
 };
 
 int main() {

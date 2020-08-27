@@ -113,10 +113,6 @@ public:
     return result;
   }
 
-  SInt<w_ + 1> operator+(const SInt<w_> &other) const {
-    return SInt<w_+1>(pad<w_+1>()).addw(other.template pad<w_+1>());
-  }
-
   UInt<w_> addw(const UInt<w_> &other) const {
     UInt<w_> result = core_add_sub<w_, false>(other);
     result.mask_top_unused();
@@ -130,7 +126,7 @@ public:
   }
 
   SInt<w_ + 1> operator-() const {
-    return SInt<w_>(0) - *this;
+    return SInt<w_+1>(0).subw(SInt<w_+1>(pad<w_+1>()));
   }
 
   UInt<w_ + 1> operator-(const UInt<w_> &other) const {
@@ -142,10 +138,6 @@ public:
       result.mask_top_unused();
     }
     return result;
-  }
-
-  SInt<w_ + 1> operator-(const SInt<w_> &other) const {
-    return SInt<w_+1>(pad<w_+1>()).subw(other.template pad<w_+1>());
   }
 
   UInt<w_ + w_> operator*(const UInt<w_> &other) const {
@@ -172,13 +164,6 @@ public:
     return result;
   }
 
-  SInt<w_ + w_> operator*(const SInt<w_> &other) const {
-    SInt<w_ + w_ + 2> product(SInt<w_+1>(pad<w_+1>()) * other.template pad<w_+1>());
-    SInt<w_ + w_> result = (product.template tail<2>()).asSInt();
-    result.sign_extend();
-    return result;
-  }
-
   // this / other
   template<int other_w>
   UInt<w_> operator/(const UInt<other_w> &other) const {
@@ -187,22 +172,12 @@ public:
     return UInt<w_>(as_single_word() / other.as_single_word());
   }
 
-  template<int other_w>
-  UInt<w_+1> operator/(const SInt<other_w> &other) const {
-    return SInt<w_+1>(pad<w_+1>()) / other;
-  }
-
   // this % other
   template<int other_w>
   UInt<cmin(w_, other_w)> operator%(const UInt<other_w> &other) const {
     static_assert(w_ <= kWordSize, "Mod not supported beyond 64b");
     static_assert(other_w <= kWordSize, "Mod not supported beyond 64b");
     return UInt<cmin(w_, other_w)>(as_single_word() % other.as_single_word());
-  }
-
-  template<int other_w>
-  UInt<cmin(w_, other_w)> operator%(const SInt<other_w> &other) const {
-    return *this % other.asUInt();
   }
 
   UInt<w_> operator~() const {

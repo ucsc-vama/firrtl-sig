@@ -123,9 +123,9 @@ public:
     return result;
   }
 
-  SInt<w_> subw(const UInt<w_> &other) const {
-    SInt<w_> result(core_add_sub<w_, true>(other.ui));
-    result.sign_extend();
+  UInt<w_> subw(const UInt<w_> &other) const {
+    UInt<w_> result(core_add_sub<w_, true>(other.ui));
+    result.mask_top_unused();
     return result;
   }
 

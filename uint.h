@@ -133,8 +133,11 @@ public:
     return SInt<w_>(0) - *this;
   }
 
-  SInt<w_ + 1> operator-(const UInt<w_> &other) const {
-    return SInt<w_+1>(pad<w_+1>()).subw(SInt<w_+1>(other.template pad<w_+1>()));
+  UInt<w_ + 1> operator-(const UInt<w_> &other) const {
+    UInt<w_ + 1> result = core_add_sub<w_+1, true>(other);
+    if ((kWordSize * n_ == w_) && (result.words_[n_-1] < other.words_[n_-1]))
+      result.words_[word_index(w_ + 1)] = 1;
+    return result;
   }
 
   SInt<w_ + 1> operator-(const SInt<w_> &other) const {

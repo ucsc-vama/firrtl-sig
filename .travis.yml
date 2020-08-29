@@ -1,0 +1,12 @@
+language: cpp
+dist: bionic
+
+compiler:
+- gcc
+- clang
+
+os: linux
+
+script:
+    - git submodule update --init lest
+    - make test

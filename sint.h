@@ -99,9 +99,10 @@ public:
     return result;
   }
 
-  SInt<w_ + w_> operator*(const SInt<w_> &other) const {
-    SInt<4*w_> product(pad<w_ + w_>().ui * other.pad<w_ + w_>().ui);
-    SInt<w_ + w_> result = (product.template tail<w_ + w_>()).asSInt();
+  template<int other_w>
+  SInt<w_ + other_w> operator*(const SInt<other_w> &other) const {
+    SInt<2*(w_ + other_w)> product(pad<w_ + other_w>().ui * other.template pad<w_ + other_w>().ui);
+    SInt<w_ + other_w> result = (product.template tail<w_ + other_w>()).asSInt();
     result.sign_extend();
     return result;
   }

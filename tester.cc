@@ -413,6 +413,18 @@ const lest::test spec[] = {
     EXPECT( SInt<80>(-1) * SInt<80>(-1) == SInt<160>(1) );
     EXPECT( SInt<128>(-1) * SInt<128>(-1) == SInt<256>(1) );
     EXPECT( SInt<512>(-1) * SInt<512>(-1) == SInt<1024>(1) );
+    EXPECT( a16s * b64s == SInt<80>("0xf1d8b9f885474b5d4974") );
+    EXPECT( a16s * b80s == SInt<96>("0xf9085192a16bc31c4ca3a264") );
+    EXPECT( a16s * b128s == SInt<144>("0xe404fb41d0dfd2a6808199300290d3bca152") );
+    EXPECT( a64s * b80s == SInt<144>("0xf8d2904bbb03148e972a0cdf4f564bffdfb4") );
+    EXPECT( a64s * b128s == SInt<192>("0xe32d1bdd7f20fa568fd18e609a1b60715368a0a375584e7a") );
+    EXPECT( a80s * b128s == SInt<208>("0xf1b11cf972ebfa19078ad60cc4d0d3a4eacf87388b684880aa86") );
+    EXPECT( b16s * a64s == SInt<80>("0xe958db485e90f5230d64") );
+    EXPECT( b16s * a80s == SInt<96>("0xf4c14d13501d584c00debc9c") );
+    EXPECT( b16s * a128s == SInt<144>("0xe9f2a2ca9a140ca98246b55347d4228eeca8") );
+    EXPECT( b64s * a80s == SInt<144>("0xf8c333315095bace1cab05008f645e6efffc") );
+    EXPECT( b64s * a128s == SInt<192>("0xf1ce81efdd02d913ee162d799129b697ff1cfb2cb603e8e8") );
+    EXPECT( b80s * a128s == SInt<208>("0xf90349bd6af96bf18ec6aee9979e8c0228949a5b66ceac02e2c8") );
   },
 
   CASE("sint div operator") {

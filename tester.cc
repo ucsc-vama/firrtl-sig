@@ -128,6 +128,12 @@ const lest::test spec[] = {
     EXPECT( a64u * b64u == UInt<128>("0x2a4dc44ce497c914d9d3df0ec14b0b78") );
     EXPECT( a80u * b80u == UInt<160>("0x335993b54d4bc81d37835773f77fa4765c79f322") );
     EXPECT( a128u * b128u == UInt<256>("0x4f2b00496d758f68469327504061b9045f77243f5cfda64ce9fb69abca8b3a5a") );
+    EXPECT( a16u * a64u == UInt<80>("0xb3ca61edb3960c1d7870") );
+    EXPECT( a16u * a80u == UInt<96>("0x78e2e9d381fc02c167d62b8c") );
+    EXPECT( a16u * a128u == UInt<144>("0xb8c3de9998d382afe24c8a07df870209c846") );
+    EXPECT( a64u * a80u == UInt<144>("0x87074e58c3b16c6e47b30e3d54d831329b50") );
+    EXPECT( a64u * a128u == UInt<192>("0xce61594412cec99742e7a31b66574181f294db04d7c1d3a8") );
+    EXPECT( a80u * a128u == UInt<208>("0x8ac3bc6fbcdf7dc277196b2eba91fd8527c3559e9c8f30561812") );
   },
 
   CASE("uint div operator") {

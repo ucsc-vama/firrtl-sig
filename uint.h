@@ -140,12 +140,13 @@ public:
     return result;
   }
 
-  UInt<w_ + w_> operator*(const UInt<w_> &other) const {
-    UInt<w_ + w_> result(0);
+  template<int other_w>
+  UInt<w_ + other_w> operator*(const UInt<other_w> &other) const {
+    UInt<w_ + other_w> result(0);
     uint64_t carry = 0;
     for (int i=0; i < n_; i++) {
       carry = 0;
-      for (int j=0; j < n_; j++) {
+      for (int j=0; j < other.NW; j++) {
         uint64_t prod_ll = lower(words_[i]) * lower(other.words_[j]);
         uint64_t prod_lu = lower(words_[i]) * upper(other.words_[j]);
         uint64_t prod_ul = upper(words_[i]) * lower(other.words_[j]);
@@ -158,8 +159,8 @@ public:
         result.words_[i+j] = (upper_sum << 32) | lower(lower_sum);
         carry = upper(upper_sum) + upper(prod_lu) + upper(prod_ul) + prod_uu;
       }
-      if ((i+n_) < result.NW)
-        result.words_[i + n_] += carry;
+      if ((i+other.NW) < result.NW)
+        result.words_[i + other.NW] += carry;
     }
     return result;
   }

@@ -96,6 +96,7 @@ const lest::test spec[] = {
     EXPECT( a64u + b64u == UInt<65>("0x11280af33351c486f") );
     EXPECT( a80u + b80u == UInt<81>("0xeeae2e199848f91fddbf") );
     EXPECT( a128u + b128u == UInt<129>("0x13ffdbb793484786d871311bd550d337f") );
+    EXPECT( UInt<130>("0x1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF") + UInt<130>("0x100000000000000000000000000000001") == UInt<131>("0x300000000000000000000000000000000") );
   },
 
   CASE("uint addw operator") {

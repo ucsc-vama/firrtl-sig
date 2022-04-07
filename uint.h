@@ -132,7 +132,7 @@ public:
   UInt<w_ + 1> operator-(const UInt<w_> &other) const {
     UInt<w_ + 1> result = core_add_sub<w_+1, true>(other);
     if (kWordSize * n_ == w_) {
-      if (result.words_[n_-1] < other.words_[n_-1])
+      if (result.words_[n_-1] > words_[n_-1])
         result.words_[word_index(w_ + 1)] = 1;
     } else {
       result.mask_top_unused();
@@ -443,6 +443,7 @@ private:
       carry  = result.words_[i] < carry ? 1 : 0;
       carry |= result.words_[i] < operand ? 1 : 0;
     }
+    // NOTE: trusts caller to set result words beyond input
     return result;
   }
 

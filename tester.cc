@@ -259,6 +259,12 @@ const lest::test spec[] = {
     EXPECT( a64u.shr<16>() == UInt<48>(0xe2bd5b4ff8b3) );
     EXPECT( a80u.shr<24>() == UInt<56>(0x987426c1f7cd7d) );
     EXPECT( a128u.shr<48>() == UInt<80>("0xe903646a697fcaa344d2"));
+
+    EXPECT( a16u.shr<16>() == UInt<1>(0) );
+    EXPECT( a16u.shr<17>() == UInt<1>(0) );
+    EXPECT( a64u.shr<64>() == UInt<1>(0) );
+    EXPECT( a80u.shr<82>() == UInt<1>(0) );
+    EXPECT( a128u.shr<128>() == UInt<1>(0) );
   },
 
   CASE("uint dynamic shifts") {

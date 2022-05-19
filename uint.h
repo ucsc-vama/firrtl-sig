@@ -267,9 +267,27 @@ public:
     return shl<shamt>().template tail<shamt>();
   }
 
+  template<int shamt, bool shiftToZero>
+  UInt<cmax(w_ - shamt,1)> shr_helper();
+
   template<int shamt>
-  UInt<w_ - shamt> shr() const {
+  // called if shamt >= w_, so returning 1-bit wide 0
+  UInt<cmax(w_ - shamt,1)> shr_helper(std::true_type) const {
+    return UInt<cmax(w_ - shamt,1)>(0);
+  }
+
+  template<int shamt>
+  // called if shamt > w_ (otherwise), so using bits
+  UInt<cmax(w_ - shamt,1)> shr_helper(std::false_type) const {
     return bits<w_-1, shamt>();
+  }
+
+  template<int shamt>
+  UInt<cmax(w_ - shamt,1)> shr() const {
+    static_assert(shamt >= 0, "shift amount for shift right must be non-negative");
+    // TODO: uses tag dispatch, so replace with constexpr if when we shift to C++17
+    // https://stackoverflow.com/questions/43587405/constexpr-if-alternative
+    return shr_helper<shamt>(std::integral_constant<bool, shamt >= w_>{});
   }
 
   template<int other_w>

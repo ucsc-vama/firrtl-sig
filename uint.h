@@ -32,6 +32,7 @@ private:
 
 public:
   UInt() {
+    static_assert(w_ >= 0, "UInt bit width must be non-negative");
     for (int i=0; i < n_; i++)
       words_[i] = 0;
   }

@@ -574,6 +574,17 @@ const lest::test spec[] = {
     EXPECT( a64s.shr<16>() == SInt<48>(0x71088d1c4a5c) );
     EXPECT( a80s.shr<24>() == SInt<56>(0x381c1fe6bca687) );
     EXPECT( a128s.shr<48>() == SInt<80>("0x6e0939370acc19daec06"));
+    
+    EXPECT( a16s.shr<16>() == SInt<1>(0) );
+    EXPECT( a16s.shr<17>() == SInt<1>(0) );
+    EXPECT( a64s.shr<64>() == SInt<1>(0) );
+    EXPECT( a80s.shr<82>() == SInt<1>(0) );
+    EXPECT( a128s.shr<128>() == SInt<1>(0) );
+    EXPECT( b16s.shr<16>() == SInt<1>(1) );
+    EXPECT( b16s.shr<17>() == SInt<1>(1) );
+    EXPECT( b64s.shr<64>() == SInt<1>(1) );
+    EXPECT( b80s.shr<82>() == SInt<1>(1) );
+    EXPECT( b128s.shr<128>() == SInt<1>(1) );
   },
 
   CASE("sint dynamic shifts") {

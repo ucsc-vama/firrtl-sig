@@ -13,7 +13,9 @@ class SInt {
   constexpr static int cmax(int wa, int wb) { return wa > wb ? wa : wb; }
 
 public:
-  SInt() : ui(0) {}
+  SInt() : ui(0) {
+    static_assert(w_ >= 0, "SInt bit width must be non-negative");
+  }
 
   SInt(int64_t i) : ui(i) {
     if (w_ > kWordSize)
@@ -191,9 +193,24 @@ public:
   }
 
   template<int shamt>
-  SInt<w_ - shamt> shr() const {
-    SInt<w_ - shamt> result(ui.template core_bits<w_-1, shamt>());
-    result.sign_extend(w_ - shamt - 1);
+  // called if shamt >= w_, so returning 1-bit wide sign bit
+  SInt<cmax(w_ - shamt,1)> shr_helper(std::true_type) const {
+    return SInt<cmax(w_ - shamt,1)>(ui.template bits<w_-1,w_-1>());
+  }
+
+  template<int shamt>
+  // called if shamt > w_ (otherwise), so using bits
+  SInt<cmax(w_ - shamt,1)> shr_helper(std::false_type) const {
+    return ui.template core_bits<w_-1, shamt>();
+  }
+
+  template<int shamt>
+  SInt<cmax(w_ - shamt,1)> shr() const {
+    static_assert(shamt >= 0, "shift amount for shift right must be non-negative");
+    // TODO: uses tag dispatch, so replace with constexpr if when we shift to C++17
+    // https://stackoverflow.com/questions/43587405/constexpr-if-alternative
+    SInt<cmax(w_ - shamt,1)> result = shr_helper<shamt>(std::integral_constant<bool, shamt >= w_>{});
+    result.sign_extend(cmax(w_ - shamt - 1, 0));
     return result;
   }
 

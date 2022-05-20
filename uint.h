@@ -307,12 +307,13 @@ public:
 
   template<int other_w>
   UInt<w_ + (1<<other_w) - 1> operator<<(const UInt<other_w> &other) const {
+    static_assert(other_w <= kWordSize, "shift amount argument too wide");
     UInt<w_ + (1<<other_w) - 1> result(0);
     uint64_t dshamt = other.as_single_word();
     uint64_t word_up = word_index(dshamt);
     uint64_t bits_up = dshamt % kWordSize;
     for (uint64_t i=0; i < n_; i++) {
-      result.words_[i + word_up] |= words_[i] << bits_up;
+      result.words_[i + word_up] |= static_cast<uint64_t>(words_[i]) << bits_up;
       if ((bits_up != 0) && (dshamt + w_ > kWordSize) && (i + word_up + 1 < result.NW))
         result.words_[i + word_up + 1] = words_[i] >> cap(kWordSize - bits_up);
     }

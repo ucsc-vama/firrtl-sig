@@ -274,6 +274,10 @@ const lest::test spec[] = {
     EXPECT( (a80u << UInt<5>(12)) == UInt<111>("0x987426c1f7cd7d4d693a000") );
     EXPECT( (a128u << UInt<6>(16)) == UInt<191>("0xe903646a697fcaa344d2b2aa95e47b5d0000") );
 
+    EXPECT( (UInt<4>(0x8) << UInt<5>(0x1f)) == UInt<35>(0x00400000000) );
+    EXPECT( (UInt<4>(0xb) << UInt<4>(8)) == UInt<19>(0x00b00) );
+    EXPECT( (UInt<8>(0x7c) << UInt<4>(12)) == UInt<23>(0x007c000) );
+
     EXPECT( (a16u.dshlw(UInt<1>(0))) == a16u );
     EXPECT( (a16u.dshlw(UInt<4>(4))) == UInt<16>(0xafe0) );
     EXPECT( (a64u.dshlw(UInt<4>(8))) == UInt<64>("0xbd5b4ff8b30fc800") );
@@ -599,6 +603,8 @@ const lest::test spec[] = {
     EXPECT( (b64s << UInt<4>(8)) == SInt<79>("0x7fdefaa415d906230200") );
     EXPECT( (b80s << UInt<5>(12)) == SInt<111>("0x7ffffefbe8ae0d38ab7f36dda000") );
     EXPECT( (b128s << UInt<6>(16)) == SInt<191>("0x7fffffffffffbeb828fdbac591dba8e38eeb433f563d0000") );
+
+    EXPECT( (SInt<4>(0x8) << UInt<5>(0x1f)) == SInt<35>(0xc00000000) );
 
     EXPECT( (a16s.dshlw(UInt<1>(0))) == SInt<16>(0x6dba) );
     EXPECT( (a16s.dshlw(UInt<4>(4))) == SInt<16>(0xdba0) );

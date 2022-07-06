@@ -253,7 +253,7 @@ public:
   template<int n>
   UInt<n> head() const {
     static_assert(n <= w_, "Head n must be <= width");
-    return bits<w_-1, w_-n>();
+    return core_bits<w_-1, w_-n>();
   }
 
   template<int n>
@@ -492,6 +492,8 @@ private:
   template<int hi, int lo>
   UInt<hi - lo + 1> core_bits() const {
     UInt<hi - lo + 1> result;
+    if ((hi - lo + 1) == 0)
+      return result;
     int word_down = word_index(lo);
     int bits_down = lo % kWordSize;
     for (int i=0; i < result.NW; i++) {

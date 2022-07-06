@@ -231,6 +231,7 @@ const lest::test spec[] = {
     EXPECT( (a64u.head<16>()) == UInt<16>(0xe2bd) );
     EXPECT( (a80u.head<24>()) == UInt<24>(0x987426) );
     EXPECT( (a128u.head<32>()) == UInt<32>(0xe903646a) );
+    EXPECT( (a64u.head<0>()) == UInt<0>(0) );
   },
 
   CASE("uint tail operator") {

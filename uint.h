@@ -242,6 +242,10 @@ public:
   template<int hi, int lo>
   UInt<hi - lo + 1> bits() const {
     UInt<hi - lo + 1> result = core_bits<hi,lo>();
+    static_assert(hi >= lo, "Bits: hi must be >= lo");
+    static_assert(hi < w_, "Bits: hi must be < width");
+    static_assert(hi >= 0, "Bits: hi must be non-negative");
+    static_assert(lo >= 0, "Bits: lo must be non-negative");
     result.mask_top_unused();
     return result;
   }
@@ -487,9 +491,6 @@ private:
 
   template<int hi, int lo>
   UInt<hi - lo + 1> core_bits() const {
-    static_assert(hi < w_, "Bit extract hi bigger than width");
-    static_assert(hi >= lo, "Bit extract lo > hi");
-    static_assert(lo >= 0, "Bit extract lo is negative");
     UInt<hi - lo + 1> result;
     int word_down = word_index(lo);
     int bits_down = lo % kWordSize;

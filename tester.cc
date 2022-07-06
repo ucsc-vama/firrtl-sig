@@ -240,6 +240,7 @@ const lest::test spec[] = {
     EXPECT( (a64u.tail<16>()) == UInt<48>(0x5b4ff8b30fc8) );
     EXPECT( (a80u.tail<8>()) == UInt<72>("0x7426c1f7cd7d4d693a") );
     EXPECT( (a128u.tail<32>()) == UInt<96>("0x697fcaa344d2b2aa95e47b5d") );
+    EXPECT( (a64u.tail<64>()) == UInt<0>(0) );
   },
 
   CASE("uint static shifts") {

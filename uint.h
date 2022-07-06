@@ -241,25 +241,25 @@ public:
 
   template<int hi, int lo>
   UInt<hi - lo + 1> bits() const {
-    UInt<hi - lo + 1> result = core_bits<hi,lo>();
-    static_assert(hi >= lo, "Bits: hi must be >= lo");
-    static_assert(hi < w_, "Bits: hi must be < width");
-    static_assert(hi >= 0, "Bits: hi must be non-negative");
-    static_assert(lo >= 0, "Bits: lo must be non-negative");
-    result.mask_top_unused();
-    return result;
+    static_assert(hi >= lo, "Bits hi must be >= lo");
+    static_assert(hi < w_, "Bits hi must be < width");
+    static_assert(hi >= 0, "Bits hi must be non-negative");
+    static_assert(lo >= 0, "Bits lo must be non-negative");
+    return core_bits<hi,lo>();
   }
 
   template<int n>
   UInt<n> head() const {
     static_assert(n <= w_, "Head n must be <= width");
+    static_assert(n >= 0, "Head n must be non-negative");
     return core_bits<w_-1, w_-n>();
   }
 
   template<int n>
   UInt<w_ - n> tail() const {
-    static_assert(n < w_, "Tail n must be < width");
-    return bits<w_-n-1, 0>();
+    static_assert(n <= w_, "Tail n must be <= width");
+    static_assert(n >= 0, "Tail n must be non-negative");
+    return core_bits<w_-n-1, 0>();
   }
 
   template<int shamt>
@@ -501,6 +501,7 @@ private:
       if ((bits_down != 0) && (i + word_down + 1 < n_))
         result.words_[i] |= words_[i + word_down + 1] << cap(kWordSize - bits_down);
     }
+    result.mask_top_unused();
     return result;
   }
 

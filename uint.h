@@ -264,6 +264,7 @@ public:
 
   template<int shamt>
   UInt<w_ + shamt> shl() const {
+    static_assert(n >= 0, "Shl n must be non-negative");
     return cat(UInt<shamt>(0));
   }
 

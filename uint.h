@@ -107,11 +107,12 @@ public:
     return to_return;
   }
 
-  UInt<w_ + 1> operator+(const UInt<w_> &other) const {
-    UInt<w_ + 1> result = core_add_sub<w_+1, false>(other);
-    if ((kWordSize * n_ == w_) && (result.words_[n_-1] < words_[n_-1]))
-      result.words_[word_index(w_ + 1)] = 1;
-    return result;
+  template<int other_w>
+  UInt<cmax(w_, other_w) + 1> operator+(const UInt<other_w> &other) const {
+    const int result_w = cmax(w_, other_w) + 1;
+    UInt<result_w> self_padded = pad<result_w>();
+    UInt<result_w> other_padded = other.template pad<result_w>();
+    return self_padded.addw(other_padded);
   }
 
   UInt<w_> addw(const UInt<w_> &other) const {

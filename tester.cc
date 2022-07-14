@@ -124,6 +124,11 @@ const lest::test spec[] = {
     EXPECT( b80u - b80u == UInt<81>(0) );
     EXPECT( a128u - a128u == UInt<129>(0) );
     EXPECT( b128u - b128u == UInt<129>(0) );
+    EXPECT( a64u - a16u == UInt<65>("0xe2bd5b4ff8b244ca") );
+    EXPECT( a80u - a16u == UInt<81>("0x987426c1f7cd7d4c9e3c") );
+    EXPECT( a128u - a16u == UInt<129>("0xe903646a697fcaa344d2b2aa95e3b05f") );
+    EXPECT( a128u - a64u == UInt<129>("0xe903646a697fcaa26215575a9d316b95") );
+    EXPECT( a128u - a80u == UInt<129>("0xe903646a697f322f1e10badd18971223") );
   },
 
   CASE("uint subw operator") {

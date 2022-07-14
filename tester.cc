@@ -126,6 +126,13 @@ const lest::test spec[] = {
     EXPECT( b128u - b128u == UInt<129>(0) );
   },
 
+  CASE("uint subw operator") {
+    EXPECT( a16u.subw(b16u) == UInt<16>(0xc40) );
+    EXPECT( a64u.subw(b64u) == UInt<64>(0xb2fa076cbc49d721) );
+    EXPECT( a80u.subw(b80u) == UInt<80>("0x423a1f6a5752017af4b5") );
+    EXPECT( a128u.subw(b128u) == UInt<128>("0x92090d5b9e7b1cd902925397d6bbc33b") );
+  },
+
   CASE("uint negate operator") {
     EXPECT( -a16u == SInt<17>(0x13502) );
     EXPECT( -a64u == SInt<65>("0x11d42a4b0074cf038") );

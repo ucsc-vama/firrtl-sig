@@ -122,7 +122,7 @@ public:
   }
 
   UInt<w_> subw(const UInt<w_> &other) const {
-    UInt<w_> result(core_add_sub<w_, true>(other.ui));
+    UInt<w_> result(core_add_sub<w_, true>(other));
     result.mask_top_unused();
     return result;
   }

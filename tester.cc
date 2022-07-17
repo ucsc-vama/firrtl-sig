@@ -430,6 +430,15 @@ const lest::test spec[] = {
     EXPECT( b80s - b80s == SInt<81>(0) );
     EXPECT( a128s - a128s == SInt<129>(0) );
     EXPECT( b128s - b128s == SInt<129>(0) );
+    EXPECT( a64s - a16s == SInt<65>("0x71088d1c4a5bdc48") );
+    EXPECT( a80s - a16s == SInt<81>("0x381c1fe6bca68758b544") );
+    EXPECT( a128s - a16s == SInt<129>("0x6e0939370acc19daec06e9c13db498ba") );
+    EXPECT( a16s - a64s == SInt<65>("0x18ef772e3b5a423b8") );
+    EXPECT( a16s - a80s == SInt<81>("0x1c7e3e019435978a74abc") );
+    EXPECT( a16s - a128s == SInt<129>("0x191f6c6c8f533e62513f9163ec24b6746") );
+    EXPECT( b64s - b16s == SInt<65>("0x1defaa415d9065650") );
+    EXPECT( b80s - b16s == SInt<81>("0x1efbe8ae0d38ab7f3a128") );
+    EXPECT( b128s - b16s == SInt<129>("0x1beb828fdbac591dba8e38eeb433f898b") );
   },
 
   CASE("sint negate operator") {

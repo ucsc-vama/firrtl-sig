@@ -61,17 +61,13 @@ public:
     return result;
   }
 
-  SInt<w_ + 1> operator+(const SInt<w_> &other) const {
-    SInt<w_+1> result(ui.template core_add_sub<w_+1, false>(other.ui));
-    if (w_ % kWordSize == 0) {
-      if (negative() == other.negative()) {
-        result.ui.words_[ui.word_index(w_)] = negative() ? -1 : 0;
-      } else {
-        bool is_neg = static_cast<int64_t>(result.ui.words_[ui.word_index(w_-1)]) < 0;
-        result.ui.words_[ui.word_index(w_)] = is_neg ? -1 : 0;
-      }
-    }
-    return result;
+  template<int other_w>
+  SInt<cmax(w_, other_w) + 1> operator+(const SInt<other_w> &other) const {
+    // TODO: padding approach slows it down, but SInt used rarely
+    constexpr int result_w = cmax(w_, other_w) + 1;
+    SInt<result_w> self_padded = pad<result_w>();
+    SInt<result_w> other_padded = other.template pad<result_w>();
+    return self_padded.addw(other_padded);
   }
 
   SInt<w_> addw(const SInt<w_> &other) const {

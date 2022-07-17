@@ -392,6 +392,12 @@ const lest::test spec[] = {
     EXPECT( b128s + b128s == SInt<129>("0x17d7051fb758b23b751c71dd6867eac7a") );
     EXPECT( SInt<64>(1) + SInt<64>(-1) == SInt<65>(0) );
     EXPECT( SInt<64>(-1) + SInt<64>(-1) == SInt<65>(-2) );
+    EXPECT( a16s + a64s == SInt<65>("0x71088d1c4a5cb7bc") );
+    EXPECT( a16s + a80s == SInt<81>("0x381c1fe6bca6875990b8") );
+    EXPECT( a16s + a128s == SInt<129>("0x6e0939370acc19daec06e9c13db5742e") );
+    EXPECT( b16s + b64s == SInt<65>("0x1defaa415d905efb4") );
+    EXPECT( b16s + b80s == SInt<81>("0x1efbe8ae0d38ab7f33a8c") );
+    EXPECT( b16s + b128s == SInt<129>("0x1beb828fdbac591dba8e38eeb433f22ef") );
   },
 
   CASE("sint addw operator") {
@@ -596,8 +602,8 @@ const lest::test spec[] = {
     EXPECT( a16s.shr<8>() == SInt<8>(0x6d) );
     EXPECT( a64s.shr<16>() == SInt<48>(0x71088d1c4a5c) );
     EXPECT( a80s.shr<24>() == SInt<56>(0x381c1fe6bca687) );
-    EXPECT( a128s.shr<48>() == SInt<80>("0x6e0939370acc19daec06"));
-    
+    EXPECT( a128s.shr<48>() == SInt<80>("0x6e0939370acc19daec06") );
+
     EXPECT( a16s.shr<16>() == SInt<1>(0) );
     EXPECT( a16s.shr<17>() == SInt<1>(0) );
     EXPECT( a64s.shr<64>() == SInt<1>(0) );

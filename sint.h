@@ -77,9 +77,7 @@ public:
   }
 
   SInt<w_> subw(const SInt<w_> &other) const {
-    SInt<w_> result(ui.template core_add_sub<w_, true>(other.ui));
-    result.sign_extend();
-    return result;
+    return ui.template core_add_sub<w_, true>(other.ui);
   }
 
   SInt<w_ + 1> operator-() const {

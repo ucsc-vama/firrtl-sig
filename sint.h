@@ -36,8 +36,10 @@ public:
   template<int other_w>
   explicit SInt(const SInt<other_w> &other) {
     static_assert(other_w <= w_, "Can't copy construct from wider SInt");
+    bool need_extend = (ui.NW != other.ui.NW) || (ui.WW != other.ui.WW);
     ui = UInt<w_>(other.ui);
-    sign_extend(other_w - 1);
+    if (need_extend)
+      sign_extend(other_w - 1);
   }
 
   SInt(const UInt<w_> &other) : ui(other) {}

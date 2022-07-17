@@ -463,8 +463,7 @@ private:
     for (int i = 0; i < n_; i++) {
       uint64_t operand = subtract ? ~other.words_[i] : other.words_[i];
       result.words_[i] = words_[i] + operand + carry;
-      carry  = result.words_[i] < words_[i] ? 1 : 0;
-      carry |= result.words_[i] < operand ? 1 : 0;
+      carry = (result.words_[i] < words_[i]) || (result.words_[i] < operand);
     }
     // NOTE: trusts caller to set result words beyond input
     return result;

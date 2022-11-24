@@ -3,7 +3,10 @@
 
 #include "uint.h"
 #include "sint.h"
-
+#include <iostream>
+#include <fstream>
+#include <string>
+std::ofstream outfile ("print_bin.txt");
 
 UInt<16>  a16u(0xcafe);
 UInt<16>  b16u(0xbebe);
@@ -23,6 +26,8 @@ SInt<80>  b80s("0xefbe8ae0d38ab7f36dda");
 SInt<128> a128s("0x6e0939370acc19daec06e9c13db50674");
 SInt<128> b128s("0xbeb828fdbac591dba8e38eeb433f563d");
 
+UInt<192> abcdu("0xffffffffffffffff0000000000000000ff1f1f1f1f1f1f1f");
+UInt<192> au("0xffffffffffffffff0000000000000010ffffffffffffffff");
 
 const lest::test spec[] = {
   CASE("uint comparison operators") {
@@ -669,6 +674,11 @@ const lest::test spec[] = {
     EXPECT( a16s.asUInt() == UInt<16>("0x6dba") );
     EXPECT( a16s.asSInt() == a16s );
     EXPECT( a16s.cvt() == SInt<16>(0x6dba) );
+  },
+
+  CASE("binary conversion") {
+    EXPECT( abcdu.to_bin_str(outfile) == "b111111111111111111111111111111111111111111111111111111111111111100000000000000000000000000000000000000000000000000000000000000001111111100011111000111110001111100011111000111110001111100011111 ");
+    EXPECT( au.to_bin_str(outfile) == "b111111111111111111111111111111111111111111111111111111111111111100000000000000000000000000000000000000000000000000000000000100001111111111111111111111111111111111111111111111111111111111111111 ");
   }
 };
 

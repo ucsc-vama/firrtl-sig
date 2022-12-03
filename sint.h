@@ -338,9 +338,9 @@ private:
   }
 
    public:
-  std::string to_bin_str(std::ostream& os) const {
+  std::string to_bin_str() const {
 	  std::string bin_str;
-	  bin_str = ui.to_bin_str(os);
+	  bin_str = ui.to_bin_str();
 	  return bin_str;
    }
 

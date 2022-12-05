@@ -518,7 +518,7 @@ private:
   }
   
 public:
-   std::string to_bin_str(std::ostream& os) const {
+   std::string to_bin_str() const {
       std::string str;
       int output_width = w_ == 1 ? 1 : w_ + 1;
       str.reserve(output_width);
@@ -530,7 +530,6 @@ public:
 	}
       }
       if(w_ > 1) str += " ";
-      os << str;
       return str;
    }
 };

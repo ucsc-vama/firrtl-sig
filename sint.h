@@ -337,6 +337,13 @@ private:
     ui.print_to_stream(os);
   }
 
+   public:
+  std::string to_bin_str() const {
+	  std::string bin_str;
+	  bin_str = ui.to_bin_str();
+	  return bin_str;
+   }
+
   template<int other_w, typename other_word_t, int other_n>
   friend class UInt;
 

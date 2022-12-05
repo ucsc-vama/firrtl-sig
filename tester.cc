@@ -4,7 +4,6 @@
 #include "uint.h"
 #include "sint.h"
 
-
 UInt<16>  a16u(0xcafe);
 UInt<16>  b16u(0xbebe);
 UInt<64>  a64u(0xe2bd5b4ff8b30fc8);
@@ -22,7 +21,6 @@ SInt<80>  a80s("0x381c1fe6bca6875922fe");
 SInt<80>  b80s("0xefbe8ae0d38ab7f36dda");
 SInt<128> a128s("0x6e0939370acc19daec06e9c13db50674");
 SInt<128> b128s("0xbeb828fdbac591dba8e38eeb433f563d");
-
 
 const lest::test spec[] = {
   CASE("uint comparison operators") {
@@ -669,6 +667,10 @@ const lest::test spec[] = {
     EXPECT( a16s.asUInt() == UInt<16>("0x6dba") );
     EXPECT( a16s.asSInt() == a16s );
     EXPECT( a16s.cvt() == SInt<16>(0x6dba) );
+  },
+
+  CASE("binary conversion") {
+    EXPECT( a128s.to_bin_str() == "b01101110000010010011100100110111000010101100110000011001110110101110110000000110111010011100000100111101101101010000011001110100 ");
   }
 };
 

@@ -400,6 +400,17 @@ public:
     return words_[0];
   }
 
+  std::string to_bin_str() const {
+    std::string str;
+    str.reserve(w_);
+    for (int i = n_-1; i >=0; i--) {
+      int start_point = i==n_-1 ? bits_in_top_word_-1 : kWordSize-1;
+      for (int j = start_point; j >= 0; j--)
+        str += words_[i] & (1l << j) ? '1' : '0';
+    }
+    return str;
+  }
+
 protected:
   template<int other_w>
   friend class uint_wrapper_t;
@@ -516,22 +527,6 @@ private:
     }
     os << std::dec;
   }
-  
-public:
-   std::string to_bin_str() const {
-      std::string str;
-      int output_width = w_ == 1 ? 1 : w_ + 1;
-      str.reserve(output_width);
-      if (w_ > 1) str += 'b';
-      for (int i = n_-1; i >=0; i--) {
-	int start_point = i==n_-1? bits_in_top_word_-1 : kWordSize-1;
-	for (int j = start_point; j >= 0; j--) {
-		str += words_[i] & (1l << j) ? '1' : '0';
-	}
-      }
-      if(w_ > 1) str += " ";
-      return str;
-   }
 };
 
 

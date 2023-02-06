@@ -163,12 +163,14 @@ public:
   template<int n>
   UInt<n> head() const {
     static_assert(n <= w_, "Head n must be <= width");
+    static_assert(n >= 0, "Head n must be non-negative");
     return bits<w_-1, w_-n>();
   }
 
   template<int n>
   UInt<w_ - n> tail() const {
-    static_assert(n < w_, "Tail n must be < width");
+    static_assert(n <= w_, "Tail n must be <= width");
+    static_assert(n >= 0, "Tail n must be non-negative");
     return bits<w_-n-1, 0>();
   }
 

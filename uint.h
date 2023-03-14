@@ -400,6 +400,7 @@ public:
     return words_[0];
   }
 
+  __attribute__((noinline))
   std::string to_bin_str() const {
     std::string str;
     str.reserve(w_);

@@ -16,7 +16,7 @@ jobs:
       with:
         repository: ucsc-vama/compare-gen
         ref: master
-        token: ${{ secrets.CLASSIC_ACTION_TOK }}
+        token: ${{ secrets.CI_TOKEN }}
         submodules: 'recursive'
     - name: Set up Python 3.10
       uses: actions/setup-python@v2

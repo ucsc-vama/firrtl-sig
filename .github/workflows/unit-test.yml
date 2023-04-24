@@ -21,13 +21,9 @@ jobs:
       run: |
         python -m pip install --upgrade pip
     - name: fetch submodule
-      run: git submodule update --init --remote
+      run: git submodule update --init --recursive
     - name: update remote submodule
       run: git submodule update --recursive --remote
-    - name: show files
-      working-directory: ./compare-gen
-      run: |
-        ls
     - name: run unit test
       working-directory: ./compare-gen
       run: |

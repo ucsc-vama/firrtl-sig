@@ -24,9 +24,7 @@ jobs:
       run: git submodule update --init --remote
     - name: update remote submodule
       run: git submodule update --recursive --remote
-    - name: run test
+    - name: run unit test
       run: |
         cd compare-gen
-        ls
-        pwd
         python3 BruteTest.py -t uint -s 3

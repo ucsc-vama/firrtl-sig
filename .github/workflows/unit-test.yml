@@ -25,9 +25,10 @@ jobs:
     - name: update remote submodule
       run: git submodule update --recursive --remote
     - name: show files
+      working-directory: ./compare-gen
       run: |
         ls
     - name: run unit test
+      working-directory: ./compare-gen
       run: |
-        cd compare-gen
         python3 BruteTest.py -t uint -s 3

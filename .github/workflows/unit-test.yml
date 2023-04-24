@@ -23,11 +23,10 @@ jobs:
     - name: "Install unit test module"
       run: |
         git clone https://github.com/ucsc-vama/compare-gen.git
-        cd compare-gen
     - name: fetch submodule
       run: git submodule update --init --remote
     - name: update remote submodule
       run: git submodule update --recursive --remote
     - name: run test
       run: |
-        python3 BruteTest.py -t uint -s 3
+        python3 comare-gen/BruteTest.py -t uint -s 3

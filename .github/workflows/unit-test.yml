@@ -27,4 +27,4 @@ jobs:
     - name: run unit test
       working-directory: ./compare-gen
       run: |
-        python3 BruteTest.py -t uint -s 3
+        python3 BruteTest.py -t uint -s 4

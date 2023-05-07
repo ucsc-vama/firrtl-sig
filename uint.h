@@ -205,9 +205,11 @@ public:
     return result;
   }
 
-  UInt<w_> operator^(const UInt<w_> &other) const {
+  template<int other_w>
+  UInt<w_> operator^(const UInt<other_w> &other) const {
     UInt<w_> result;
     for (int i = 0; i < n_; i++) {
+      if (i >= other_w) break;
       result.words_[i] = words_[i] ^ other.words_[i];
     }
     return result;
@@ -363,7 +365,11 @@ public:
     return ~(*this <= other);
   }
 
-  UInt<1> operator==(const UInt<w_> &other) const {
+  template<int other_w>
+  UInt<1> operator==(const UInt<other_w> &other) const {
+    if(w_ != other_w){
+      return UInt<1>(0);
+    }
     for (int i = 0; i < n_; i++) {
       if (words_[i] != other.words_[i])
         return UInt<1>(0);
@@ -371,7 +377,11 @@ public:
     return UInt<1>(1);
   }
 
-  UInt<1> operator!=(const UInt<w_> &other) const {
+  template<int other_w>
+  UInt<1> operator!=(const UInt<other_w> &other) const {
+    if(w_ != other_w){
+      return UInt<1>(1);
+    }
     return ~(*this == other);
   }
 

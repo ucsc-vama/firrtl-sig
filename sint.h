@@ -346,6 +346,12 @@ private:
 	  return bin_str;
    }
 
+
+  std::string to_bin_str(char *VCD_BUF) const {          
+          return ui.to_bin_str(VCD_BUF); 
+   }
+
+
   template<int other_w, typename other_word_t, int other_n>
   friend class UInt;
 

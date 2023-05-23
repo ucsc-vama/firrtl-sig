@@ -422,17 +422,21 @@ public:
     return words_[0];
   }
 
+
   __attribute__((noinline))
-  std::string to_bin_str() const {
-    std::string str;
-    str.reserve(w_);
-    for (int i = n_-1; i >=0; i--) {
-      int start_point = i==n_-1 ? bits_in_top_word_-1 : kWordSize-1;
-      for (int j = start_point; j >= 0; j--)
-        str += words_[i] & (1l << j) ? '1' : '0';
-    }
-    return str;
+  char* to_bin_str(char* buffer) const {                                  
+      int idx = 0;
+      for (int i = n_-1; i >= 0; i--) {
+          int start_point = i == n_-1 ? bits_in_top_word_-1 : kWordSize-1;
+          for (int j = start_point; j >= 0; j--) {
+              buffer[idx++] = (words_[i] & (1l << j)) ? '1' : '0';
+          }   
+      }   
+
+      buffer[w_] = '\0';
+      return buffer;
   }
+
 
 protected:
   template<int other_w>

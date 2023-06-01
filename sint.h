@@ -344,12 +344,11 @@ private:
 	  std::string bin_str;
 	  bin_str = ui.to_bin_str();
 	  return bin_str;
-   }
-
-
-  std::string to_bin_str(char *VCD_BUF) const {          
-          return ui.to_bin_str(VCD_BUF); 
-   }
+  }
+  
+  std::string write_char_buff(char *VCD_BUF) const {          
+          return to_bin_str(VCD_BUF); 
+  }
 
 
   template<int other_w, typename other_word_t, int other_n>

@@ -189,31 +189,25 @@ public:
     return result;
   }
 
-  template<int other_w>
-  UInt<w_> operator&(const UInt<other_w> &other) const {
+  UInt<w_> operator&(const UInt<w_> &other) const {
     UInt<w_> result;
     for (int i = 0; i < n_; i++) {
-      if (i >= other_w) break;
       result.words_[i] = words_[i] & other.words_[i];
     }
     return result;
   }
 
-  template<int other_w>
-  UInt<w_> operator|(const UInt<other_w> &other) const {
+  UInt<w_> operator|(const UInt<w_> &other) const {
     UInt<w_> result;
     for (int i = 0; i < n_; i++) {
-      if (i >= other_w) break;
       result.words_[i] = words_[i] | other.words_[i];
     }
     return result;
   }
 
-  template<int other_w>
-  UInt<w_> operator^(const UInt<other_w> &other) const {
+  UInt<w_> operator^(const UInt<w_> &other) const {
     UInt<w_> result;
     for (int i = 0; i < n_; i++) {
-      if (i >= other_w) break;
       result.words_[i] = words_[i] ^ other.words_[i];
     }
     return result;
@@ -345,9 +339,7 @@ public:
     return result;
   }
 
-  template<int other_w>
-  UInt<1> operator<=(const UInt<other_w> &other) const {
-    // if (n_ < other_w) return UInt<1>(1); //test faled when included. not sure why
+  UInt<1> operator<=(const UInt<w_> &other) const {
     for (int i=n_-1; i >= 0; i--) {
       if (words_[i] < other.words_[i]) return UInt<1>(1);
       if (words_[i] > other.words_[i]) return UInt<1>(0);
@@ -355,9 +347,7 @@ public:
     return UInt<1>(1);
   }
 
-  template<int other_w>
-  UInt<1> operator>=(const UInt<other_w> &other) const {
-    if (n_ > other_w) return UInt<1>(1);
+  UInt<1> operator>=(const UInt<w_> &other) const {
     for (int i=n_-1; i >= 0; i--) {
       if (words_[i] > other.words_[i]) return UInt<1>(1);
       if (words_[i] < other.words_[i]) return UInt<1>(0);
@@ -365,23 +355,15 @@ public:
     return UInt<1>(1);
   }
 
-  template<int other_w>
-  UInt<1> operator<(const UInt<other_w> &other) const {
-    if (n_ < other_w) return UInt<1>(1);
+  UInt<1> operator<(const UInt<w_> &other) const {
     return ~(*this >= other);
   }
 
-  template<int other_w>
-  UInt<1> operator>(const UInt<other_w> &other) const {
-    if (n_ > other_w) return UInt<1>(1);
+  UInt<1> operator>(const UInt<w_> &other) const {
     return ~(*this <= other);
   }
 
-  template<int other_w>
-  UInt<1> operator==(const UInt<other_w> &other) const {
-    if(w_ != other_w){
-      return UInt<1>(0);
-    }
+  UInt<1> operator==(const UInt<w_> &other) const {
     for (int i = 0; i < n_; i++) {
       if (words_[i] != other.words_[i])
         return UInt<1>(0);
@@ -389,11 +371,7 @@ public:
     return UInt<1>(1);
   }
 
-  template<int other_w>
-  UInt<1> operator!=(const UInt<other_w> &other) const {
-    if(w_ != other_w){
-      return UInt<1>(1);
-    }
+  UInt<1> operator!=(const UInt<w_> &other) const {
     return ~(*this == other);
   }
 

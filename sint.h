@@ -299,6 +299,14 @@ public:
     return ui.words_[0];
   }
 
+  std::string to_bin_str() const {
+	  return ui.to_bin_str();
+  }
+  
+  char* write_char_buf(char *VCD_BUF) const {          
+    return ui.write_char_buf(VCD_BUF); 
+  }
+
 
 protected:
   template<int other_w>
@@ -337,17 +345,6 @@ private:
 
   void print_to_stream(std::ostream& os) const {
     ui.print_to_stream(os);
-  }
-
-   public:
-  std::string to_bin_str() const {
-	  std::string bin_str;
-	  bin_str = ui.to_bin_str();
-	  return bin_str;
-  }
-  
-  std::string write_char_buff(char *VCD_BUF) const {          
-          return to_bin_str(VCD_BUF); 
   }
 
 

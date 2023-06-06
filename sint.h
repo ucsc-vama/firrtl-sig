@@ -344,7 +344,12 @@ private:
 	  std::string bin_str;
 	  bin_str = ui.to_bin_str();
 	  return bin_str;
-   }
+  }
+  
+  std::string write_char_buff(char *VCD_BUF) const {          
+          return to_bin_str(VCD_BUF); 
+  }
+
 
   template<int other_w, typename other_word_t, int other_n>
   friend class UInt;
